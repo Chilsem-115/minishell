@@ -4,14 +4,19 @@
 
 t_ast_node	*ast_node_new_cmd(const char *cmd, t_list *args)
 {
-	t_ast_node	*node;
+	t_cmd_node	*node;
 
 	node = malloc(sizeof(*node));
 	if (!node)
 		return (NULL);
-	node->type = TOK_WORD;
-	node->data.cmd.name = strdup_safe(name);
-	node->data.cmd.args = args;
-	node->left = NULL;
-	node->right = NULL;
+}
+
+t_ast_node	*ast_node_new_redir(t_tokentype type, const char *file, t_ast_node *child)
+{
+	t_ast_node	*
+}
+
+
+t_ast_node	*ast_node_new_ctrl(t_tokentype op, t_ast_node *left, t_ast_node *right)
+{
 }
