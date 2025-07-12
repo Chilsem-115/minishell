@@ -20,7 +20,7 @@ SRC_TOKENIZER = \
 	main/tokenizer/handle_events/redirect.c \
 	main/tokenizer/handle_events/control.c \
 	main/tokenizer/handle_events/errors/err_handler.c \
-	main/tokenizer/handle_events/word.c
+	main/tokenizer/handle_events/handler.c
 
 # Add more later as needed
 SRCS = $(SRC_MAIN) $(SRC_TOKENIZER)

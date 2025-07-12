@@ -5,13 +5,36 @@ int emit_token(t_tokenizer_state *ctx,
                t_tokentype type,
                int length)
 {
-    ctx->current.type   = type;
-    ctx->current.start  = ctx->pos;
-    ctx->current.length = length;
-    ctx->pos           += length;
-    create_token(ctx);
-    return (1);
+	ctx->current.type   = type;
+	ctx->current.start  = ctx->pos;
+	ctx->current.length = length;
+	ctx->pos           += length;
+	create_token(ctx);
+	return (1);
 }
+/*
+int	env_handler(t_tokenizer_state *ctx, char *line)
+{
+	size_t	start;
+	size_t	i;
+
+	if (line[ctx->pos] != '$')
+		return (0);
+	start = ctx->pos;
+	ctx->pos++;
+	if (line[ctx->pos] == '?')
+	{
+		ctx->pos++;
+		return (emit_token(ctx, TOK_EXIT_STATUS, 2));
+	}
+	else if (!isalpha(line[ctx->pos + 1]) && line[ctx->pos + 1] != '_')
+		return (0);
+	i = ctx->pos + 1;
+	while (isalnum(line[i]) || line[i] == '_')
+		i++;
+	return (emit_token(ctx, TOK_ENV_VAR, i - start));
+}
+*/
 
 int	env_handler(t_tokenizer_state *ctx, char *line)
 {
@@ -21,11 +44,20 @@ int	env_handler(t_tokenizer_state *ctx, char *line)
 	if (line[ctx->pos] != '$')
 		return (0);
 	start = ctx->pos;
-	if (line[ctx->pos + 1] == '?')
+	ctx->pos++;
+	if (line[ctx->pos] == '?')
+	{
+		ctx->pos++;
 		return (emit_token(ctx, TOK_EXIT_STATUS, 2));
-	if (!isalpha(line[ctx->pos + 1]) && line[ctx->pos + 1] != '_')
-		return (0);
-	i = ctx->pos + 1;
+	}
+	if (!isalpha(line[ctx->pos]) && line[ctx->pos] != '_') {
+		ctx->current.type   = TOK_WORD;
+		ctx->current.start  = start;
+		ctx->current.length = 1;
+		create_token(ctx);
+		return (1);
+	}
+	i = ctx->pos;
 	while (isalnum(line[i]) || line[i] == '_')
 		i++;
 	return (emit_token(ctx, TOK_ENV_VAR, i - start));
@@ -68,15 +100,12 @@ int	word_handler(t_tokenizer_state *ctx, char *line)
 	while (line[ctx->pos]
 		&& !isspace((unsigned char)line[ctx->pos])
 		&& line[ctx->pos] != '|'
-		&& !(line[ctx->pos] == '&' && line[ctx->pos + 1] == '&')
 		&& line[ctx->pos] != '<'
 		&& line[ctx->pos] != '>'
-		&& line[ctx->pos] != '$'
 		&& line[ctx->pos] != '"'
-		&& line[ctx->pos] != '\'')
-	{
+		&& line[ctx->pos] != '\''
+		&& line[ctx->pos] != '$')
 		ctx->pos++;
-	}
 	if (ctx->pos == start)
 		return (0);
 	ctx->current.type   = TOK_WORD;

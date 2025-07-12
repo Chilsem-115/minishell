@@ -13,26 +13,20 @@
 #include <unistd.h>
 #include <string.h>
 
-/*
 const char	*token_type_str(t_tokentype type)
 {
 	if (type == TOK_WORD) return "TOK_WORD";
 	if (type == TOK_SQUOTE) return "TOK_SQUOTE";
 	if (type == TOK_DQUOTE) return "TOK_DQUOTE";
 	if (type == TOK_PIPE) return "TOK_PIPE";
-	if (type == TOK_OR) return "TOK_OR";
-	if (type == TOK_AND) return "TOK_AND";
 	if (type == TOK_REDIR_IN) return "TOK_REDIR_IN";
 	if (type == TOK_HEREDOC) return "TOK_HEREDOC";
 	if (type == TOK_REDIR_OUT) return "TOK_REDIR_OUT";
 	if (type == TOK_REDIR_APPEND) return "TOK_REDIR_APPEND";
-	if (type == TOK_LPAREN) return "TOK_LPAREN";
-	if (type == TOK_RPAREN) return "TOK_RPAREN";
 	if (type == TOK_ENV_VAR) return "TOK_ENV_VAR";
 	if (type == TOK_EXIT_STATUS) return "TOK_EXIT_STATUS";
 	return "TOK_UNKNOWN";
 }
-*/
 
 void	print_token_list(t_list *tokens, const char *line)
 {
@@ -88,33 +82,44 @@ static char*	trim_whitespace(char *str)
 	return (str);
 }
 
+void	status_init(t_data **status)
+{
+	*status = malloc(sizeof(t_data));
+	if (!*status)
+		return ;
+	(*status)->line = NULL;
+	(*status)->tokens = NULL;
+}
+
 int	main(void)
 {
 	t_data	*status;
 
-	status_init(status);
+	status_init(&status);
 	print_banner();
 	while (1)
 	{
-		line = readline("mesh> ");
-		if (line == NULL)
+		status->line = readline("mesh> ");
+		if (status->line == NULL)
 			break ;
-		line = trim_whitespace(line);
-		if (*line && strcmp(line, "exit") == 0)
+		status->line = trim_whitespace(status->line);
+		if (*status->line && strcmp(status->line, "exit") == 0)
 		{
-			free(line);
+			free(status->line);
 			break;
 		}
-		if (*line)
+		if (*status->line)
 		{
-			add_history(line);
-			status->tokens = tokenize(line);
-			print_token_list(status->tokens, line);
+			add_history(status->line);
+			status->tokens = tokenize(status->line);
+			print_token_list(status->tokens, status->line);
+			/*
 			ft_lstclear(&tokens, free);
-			ast = generate_ast(line, status->tokens);
+			ast = generate_ast(status->line, status->tokens);
 			print_ast(ast);
+			*/
 		}
-		free(status);
+		//free(status);
 	}
 	rl_clear_history();
 	printf("Bye!\n");
