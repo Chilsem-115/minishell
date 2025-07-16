@@ -69,7 +69,8 @@ STRING_SRCS      = \
 	$(STRING_DIR)/ft_strnstr.c \
 	$(STRING_DIR)/ft_strcpy.c \
 	$(STRING_DIR)/ft_strncpy.c \
-	$(STRING_DIR)/ft_strdup.c
+	$(STRING_DIR)/ft_strdup.c \
+	$(STRING_DIR)/ft_strndup.c
 
 STRUTILS_SRCS    = \
 	$(STRUTILS_DIR)/ft_substr.c \

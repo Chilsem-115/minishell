@@ -31,10 +31,6 @@ typedef enum	e_tokentype
     TOK_HEREDOC,    // <<
     TOK_REDIR_OUT,  // >
     TOK_REDIR_APPEND, // >>
-
-    /* Expansions */
-    TOK_ENV_VAR,    // $VAR
-    TOK_EXIT_STATUS // $?
 }	t_tokentype;
 
 /* Error codes */
