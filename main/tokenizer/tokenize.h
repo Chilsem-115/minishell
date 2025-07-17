@@ -31,6 +31,9 @@ typedef enum	e_tokentype
     TOK_HEREDOC,    // <<
     TOK_REDIR_OUT,  // >
     TOK_REDIR_APPEND, // >>
+	
+	/* global variables */
+	TOK_GVAR // needs some working
 }	t_tokentype;
 
 /* Error codes */
@@ -54,7 +57,6 @@ typedef struct	s_token
 /* Tokenizer state */
 typedef struct	s_tokenizer_state
 {
-    t_token     current;
     size_t      pos;
 	t_list		*tokens;
     t_tok_err   error;

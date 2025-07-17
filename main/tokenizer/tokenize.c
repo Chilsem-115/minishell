@@ -2,20 +2,29 @@
 #include "tokenize.h"
 #include "libft.h"
 
-void	create_token(t_tokenizer_state *ctx)
+void	create_token(t_tokenizer_state *ctx, const char *text, t_tokentype type)
 {
-	t_token	*tok;
+	t_token	*tok = malloc(sizeof(t_token));
 	t_list	*node;
 
-	tok = malloc(sizeof(t_token));
 	if (!tok)
 		tokenizer_error(ERR_MEMORY);
-	tok->start = ctx->current.start;
-	tok->length = ctx->current.length;
-	tok->type = ctx->current.type;
+
+	tok->text = ft_strdup(text);
+	if (!tok->text)
+	{
+		free(tok);
+		tokenizer_error(ERR_MEMORY);
+	}
+	tok->type = type;
+
 	node = ft_lstnew(tok);
 	if (!node)
+	{
+		free(tok->text);
+		free(tok);
 		tokenizer_error(ERR_MEMORY);
+	}
 	ft_lstadd_back(&ctx->tokens, node);
 }
 
