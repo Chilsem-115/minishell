@@ -24,22 +24,25 @@ const char	*token_type_str(t_tokentype type)
 	if (type == TOK_REDIR_OUT) return "TOK_REDIR_OUT";
 	if (type == TOK_REDIR_APPEND) return "TOK_REDIR_APPEND";
 	if (type == TOK_ENV_VAR) return "TOK_ENV_VAR";
-	if (type == TOK_EXIT_STATUS) return "TOK_EXIT_STATUS";
 	return "TOK_UNKNOWN";
 }
 
-void	print_token_list(t_list *tokens, const char *line)
+void	print_token_list(t_list *tokens)
 {
 	t_token	*tok;
+	const char *type_str;
 
 	while (tokens)
 	{
 		tok = (t_token *)tokens->content;
+		type_str = token_type_str(tok->type);
 
-		const char *type_str = token_type_str(tok->type);
 		write(STDOUT_FILENO, type_str, strlen(type_str));
 		write(STDOUT_FILENO, ": ", 2);
-		write(STDOUT_FILENO, &line[tok->start], tok->length);
+		if (tok->text)
+			write(STDOUT_FILENO, tok->text, strlen(tok->text));
+		else
+			write(STDOUT_FILENO, "(none)", 6);
 		write(STDOUT_FILENO, "\n", 1);
 
 		tokens = tokens->next;
@@ -48,22 +51,22 @@ void	print_token_list(t_list *tokens, const char *line)
 
 static void	print_banner(void)
 {
-	printf("\n");
-	printf("\033[1;34m"); // Blue for border
-	printf("  ╔══════════════════════════════════════════════╗\n");
-	printf("  ║                                              ║\n");
-	printf("  ║  \033[1;37m███╗   ███╗███████╗███████╗███████╗██╗  ██╗\033[1;34m ║\n");
-	printf("  ║  \033[1;37m████╗ ████║██╔════╝██╔════╝██╔════╝██║  ██║\033[1;34m ║\n");
-	printf("  ║  \033[1;37m██╔████╔██║█████╗  ███████╗███████╗███████║\033[1;34m ║\n");
-	printf("  ║  \033[1;37m██║╚██╔╝██║██╔══╝  ╚════██║╚════██║██╔══██║\033[1;34m ║\n");
-	printf("  ║  \033[1;37m██║ ╚═╝ ██║███████╗███████║███████║██║  ██║\033[1;34m ║\n");
-	printf("  ║  \033[1;37m╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝\033[1;34m ║\n");
-	printf("  ║                                              ║\n");
-	printf("  ║       \033[0;37mMinimalist Experience Shell v0.1\033[1;34m       ║\n");
-	printf("  ║                                              ║\n");
-	printf("  ╚══════════════════════════════════════════════╝\n");
-	printf("\033[0m\n");
-	printf("\033[0;33m  ▶ \033[2;37mShell ready.\033[0m\n\n");
+	printf("\n"
+	"\033[1;34m" // Blue for border
+	"  ╔══════════════════════════════════════════════╗\n"
+	"  ║                                              ║\n"
+	"  ║  \033[1;37m███╗   ███╗███████╗███████╗███████╗██╗  ██╗\033[1;34m ║\n"
+	"  ║  \033[1;37m████╗ ████║██╔════╝██╔════╝██╔════╝██║  ██║\033[1;34m ║\n"
+	"  ║  \033[1;37m██╔████╔██║█████╗  ███████╗███████╗███████║\033[1;34m ║\n"
+	"  ║  \033[1;37m██║╚██╔╝██║██╔══╝  ╚════██║╚════██║██╔══██║\033[1;34m ║\n"
+	"  ║  \033[1;37m██║ ╚═╝ ██║███████╗███████║███████║██║  ██║\033[1;34m ║\n"
+	"  ║  \033[1;37m╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝\033[1;34m ║\n"
+	"  ║                                              ║\n"
+	"  ║       \033[0;37mMinimalist Experience Shell v0.1\033[1;34m       ║\n"
+	"  ║                                              ║\n"
+	"  ╚══════════════════════════════════════════════╝\n"
+	"\033[0m\n"
+	"\033[0;33m  ▶ \033[2;37mShell ready.\033[0m\n\n");
 }
 
 static char*	trim_whitespace(char *str)
@@ -112,7 +115,7 @@ int	main(void)
 		{
 			add_history(status->line);
 			status->tokens = tokenize(status->line);
-			print_token_list(status->tokens, status->line);
+			print_token_list(status->tokens);
 			/*
 			ft_lstclear(&tokens, free);
 			ast = generate_ast(status->line, status->tokens);

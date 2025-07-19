@@ -27,7 +27,7 @@ typedef enum	e_redir_type
 typedef struct	s_cmd_node
 {
 	char	*name;
-	t_list	*flags;
+	char	*flags;
 	t_list	*args;
 }	t_cmd_node;
 

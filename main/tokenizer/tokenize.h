@@ -26,6 +26,9 @@ typedef enum	e_tokentype
     /* Control operators */
     TOK_PIPE,       // |
 
+	/* Environment */
+	TOK_EXIT_STATUS, // $?
+
     /* Redirections */
     TOK_REDIR_IN,   // <
     TOK_HEREDOC,    // <<
@@ -33,7 +36,7 @@ typedef enum	e_tokentype
     TOK_REDIR_APPEND, // >>
 	
 	/* global variables */
-	TOK_GVAR // needs some working
+	TOK_ENV_VAR // needs some working
 }	t_tokentype;
 
 /* Error codes */
@@ -49,8 +52,7 @@ typedef enum e_tok_err
 /* Token structure */
 typedef struct	s_token
 {
-    size_t      start;
-    size_t      length;
+	char		*text;
     t_tokentype type;
 }	t_token;
 
@@ -74,7 +76,6 @@ void	tokenizer_error(t_tok_err err);
 /* ======================= */
 
 void	ctx_init(t_tokenizer_state *ctx);
-void	create_token(t_tokenizer_state *ctx);
 
 /* ======================= */
 /*      TOKEN HANDLERS     */
@@ -82,17 +83,23 @@ void	create_token(t_tokenizer_state *ctx);
 
 /* Quote handling */
 int		quote_handler(t_tokenizer_state *ctx, char *line);
-void	handle_quote(t_tokenizer_state *ctx, char *line, char quote);
+int		handle_quote(t_tokenizer_state *ctx, char *line);
 
 /* Operator handling */
 int		operator_handler(t_tokenizer_state *ctx, char *line);
 int		dispatch_control_ops(t_tokenizer_state *ctx, char *line);
 int		dispatch_redirections(t_tokenizer_state *ctx, char *line);
+int		add_token(t_tokenizer_state *ctx, t_tokentype type, size_t size);
 
 /* Word handling */
 int		word_handler(t_tokenizer_state *ctx, char *line);
 
-int		emit_token(t_tokenizer_state *ctx, t_tokentype type, int length);
+/* ENV handling */
+void	handle_exit_status(t_tokenizer_state *ctx, char *line);
+void	handle_env_variable(t_tokenizer_state *ctx, char *line);
+void	handle_dollar_literal(t_tokenizer_state *ctx);
 int		env_handler(t_tokenizer_state *ctx, char *line);
+
+void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type);
 
 #endif
