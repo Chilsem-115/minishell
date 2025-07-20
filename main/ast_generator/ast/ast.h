@@ -2,13 +2,15 @@
 # define AST_SIMPLE_H
 
 # include "tokenize.h"
+# include "libft.h"
 # include <stdlib.h>
 
 typedef enum	e_ast_type
 {
 	AST_COMMAND,
 	AST_REDIR,
-	AST_CONTROL
+	AST_CONTROL,
+	AST_ROOT
 }	t_ast_type;
 
 typedef enum	e_ctrl_op
