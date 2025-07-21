@@ -19,6 +19,7 @@
 #include <readline/history.h>
 #include "messh.h"
 #include "libft.h"
+#include "ast_gen.h"
 
 const char	*token_type_str(t_tokentype type)
 {
@@ -112,7 +113,8 @@ void	status_init(t_data **status)
 
 int	main(void)
 {
-	t_data	*status;
+	t_data		*status;
+	t_ast_node	*ast = NULL;
 
 	status_init(&status);
 	print_banner();
@@ -132,14 +134,14 @@ int	main(void)
 			add_history(status->line);
 			status->tokens = tokenize(status->line);
 			print_token_list(status->tokens);
-			/*
-			ft_lstclear(&tokens, free);
-			ast = generate_ast(status->line, status->tokens);
+			ast = generate_ast(status->tokens);
 			print_ast(ast);
-			*/
+			ft_lstclear(&status->tokens, free); // corrected
+			//eree_ast(ast); // optional, if implemented
 		}
-		//free(status);
+		free(status->line);
 	}
+	free(status);
 	rl_clear_history();
 	printf("Bye!\n");
 	return (0);

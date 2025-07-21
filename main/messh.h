@@ -22,6 +22,8 @@
 # include <readline/history.h>
 # include "tokenize.h"
 # include "libft.h"
+# include "ast.h"
+# include "ast_gen.h"
 
 typedef struct s_data
 {
@@ -32,5 +34,6 @@ typedef struct s_data
 
 void	status_init(t_data **status);
 void	status_destroy(t_data *status);
+void	print_ast(t_ast_node *node);
 
 #endif

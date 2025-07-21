@@ -26,12 +26,27 @@ void	set_redir_child(t_ast_node *redir, t_ast_node *child)
 		redir->data.redir.child = child;
 }
 
-int	is_control(t_ast_node *node)
+int	is_control(t_list *token)
 {
-	return (node && node->type == AST_CONTROL);
+	t_token	*tok;
+
+	if (!token || !token->content)
+		return (0);
+	tok = (t_token *)token->content;
+	return (tok->type == TOK_PIPE);
 }
 
-int	is_redir(t_ast_node *node)
+int	is_redir(t_list *token)
 {
-	return (node && node->type == AST_REDIR);
+	t_token	*tok;
+
+	if (!token || !token->content)
+		return (0);
+	tok = (t_token *)token->content;
+	return (
+		tok->type == TOK_REDIR_IN ||
+		tok->type == TOK_REDIR_OUT ||
+		tok->type == TOK_REDIR_APPEND ||
+		tok->type == TOK_HEREDOC
+	);
 }

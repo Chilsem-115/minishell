@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "ast.h"
-#include "tokenize.h"
-#include "libft.h"
-#include <stdlib.h>
 
 t_ast_node	*make_root(t_ast_node *child)
 {

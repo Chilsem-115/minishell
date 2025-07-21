@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
-#include "tokenize.h"
+#include "ast_utils.h"
 
 char	*extract_flags(t_list **tokens)
 {

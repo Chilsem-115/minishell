@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "tokenize.h"
-#include "ast.h"
+#include "ast_utils.h"
 
 t_redir_type	map_redir_type(t_tokentype type)
 {

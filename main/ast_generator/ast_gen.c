@@ -10,21 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "generate.h"
-#include "ast.h"
-#include "tokenize.h"
 
 static t_ast_node	*reduce_redirection(t_ast_node *cmd, t_list **tokens)
 {
 	t_ast_node	*redir;
 
-	while (*tokens
-		&& (*tokens)->content
-		&& (((t_token *)(*tokens)->content)->type == TOK_REDIR_IN
-		|| ((t_token *)(*tokens)->content)->type == TOK_REDIR_OUT
-				|| ((t_token *)(*tokens)->content)->type == TOK_REDIR_APPEND
-				|| ((t_token *)(*tokens)->content)->type == TOK_HEREDOC))
+	if (is_redir(*tokens))
 	{
 		redir = make_redir(tokens);
 		if (!redir)
@@ -40,19 +32,17 @@ static t_ast_node	*reduce_control(t_ast_node *left, t_list **tokens)
 	t_ast_node	*ctrl;
 	t_ast_node	*right;
 
-	while (*tokens && (*tokens)->content && is_control(*tokens))
-	{
-		ctrl = make_ctrl(tokens);
-		if (!ctrl)
-			return (NULL);
-		right = make_cmd(tokens);
-		if (!right)
-			return (NULL);
-		right = reduce_redirection(right, tokens);
-		set_ctrl_branch(ctrl, left, right);
-		left = ctrl;
-	}
-	return (left);
+	if (!is_control(*tokens))
+		return (left);
+	ctrl = make_ctrl(tokens);
+	if (!ctrl)
+		return (NULL);
+	right = make_cmd(tokens);
+	if (!right)
+		return (NULL);
+	right = reduce_redirection(right, tokens);
+	set_ctrl_branch(ctrl, left, right);
+	return (ctrl);
 }
 
 t_ast_node	*generate_ast(t_list *tokens)
@@ -71,10 +61,7 @@ t_ast_node	*generate_ast(t_list *tokens)
 		else if (is_redir(tokens))
 			current = reduce_redirection(current, &tokens);
 		else
-		{
-			handle_parser_error(tokens);
-			return (NULL);
-		}
+			return (NULL);//handle_parser_error(tokens));
 	}
 	return (make_root(current));
 }

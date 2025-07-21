@@ -14,8 +14,9 @@
 # define AST_H
 
 # include <stdlib.h>
-# include "tokenize.h"
 # include "libft.h"
+# include "tokenize.h"
+# include "ast_utils.h"
 
 /* abstract syntax tree node types */
 typedef enum e_ast_type
@@ -80,9 +81,24 @@ typedef struct s_ast_node
 	t_ast_data	data;
 }	t_ast_node;
 
+/* ast manipulation functions */
 void	set_ctrl_branch(t_ast_node *ctrl, t_ast_node *left, t_ast_node *right);
 void	set_redir_child(t_ast_node *redir, t_ast_node *child);
-int		is_control(t_ast_node *node);
-int		is_redir(t_ast_node *node);
+int		is_control(t_list *token);
+int		is_redir(t_list *token);
+
+/* create_node */
+t_ast_node	*make_cmd(t_list **tokens);
+t_ast_node	*make_root(t_ast_node *child);
+t_ast_node	*make_ctrl(t_list **tokens);
+t_ast_node	*make_redir(t_list **tokens);
+
+/* cmd_node creation utils */
+char	*extract_flags(t_list **tokens);
+t_list	*extract_args(t_list **tokens);
+
+/* type mapping */
+t_ctrl_op	map_ctrl_type(t_tokentype type);
+t_redir_type	map_redir_type(t_tokentype type);
 
 #endif
