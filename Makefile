@@ -3,11 +3,19 @@
 # │                     Root-level Makefile                   │
 # └────────────────────────────────────────────────────────────┘
 
+# === Compiler and Flags ===
 CC      = cc
-CFLAGS = -Wall -Wextra -Werror -Ilibft -Imain \
-		 -Imain/tokenizer -Imain/ast_generator \
-		 -Imain/ast_generator/ast \
-		 -Imain/ast_generator/ast/utils
+CFLAGS  = -Wall -Wextra -Werror \
+		  -Ilibft \
+		  -Imain \
+		  -Imain/tokenizer \
+		  -Imain/tokenizer/handle_events \
+		  -Imain/tokenizer/handle_events/errors \
+		  -Imain/ast_generator \
+		  -Imain/ast_generator/ast \
+		  -Imain/ast_generator/ast/utils \
+		  -Imain/ast_generator/error
+
 NAME    = mesh
 OBJDIR  = obj
 LIBFT_DIR = libft
@@ -25,40 +33,38 @@ SRC_TOKENIZER = \
 	main/tokenizer/handle_events/control.c \
 	main/tokenizer/handle_events/handler.c \
 	main/tokenizer/handle_events/env.c \
-	main/tokenizer/handle_events/errors/err_handler.c \
+	main/tokenizer/handle_events/errors/err_handler.c
 
 SRC_AST_GEN = \
 	main/ast_generator/ast_gen.c \
 	main/ast_generator/ast/ast.c \
 	main/ast_generator/ast/create_node.c \
 	main/ast_generator/ast/utils/command_utils.c \
-	main/ast_generator/ast/utils/type_mapping.c
+	main/ast_generator/ast/utils/type_mapping.c \
+	main/ast_generator/error/error_handling.c
 
-# Add more later as needed
+# === Source & Object Management ===
 SRCS = $(SRC_MAIN) $(SRC_TOKENIZER) $(SRC_AST_GEN)
-
-# === Object files ===
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 
-# === Default ===
+# === Targets ===
 all: $(LIBFT) $(NAME)
 
-# === Build main binary ===
 $(NAME): $(OBJS)
 	@echo " Linking $@"
 	$(CC) $(CFLAGS) -o $@ $^ -L$(LIBFT_DIR) -lft -lreadline
 
-# === Compile rule ===
+# === Object compilation ===
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@echo " Compiling $<"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# === Build libft ===
+# === Libft ===
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# === Clean ===
+# === Cleaning ===
 clean:
 	@echo " Cleaning object files..."
 	@rm -rf $(OBJDIR)

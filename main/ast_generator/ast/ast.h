@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include "libft.h"
 # include "tokenize.h"
-# include "ast_utils.h"
 
 /* abstract syntax tree node types */
 typedef enum e_ast_type
@@ -30,12 +29,14 @@ typedef enum e_ast_type
 /* control operations */
 typedef enum e_ctrl_op
 {
+	CTRL_INVALID = -1,
 	CTRL_PIPE
 }	t_ctrl_op;
 
 /* redirection operations */
 typedef enum e_redir_type
 {
+	REDIR_INVALID = -1,
 	REDIR_IN,
 	REDIR_OUT,
 	REDIR_APPEND,
@@ -82,10 +83,10 @@ typedef struct s_ast_node
 }	t_ast_node;
 
 /* ast manipulation functions */
-void	set_ctrl_branch(t_ast_node *ctrl, t_ast_node *left, t_ast_node *right);
-void	set_redir_child(t_ast_node *redir, t_ast_node *child);
-int		is_control(t_list *token);
-int		is_redir(t_list *token);
+void		set_ctrl_branch(t_ast_node *ctrl, t_ast_node *left, t_ast_node *right);
+void		set_redir_child(t_ast_node *redir, t_ast_node *child);
+int			is_control(t_list *token);
+int			is_redir(t_list *token);
 
 /* create_node */
 t_ast_node	*make_cmd(t_list **tokens);
@@ -94,11 +95,11 @@ t_ast_node	*make_ctrl(t_list **tokens);
 t_ast_node	*make_redir(t_list **tokens);
 
 /* cmd_node creation utils */
-char	*extract_flags(t_list **tokens);
-t_list	*extract_args(t_list **tokens);
+char		*extract_flags(t_list **tokens);
+t_list		*extract_args(t_list **tokens);
 
 /* type mapping */
-t_ctrl_op	map_ctrl_type(t_tokentype type);
+t_ctrl_op		map_ctrl_type(t_tokentype type);
 t_redir_type	map_redir_type(t_tokentype type);
 
 #endif

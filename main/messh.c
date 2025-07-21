@@ -109,12 +109,12 @@ void	status_init(t_data **status)
 		return ;
 	(*status)->line = NULL;
 	(*status)->tokens = NULL;
+	(*status)->ast = NULL;
 }
 
 int	main(void)
 {
 	t_data		*status;
-	t_ast_node	*ast = NULL;
 
 	status_init(&status);
 	print_banner();
@@ -134,8 +134,9 @@ int	main(void)
 			add_history(status->line);
 			status->tokens = tokenize(status->line);
 			print_token_list(status->tokens);
-			ast = generate_ast(status->tokens);
-			print_ast(ast);
+			status->ast = generate_ast(status->tokens);
+			printf("\n\n\n\n");
+			print_ast(status->ast);
 			ft_lstclear(&status->tokens, free); // corrected
 			//eree_ast(ast); // optional, if implemented
 		}

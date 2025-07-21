@@ -29,7 +29,7 @@ typedef struct s_data
 {
 	char		*line;
 	t_list		*tokens;
-	//t_ast_node	*ast;
+	t_ast_node	*ast;
 }	t_data;
 
 void	status_init(t_data **status);

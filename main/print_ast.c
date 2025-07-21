@@ -1,8 +1,5 @@
 
 #include <stdio.h>
-#include "tokenize.h"
-#include "ast.h"
-#include "ast_gen.h"
 #include "messh.h"
 
 static void	print_indent(int depth, int is_last)

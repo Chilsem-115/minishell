@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast_utils.h"
+#include "ast.h"
 
 char	*extract_flags(t_list **tokens)
 {

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "tokenize.h"
-#include "libft.h"
 
 void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type)
 {

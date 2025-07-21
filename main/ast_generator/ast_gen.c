@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "generate.h"
+#include "ast_gen.h"
 
 static t_ast_node	*reduce_redirection(t_ast_node *cmd, t_list **tokens)
 {

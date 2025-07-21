@@ -16,7 +16,7 @@ t_ast_node	*make_root(t_ast_node *child)
 {
 	t_ast_node	*node;
 
-	node = malloc(sizeof(node));
+	node = malloc(sizeof(*node));
 	if (!node)
 		return (NULL);
 	node->type = AST_ROOT;
@@ -35,7 +35,7 @@ t_ast_node	*make_ctrl(t_list **tokens)
 		return (NULL);
 	tok = (*tokens)->content;
 	op = map_ctrl_type(tok->type);
-	if (op == -1)
+	if (op == CTRL_INVALID)
 		return (NULL);
 	node = malloc(sizeof(*node));
 	if (!node)
@@ -80,7 +80,7 @@ t_ast_node	*make_redir(t_list **tokens)
 		return (NULL);
 	tok = (*tokens)->content;
 	redir = map_redir_type(tok->type);
-	if (redir == -1)
+	if (redir == REDIR_INVALID)
 		return (NULL);
 	*tokens = (*tokens)->next;
 	file_tok = (*tokens)->content;

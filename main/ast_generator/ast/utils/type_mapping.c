@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast_utils.h"
+#include "ast.h"
 
 t_redir_type	map_redir_type(t_tokentype type)
 {
@@ -20,7 +20,7 @@ t_redir_type	map_redir_type(t_tokentype type)
 		return (REDIR_OUT);
 	if (type == TOK_REDIR_APPEND)
 		return (REDIR_APPEND);
-	if (type == TOK_REDIR_HEREDOC)
+	if (type == TOK_HEREDOC)
 		return (REDIR_HEREDOC);
 	return (-1);
 }
