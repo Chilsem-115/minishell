@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/20 22:29:53 by itamsama          #+#    #+#             */
+/*   Updated: 2025/07/20 22:30:31 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ast.h"
 
 void	set_ctrl_branch(t_ast_node *ctrl, t_ast_node *left, t_ast_node *right)
 {
 	if (!ctrl || ctrl->type != AST_CONTROL)
-		return;
+		return ;
 	ctrl->data.ctrl.left = left;
 	ctrl->data.ctrl.right = right;
 }

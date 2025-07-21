@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.13337.ma>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/20 22:32:34 by itamsama          #+#    #+#             */
+/*   Updated: 2025/07/20 22:33:50 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ast.h"
 #include "tokenize.h"
@@ -35,9 +46,9 @@ t_list	*extract_args(t_list **tokens)
 	while (*tokens)
 	{
 		tok = (*tokens)->content;
-		if (tok->type == TOK_PIPE || tok->type == TOK_REDIR_IN ||
-			tok->type == TOK_REDIR_OUT || tok->type == TOK_REDIR_APPEND ||
-			tok->type == TOK_HEREDOC)
+		if (tok->type == TOK_PIPE || tok->type == TOK_REDIR_IN
+			|| tok->type == TOK_REDIR_OUT || tok->type == TOK_REDIR_APPEND
+			|| tok->type == TOK_HEREDOC)
 			break ;
 		ft_lstadd_back(&args, ft_lstnew(ft_strdup(tok->text)));
 		*tokens = (*tokens)->next;

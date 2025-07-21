@@ -4,10 +4,10 @@
 # └────────────────────────────────────────────────────────────┘
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -Ilocal_lib -Imain -Imain/tokenizer
+CFLAGS  = -Wall -Wextra -Werror -Ilibft -Imain -Imain/tokenizer
 NAME    = mesh
 OBJDIR  = obj
-LIBFT_DIR = local_lib
+LIBFT_DIR = libft
 LIBFT    = $(LIBFT_DIR)/libft.a
 
 # === Sources ===

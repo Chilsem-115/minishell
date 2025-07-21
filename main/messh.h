@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   messh.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/20 22:44:02 by itamsama          #+#    #+#             */
+/*   Updated: 2025/07/20 22:44:22 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MESSH_H
 # define MESSH_H
 
@@ -11,7 +23,7 @@
 # include "tokenize.h"
 # include "libft.h"
 
-typedef struct	s_data
+typedef struct s_data
 {
 	char		*line;
 	t_list		*tokens;

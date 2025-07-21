@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/20 22:41:27 by itamsama          #+#    #+#             */
+/*   Updated: 2025/07/20 22:42:04 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "tokenize.h"
 #include "libft.h"
 
@@ -23,7 +35,7 @@ static char	*extract_quoted_text(t_tokenizer_state *ctx, char *line, char quote)
 	text = ft_strndup(&line[start], ctx->pos - start);
 	if (!text)
 		tokenizer_error(ERR_MEMORY);
-	ctx->pos++;  // skip the closing quote
+	ctx->pos++;
 	return (text);
 }
 

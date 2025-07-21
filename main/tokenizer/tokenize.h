@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenize.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@studnet.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/20 22:37:20 by itamsama          #+#    #+#             */
+/*   Updated: 2025/07/20 22:39:50 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef TOKENIZE_H
 # define TOKENIZE_H
@@ -14,54 +25,43 @@
 # define MAX_TOKENS 4096
 
 /* Token types */
-typedef enum	e_tokentype
+typedef enum e_tokentype
 {
-    /* Basic tokens */
-    TOK_WORD,
-
-    /* Quoting */
-    TOK_SQUOTE,
-    TOK_DQUOTE,
-
-    /* Control operators */
-    TOK_PIPE,       // |
-
-	/* Environment */
-	TOK_EXIT_STATUS, // $?
-
-    /* Redirections */
-    TOK_REDIR_IN,   // <
-    TOK_HEREDOC,    // <<
-    TOK_REDIR_OUT,  // >
-    TOK_REDIR_APPEND, // >>
-	
-	/* global variables */
-	TOK_ENV_VAR // needs some working
+	TOK_WORD,
+	TOK_SQUOTE,
+	TOK_DQUOTE,
+	TOK_PIPE,
+	TOK_EXIT_STATUS,
+	TOK_REDIR_IN,
+	TOK_HEREDOC,
+	TOK_REDIR_OUT,
+	TOK_REDIR_APPEND,
+	TOK_ENV_VAR
 }	t_tokentype;
 
 /* Error codes */
 typedef enum e_tok_err
 {
-    ERR_NONE,           // No error
-    ERR_UNCLOSED_QUOTE, // Unterminated quote
-    ERR_EMPTY_INPUT,    // Input is empty
-    ERR_MEMORY,         // Allocation failure
-    ERR_ESCAPE_SEQ,     // Invalid escape sequence
-} t_tok_err;
+	ERR_NONE,
+	ERR_UNCLOSED_QUOTE,
+	ERR_EMPTY_INPUT,
+	ERR_MEMORY,
+	ERR_ESCAPE_SEQ,
+}	t_tok_err;
 
 /* Token structure */
-typedef struct	s_token
+typedef struct s_token
 {
 	char		*text;
-    t_tokentype type;
+	t_tokentype	type;
 }	t_token;
 
 /* Tokenizer state */
-typedef struct	s_tokenizer_state
+typedef struct s_tokenizer_state
 {
-    size_t      pos;
+	size_t		pos;
 	t_list		*tokens;
-    t_tok_err   error;
+	t_tok_err	error;
 }	t_tokenizer_state;
 
 /* ======================= */

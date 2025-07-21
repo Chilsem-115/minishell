@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   messh.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
+/*   Updated: 2025/07/20 22:49:19 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
@@ -9,21 +20,26 @@
 #include "messh.h"
 #include "libft.h"
 
-#include "libft.h"  // for t_list
-#include <unistd.h>
-#include <string.h>
-
 const char	*token_type_str(t_tokentype type)
 {
-	if (type == TOK_WORD) return "TOK_WORD";
-	if (type == TOK_SQUOTE) return "TOK_SQUOTE";
-	if (type == TOK_DQUOTE) return "TOK_DQUOTE";
-	if (type == TOK_PIPE) return "TOK_PIPE";
-	if (type == TOK_REDIR_IN) return "TOK_REDIR_IN";
-	if (type == TOK_HEREDOC) return "TOK_HEREDOC";
-	if (type == TOK_REDIR_OUT) return "TOK_REDIR_OUT";
-	if (type == TOK_REDIR_APPEND) return "TOK_REDIR_APPEND";
-	if (type == TOK_ENV_VAR) return "TOK_ENV_VAR";
+	if (type == TOK_WORD)
+		return "TOK_WORD";
+	if (type == TOK_SQUOTE)
+		return "TOK_SQUOTE";
+	if (type == TOK_DQUOTE)
+		return "TOK_DQUOTE";
+	if (type == TOK_PIPE)
+		return "TOK_PIPE";
+	if (type == TOK_REDIR_IN)
+		return "TOK_REDIR_IN";
+	if (type == TOK_HEREDOC)
+		return "TOK_HEREDOC";
+	if (type == TOK_REDIR_OUT)
+		return "TOK_REDIR_OUT";
+	if (type == TOK_REDIR_APPEND)
+		return "TOK_REDIR_APPEND";
+	if (type == TOK_ENV_VAR)
+		return "TOK_ENV_VAR";
 	return "TOK_UNKNOWN";
 }
 
@@ -73,12 +89,12 @@ static char*	trim_whitespace(char *str)
 {
 	char	*end;
 
-	while (isspace((unsigned char)*str))
+	while (ft_isspace((unsigned char)*str))
 		str++;
 	if (*str == '\0')
 		return (str);
 	end = str + strlen(str) - 1;
-	while (end > str && isspace((unsigned char)*end))
+	while (end > str && ft_isspace((unsigned char)*end))
 		end--;
 	end[1] = '\0';
 

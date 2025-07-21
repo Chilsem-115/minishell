@@ -1,27 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   generate.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/20 20:30:27 by itamsama          #+#    #+#             */
+/*   Updated: 2025/07/20 22:01:16 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <stdlib.h>
 #include "generate.h"
 #include "ast.h"
 #include "tokenize.h"
-#include <stdlib.h>
 
-static t_ast_node *reduce_redirection(t_ast_node *cmd, t_list **tokens)
+static t_ast_node	*reduce_redirection(t_ast_node *cmd, t_list **tokens)
 {
-    t_ast_node *redir;
+	t_ast_node	*redir;
 
-    while (*tokens
-        && (*tokens)->content
-        && (((t_token *)(*tokens)->content)->type == TOK_REDIR_IN
-         || ((t_token *)(*tokens)->content)->type == TOK_REDIR_OUT
-         || ((t_token *)(*tokens)->content)->type == TOK_REDIR_APPEND
-         || ((t_token *)(*tokens)->content)->type == TOK_HEREDOC))
-    {
-        redir = make_redir(tokens);
-        if (!redir)
-            return (NULL);
-        set_redir_child(redir, cmd);
-        cmd = redir;
-    }
-    return (cmd);
+	while (*tokens
+		&& (*tokens)->content
+		&& (((t_token *)(*tokens)->content)->type == TOK_REDIR_IN
+		|| ((t_token *)(*tokens)->content)->type == TOK_REDIR_OUT
+				|| ((t_token *)(*tokens)->content)->type == TOK_REDIR_APPEND
+				|| ((t_token *)(*tokens)->content)->type == TOK_HEREDOC))
+	{
+		redir = make_redir(tokens);
+		if (!redir)
+			return (NULL);
+		set_redir_child(redir, cmd);
+		cmd = redir;
+	}
+	return (cmd);
 }
 
 static t_ast_node	*reduce_control(t_ast_node *left, t_list **tokens)

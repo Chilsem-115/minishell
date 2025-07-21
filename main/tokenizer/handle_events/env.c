@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/20 22:40:34 by itamsama          #+#    #+#             */
+/*   Updated: 2025/07/20 22:40:55 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <ctype.h>
 #include "libft.h"
 #include "tokenize.h"
-#include <ctype.h>
 
 void	handle_exit_status(t_tokenizer_state *ctx, char *line)
 {
