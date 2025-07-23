@@ -64,7 +64,7 @@ static void	print_node(t_ast_node *node, int depth, int is_last)
 	}
 	else if (node->type == AST_REDIR)
 	{
-		const char *redir_type[] = { "<", "<<", ">", ">>" };
+		const char *redir_type[] = { "<", ">", ">>", "<<" };
 		printf("REDIR: %s\n", redir_type[node->data.redir.redir_type]);
 
 		if (node->data.redir.file)

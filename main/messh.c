@@ -10,16 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "messh.h"
-#include "libft.h"
-#include "ast_gen.h"
 
 const char	*token_type_str(t_tokentype type)
 {

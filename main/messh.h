@@ -22,7 +22,6 @@
 # include <readline/history.h>
 # include "tokenize.h"
 # include "libft.h"
-# include "ast.h"
 # include "ast_gen.h"
 
 typedef struct s_data
