@@ -22,26 +22,3 @@ char	*str_replace_range(const char *src, size_t start, size_t len, const char *r
 	result[new_len] = '\0';
 	return (result);
 }
-
-
-int	main(void)
-{
-	const char	*original = "Hello $USER!";
-	const char	*replacement = "shadowman";
-
-	// Replace "$USER" starting at index 6, length 5
-	char	*result = str_replace_range(original, 6, 5, replacement);
-
-	if (result)
-	{
-		printf("Original : %s\n", original);
-		printf("Modified : %s\n", result);
-		free(result);
-	}
-	else
-	{
-		fprintf(stderr, "Memory allocation failed\n");
-	}
-
-	return (0);
-}

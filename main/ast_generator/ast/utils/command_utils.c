@@ -49,7 +49,7 @@ t_list	*extract_args(t_list **tokens)
 			|| tok->type == TOK_REDIR_OUT || tok->type == TOK_REDIR_APPEND
 			|| tok->type == TOK_HEREDOC)
 			break ;
-		ft_lstadd_back(&args, ft_lstnew(ft_strdup(tok->text)));
+		ft_lstadd_back(&args, ft_lstnew(tok));
 		*tokens = (*tokens)->next;
 	}
 	return (args);
