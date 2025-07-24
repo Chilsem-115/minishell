@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 21:59:28 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/20 22:31:59 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:30:11 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ typedef enum e_redir_type
 /* command node */
 typedef struct s_cmd_node
 {
-	char	*name;
-	char	*flags;
-	t_list	*args;
+	char **text;
 }	t_cmd_node;
 
 /* redirection node */
@@ -95,8 +93,9 @@ t_ast_node	*make_ctrl(t_list **tokens);
 t_ast_node	*make_redir(t_list **tokens);
 
 /* cmd_node creation utils */
+int			is_valid_cmd_token(t_tokentype type);
 char		*extract_flags(t_list **tokens);
-t_list		*extract_args(t_list **tokens);
+char		**tokens_to_argv(t_list	*tokens);
 
 /* type mapping */
 t_ctrl_op		map_ctrl_type(t_tokentype type);

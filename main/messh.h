@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:44:02 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/20 22:44:22 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:24:39 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <ctype.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "tokenize.h"
@@ -30,12 +31,16 @@ typedef struct s_context
 	t_list			*tokens;
 	t_ast_node		*ast;
 	char			*errmsg;
-	int				exit_code;
 	unsigned int	has_error;
+	int				exit_code;
 	char			**envp;
 }	t_context;
 
-void	main_loop(t_data *status);
+void	main_loop(t_context *ctx);
+
+/* Preview functions */
+
+void	print_token_list(t_list *tokens);
 void	print_ast(t_ast_node *node);
 
 #endif

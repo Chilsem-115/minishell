@@ -24,7 +24,8 @@ LIBFT    = $(LIBFT_DIR)/libft.a
 # === Sources ===
 SRC_MAIN = \
 	main/messh.c \
-	main/print_ast.c
+	main/print_func.c \
+	main/core.c
 
 SRC_TOKENIZER = \
 	main/tokenizer/tokenize.c \

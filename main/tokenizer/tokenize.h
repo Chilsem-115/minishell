@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@studnet.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:37:20 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/20 22:39:50 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:43:56 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ typedef enum e_tokentype
 	TOK_SQUOTE,
 	TOK_DQUOTE,
 	TOK_PIPE,
-	TOK_EXIT_STATUS,
 	TOK_REDIR_IN,
 	TOK_HEREDOC,
 	TOK_REDIR_OUT,
 	TOK_REDIR_APPEND,
+	TOK_EXIT_STATUS,
 	TOK_ENV_VAR
 }	t_tokentype;
 

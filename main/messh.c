@@ -6,77 +6,13 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/20 22:49:19 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:48:15 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "messh.h"
 
-const char	*token_type_str(t_tokentype type)
-{
-	if (type == TOK_WORD)
-		return "TOK_WORD";
-	if (type == TOK_SQUOTE)
-		return "TOK_SQUOTE";
-	if (type == TOK_DQUOTE)
-		return "TOK_DQUOTE";
-	if (type == TOK_PIPE)
-		return "TOK_PIPE";
-	if (type == TOK_REDIR_IN)
-		return "TOK_REDIR_IN";
-	if (type == TOK_HEREDOC)
-		return "TOK_HEREDOC";
-	if (type == TOK_REDIR_OUT)
-		return "TOK_REDIR_OUT";
-	if (type == TOK_REDIR_APPEND)
-		return "TOK_REDIR_APPEND";
-	if (type == TOK_ENV_VAR)
-		return "TOK_ENV_VAR";
-	return "TOK_UNKNOWN";
-}
-
-void	print_token_list(t_list *tokens)
-{
-	t_token	*tok;
-	const char *type_str;
-
-	while (tokens)
-	{
-		tok = (t_token *)tokens->content;
-		type_str = token_type_str(tok->type);
-
-		write(STDOUT_FILENO, type_str, strlen(type_str));
-		write(STDOUT_FILENO, ": ", 2);
-		if (tok->text)
-			write(STDOUT_FILENO, tok->text, strlen(tok->text));
-		else
-			write(STDOUT_FILENO, "(none)", 6);
-		write(STDOUT_FILENO, "\n", 1);
-
-		tokens = tokens->next;
-	}
-}
-
-static void	print_banner(void)
-{
-	printf("\n"
-	"\033[1;34m" // Blue for border
-	"  ╔══════════════════════════════════════════════╗\n"
-	"  ║                                              ║\n"
-	"  ║  \033[1;37m███╗   ███╗███████╗███████╗███████╗██╗  ██╗\033[1;34m ║\n"
-	"  ║  \033[1;37m████╗ ████║██╔════╝██╔════╝██╔════╝██║  ██║\033[1;34m ║\n"
-	"  ║  \033[1;37m██╔████╔██║█████╗  ███████╗███████╗███████║\033[1;34m ║\n"
-	"  ║  \033[1;37m██║╚██╔╝██║██╔══╝  ╚════██║╚════██║██╔══██║\033[1;34m ║\n"
-	"  ║  \033[1;37m██║ ╚═╝ ██║███████╗███████║███████║██║  ██║\033[1;34m ║\n"
-	"  ║  \033[1;37m╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝\033[1;34m ║\n"
-	"  ║                                              ║\n"
-	"  ║       \033[0;37mMinimalist Experience Shell v0.1\033[1;34m       ║\n"
-	"  ║                                              ║\n"
-	"  ╚══════════════════════════════════════════════╝\n"
-	"\033[0m\n"
-	"\033[0;33m  ▶ \033[2;37mShell ready.\033[0m\n\n");
-}
-
+/*
 static char*	trim_whitespace(char *str)
 {
 	char	*end;
@@ -92,7 +28,6 @@ static char*	trim_whitespace(char *str)
 
 	return (str);
 }
-
 
 int	main(void)
 {
@@ -129,7 +64,28 @@ int	main(void)
 	printf("Bye!\n");
 	return (0);
 }
+*/
 ////////////////////// stuff here ain't it
+
+static void	print_banner(void)
+{
+	printf("\n"
+	"\033[1;34m"
+	"  ╔══════════════════════════════════════════════╗\n"
+	"  ║                                              ║\n"
+	"  ║  \033[1;37m███╗   ███╗███████╗███████╗███████╗██╗  ██╗\033[1;34m ║\n"
+	"  ║  \033[1;37m████╗ ████║██╔════╝██╔════╝██╔════╝██║  ██║\033[1;34m ║\n"
+	"  ║  \033[1;37m██╔████╔██║█████╗  ███████╗███████╗███████║\033[1;34m ║\n"
+	"  ║  \033[1;37m██║╚██╔╝██║██╔══╝  ╚════██║╚════██║██╔══██║\033[1;34m ║\n"
+	"  ║  \033[1;37m██║ ╚═╝ ██║███████╗███████║███████║██║  ██║\033[1;34m ║\n"
+	"  ║  \033[1;37m╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝\033[1;34m ║\n"
+	"  ║                                              ║\n"
+	"  ║       \033[0;37mMinimalist Experience Shell v0.1\033[1;34m       ║\n"
+	"  ║                                              ║\n"
+	"  ╚══════════════════════════════════════════════╝\n"
+	"\033[0m\n"
+	"\033[0;33m  ▶ \033[2;37mShell ready.\033[0m\n\n");
+}
 
 static void	clean_exit(t_context *ctx)
 {
@@ -137,8 +93,10 @@ static void	clean_exit(t_context *ctx)
 		free(ctx->line);
 	if (ctx->tokens)
 		ft_lstclear(&ctx->tokens, free);
+	/*
 	if (ctx->ast)
 		ast_clear(ctx->ast);
+		*/
 	if (ctx->errmsg)
 		free(ctx->errmsg);
 	free(ctx);
@@ -147,7 +105,7 @@ static void	clean_exit(t_context *ctx)
 	exit(0);
 }
 
-static void	ctx_init(t_context *ctx, char **env)
+static void	status_init(t_context *ctx, char **env)
 {
 	ctx->line = NULL;
 	ctx->tokens = NULL;
@@ -155,7 +113,7 @@ static void	ctx_init(t_context *ctx, char **env)
 	ctx->errmsg = NULL;
 	ctx->exit_code = 0;
 	ctx->has_error = 0;
-	(void)env;
+	ctx->envp = env;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -164,8 +122,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handler);
+//	signal(SIGQUIT, SIG_IGN);
+//	signal(SIGINT, handler);
 	ctx = malloc(sizeof(t_context));
 	if (!ctx)
 		return (1);

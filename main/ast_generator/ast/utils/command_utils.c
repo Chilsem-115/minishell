@@ -6,11 +6,56 @@
 /*   By: itamsama <itamsama@student.13337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:32:34 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/20 22:33:50 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:29:30 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
+
+int	is_valid_cmd_token(t_tokentype type)
+{
+	return (type == TOK_WORD
+		|| type == TOK_SQUOTE
+		|| type == TOK_DQUOTE
+		|| type == TOK_ENV_VAR);
+}
+
+static int	count_valid_tokens(t_list *tokens)
+{
+	int			count;
+	t_token		*tok;
+
+	count = 0;
+	while (tokens)
+	{
+		tok = (t_token *)tokens->content;
+		if (!tok || !is_valid_cmd_token(tok->type))
+			break ;
+		count++;
+		tokens = tokens->next;
+	}
+	return (count);
+}
+
+static int	fill_argv(char **argv, t_list *tokens)
+{
+	int		i;
+	t_token	*tok;
+
+	i = 0;
+	while (tokens)
+	{
+		tok = tokens->content;
+		if (!tok || !is_valid_cmd_token(tok->type))
+			break ;
+		argv[i] = ft_strdup(tok->text);
+		if (!argv[i])
+			return (1);
+		tokens = tokens->next;
+		i++;
+	}
+	return (0);
+}
 
 char	*extract_flags(t_list **tokens)
 {
@@ -36,21 +81,16 @@ char	*extract_flags(t_list **tokens)
 	return (deldup(flags));
 }
 
-t_list	*extract_args(t_list **tokens)
+char	**tokens_to_argv(t_list	*tokens)
 {
-	t_list	*args;
-	t_token	*tok;
+	char	**argv;
+	int		count;
 
-	args = NULL;
-	while (*tokens)
-	{
-		tok = (*tokens)->content;
-		if (tok->type == TOK_PIPE || tok->type == TOK_REDIR_IN
-			|| tok->type == TOK_REDIR_OUT || tok->type == TOK_REDIR_APPEND
-			|| tok->type == TOK_HEREDOC)
-			break ;
-		ft_lstadd_back(&args, ft_lstnew(tok));
-		*tokens = (*tokens)->next;
-	}
-	return (args);
+	count = count_valid_tokens(tokens);
+	argv = ft_calloc(count + 1, sizeof(char *));
+	if (!argv)
+		return (NULL);
+	if (fill_argv(argv, tokens))
+		return (NULL);
+	return (argv);
 }

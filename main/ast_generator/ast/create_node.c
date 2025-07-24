@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:32:08 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/20 22:32:21 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:29:01 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,16 @@ t_ast_node	*make_ctrl(t_list **tokens)
 t_ast_node	*make_cmd(t_list **tokens)
 {
 	t_ast_node	*node;
-	t_token		*tok;
 
 	if (!tokens || !*tokens)
-		return (NULL);
-	tok = (*tokens)->content;
-	if (tok->type != TOK_WORD)
 		return (NULL);
 	node = malloc(sizeof(*node));
 	if (!node)
 		return (NULL);
 	node->type = AST_COMMAND;
-	node->data.cmd.name = ft_strdup(tok->text);
-	*tokens = (*tokens)->next;
-	node->data.cmd.flags = extract_flags(tokens);
-	node->data.cmd.args = extract_args(tokens);
+	node->data.cmd.text = tokens_to_argv(*tokens);
+	while (*tokens && is_valid_cmd_token(((t_token *)(*tokens)->content)->type))
+		*tokens = (*tokens)->next;
 	return (node);
 }
 
@@ -83,6 +78,8 @@ t_ast_node	*make_redir(t_list **tokens)
 	if (redir == REDIR_INVALID)
 		return (NULL);
 	*tokens = (*tokens)->next;
+	if (!*tokens)
+		return (NULL);
 	file_tok = (*tokens)->content;
 	node = malloc(sizeof(*node));
 	if (!node)
