@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:44:02 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/24 21:16:05 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/07/24 22:22:52 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string.h>
 # include <ctype.h>
 # include <signal.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"

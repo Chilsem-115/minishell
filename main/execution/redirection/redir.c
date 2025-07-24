@@ -1,6 +1,8 @@
+#include "messh.h"
 #include "ast.h"
-#include "../Libft/libft.h"
+#include "libft.h"
 
+/*
 static void red_in(t_token *t, int fd)
 {
     fd = open(t->text, O_RDONLY);
@@ -59,3 +61,4 @@ void redirections(t_token *t)
     }
         
 }
+*/

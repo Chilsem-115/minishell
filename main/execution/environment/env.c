@@ -1,7 +1,7 @@
 #include "messh.h"
 #include "libft.h"
 
-void print_env(t_env env)
+void	print_env(t_env *env)
 {
 	while (env)
 	{
@@ -13,14 +13,17 @@ void print_env(t_env env)
 
 void print_export(t_context *ctx)
 {
-	while (ctx->envp)
+	t_env	*env;
+
+	env = ctx->envp;
+	while (env)
 	{
-		if (ctx->envp->value)
+		if (env->value)
 		{
 			printf("declare -x ");
-			printf("%s=%s\n", ctx->envp->key, ctx->envp->value);
+			printf("%s=%s\n", env->key, env->value);
 		}
-		ctx->envp = ctx->envp->next;
+		env = env->next;
 	}
 }
 
@@ -49,7 +52,7 @@ char **my_env(t_context	*ctx)
 
 	s = ctx;
 	i = 0;
-	n = lenlist(*ctx->envp);
+	n = lenlist(ctx->envp);
 	arr = malloc(sizeof(char *) * (n + 1));
 	while (s)
 	{

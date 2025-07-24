@@ -30,7 +30,7 @@ t_env	*init_env(char **envp);
 int		handle_builtin(t_context *ctx);
 
 /* exports */
-void	print_export(t_env *env);
+void	print_export(t_context *ctx);
 
 
 /* mok */
@@ -38,8 +38,8 @@ void	print_env(t_env *env);
 
 /* execute_utils*/
 t_env	*init_env(char **envp);
-void	export_var(t_context *ctx, char *arg);
-void	unset_var(t_context *ctx, char *key);
+void	export_var(t_env *env_list, char *arg);
+void	unset_var(t_env *env_list, char *key);
 void	exit_command(char **args);
 void	pwd();
 

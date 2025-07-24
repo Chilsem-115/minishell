@@ -42,7 +42,7 @@ t_env *init_env(char **envp)
 	return head;
 }
 
-void	export_var(t_context *ctx, char *arg)
+void	export_var(t_env *env_list, char *arg)
 {
 	char *eq = ft_strchr(arg, '=');
 	if (!eq)
@@ -50,48 +50,46 @@ void	export_var(t_context *ctx, char *arg)
 
 	char *key = ft_substr(arg, 0, eq - arg);
 	char *value = ft_strdup(eq + 1);
-	t_context *curr = ctx;
+	t_env *curr = env_list;
 
 	while (curr)
 	{
-		if (!ft_strncmp(curr->envp->key, key, ft_strlen(key)))
+		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
 		{
-			free(curr->envp->value);
-			curr->envp->value = value;
+			free(curr->value);
+			curr->value = value;
 			free(key);
 			return;
 		}
-		curr->envp = curr->envp->next;
+		curr = curr->next;
 	}
 	// Add new var
-	t_env *new = malloc(sizeof(t_context));
-	new->envp->key = key;
-	new->envp->value = value;
-	new->envp->next = *env_list;
-	*ctx = new;
+	t_env *new = malloc(sizeof(t_env));
+	new->key = key;
+	new->value = value;
+	new->next = env_list;
+	env_list = new;
 }
 
-void	unset_var(t_context *ctx, char *key)
+void	unset_var(t_env *env_list, char *key)
 {
-	t_context	*curr;
-	t_context	*prev;
+	t_env *curr = env_list;
+	t_env *prev = NULL;
 
-	curr = *env_list;
-	prev = NULL;
 	while (curr)
 	{
-		if (!ft_strncmp(curr->envp->key, key, ft_strlen(key)))
+		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
 		{
 			if (prev)
-				prev->envp->next = curr->envp->next;
+				prev->next = curr->next;
 			else
-				*env_list = curr->envp->next;
-			free(curr->envp->key);
-			free(curr->envp->value);
+				env_list = curr->next;
+			free(curr->key);
+			free(curr->value);
 			free(curr);
 			return;
 		}
-		prev->envp = curr->envp;
-		curr->envp = curr->envp->next;
+		prev = curr;
+		curr = curr->next;
 	}
 }

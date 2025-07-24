@@ -70,8 +70,8 @@ int	handle_builtin(t_context *ctx)
 	argv = ctx->ast->data.cmd.text;
 	if (!ft_strncmp(argv[0], "cd", 3))
 	{
-		if(!argv[1] || ft_strncmp(argv[1], "~", 2) == 0)
-			chdir("/home/oessmiri");
+		if(!argv[1])
+			chdir("/home");
 		else
 			chdir(argv[1]);
 	}
@@ -81,7 +81,7 @@ int	handle_builtin(t_context *ctx)
 	{
 		if (!argv[1])
 		{
-			print_export(ctx->envp);
+			print_export(ctx);
 			return (1);
 		}
 		i = 1;

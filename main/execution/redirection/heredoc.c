@@ -1,30 +1,5 @@
-#include "../include/minishell.h"
-#include "../Libft/libft.h"
-
-static char *generate_heredoc_filename(void);
-
-void heredoc(t_token *t)
-{
-	int	fd_hd;
-    char *s;
-
-	char *full_path = generate_full_path();
-	fd_hd = open(full_path, O_CREAT | O_RDWR | O_TRUNC, 0600);
-	if (fd_hd < 0)
-	{
-    	perror("open heredoc");
-    	free(full_path);
-    	return;
-	}
-	
-	while (s = readline("> "))
-	{
-		if (ft_strncmp(s, t->text, len(s)) != 0)
-            write(fd_hd, s, len(s));
-        else
-            exit(0);
-	}
-}
+#include "messh.h"
+#include "libft.h"
 
 static char *generate_heredoc_filename(void)
 {
@@ -54,6 +29,7 @@ static char *generate_heredoc_filename(void)
     return filename;
 }
 
+
 static char *generate_full_path(void)
 {
     char *name = generate_heredoc_filename();
@@ -71,4 +47,28 @@ static char *generate_full_path(void)
     strcat(full_path, name);//..FORBIDEN
     free(name);
     return (full_path);
+}
+
+void heredoc(t_token *t)
+{
+	int	fd_hd;
+    char *s;
+
+	char *full_path = generate_full_path();
+	fd_hd = open(full_path, O_CREAT | O_RDWR | O_TRUNC, 0600);
+	if (fd_hd < 0)
+	{
+    	perror("open heredoc");
+    	free(full_path);
+    	return;
+	}
+	s = readline("> ");
+	while (s)
+	{
+		if (ft_strncmp(s, t->text, ft_strlen(s)) != 0)
+            write(fd_hd, s, ft_strlen(s));
+        else
+            exit(0);
+	s = readline("> ");
+	}
 }
