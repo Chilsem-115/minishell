@@ -1,5 +1,6 @@
-#include "../include/minishell.h"
-#include "../Libft/libft.h"
+
+#include "messh.h"
+#include "libft.h"
 
 char	**split_once(const char *str, char sep)
 {

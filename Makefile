@@ -14,7 +14,11 @@ CFLAGS  = -Wall -Wextra -Werror \
 		  -Imain/ast_generator \
 		  -Imain/ast_generator/ast \
 		  -Imain/ast_generator/ast/utils \
-		  -Imain/ast_generator/error
+		  -Imain/ast_generator/error \
+		  -Imain/execution \
+		  -Imain/execution/pipe \
+		  -Imain/execution/redirection \
+		  -Imain/execution/environment
 
 NAME    = mesh
 OBJDIR  = obj
@@ -53,7 +57,7 @@ SRC_EXEC = \
 	main/execution/pipe/pipe.c
 
 # === Source & Object Management ===
-SRCS = $(SRC_MAIN) $(SRC_TOKENIZER) $(SRC_AST_GEN)
+SRCS = $(SRC_MAIN) $(SRC_TOKENIZER) $(SRC_AST_GEN) $(SRC_EXEC)
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 
 # === Targets ===
