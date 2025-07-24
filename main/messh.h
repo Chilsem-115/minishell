@@ -24,15 +24,18 @@
 # include "libft.h"
 # include "ast_gen.h"
 
-typedef struct s_data
+typedef struct s_context
 {
-	char		*line;
-	t_list		*tokens;
-	t_ast_node	*ast;
-}	t_data;
+	char			*line;
+	t_list			*tokens;
+	t_ast_node		*ast;
+	char			*errmsg;
+	int				exit_code;
+	unsigned int	has_error;
+	char			**envp;
+}	t_context;
 
-void	status_init(t_data **status);
-void	status_destroy(t_data *status);
+void	main_loop(t_data *status);
 void	print_ast(t_ast_node *node);
 
 #endif

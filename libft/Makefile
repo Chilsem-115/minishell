@@ -78,7 +78,8 @@ STRUTILS_SRCS    = \
 	$(STRUTILS_DIR)/ft_strtrim.c \
 	$(STRUTILS_DIR)/ft_split.c \
 	$(STRUTILS_DIR)/ft_strmapi.c \
-	$(STRUTILS_DIR)/ft_striteri.c
+	$(STRUTILS_DIR)/ft_striteri.c \
+	$(STRUTILS_DIR)/ft_deldup.c
 
 GNL_SRCS         = \
 	$(GNL_DIR)/get_next_line.c \

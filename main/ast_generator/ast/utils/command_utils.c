@@ -33,7 +33,7 @@ char	*extract_flags(t_list **tokens)
 			return (NULL);
 		*tokens = (*tokens)->next;
 	}
-	return (flags);
+	return (deldup(flags));
 }
 
 t_list	*extract_args(t_list **tokens)

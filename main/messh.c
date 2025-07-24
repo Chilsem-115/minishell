@@ -93,15 +93,6 @@ static char*	trim_whitespace(char *str)
 	return (str);
 }
 
-void	status_init(t_data **status)
-{
-	*status = malloc(sizeof(t_data));
-	if (!*status)
-		return ;
-	(*status)->line = NULL;
-	(*status)->tokens = NULL;
-	(*status)->ast = NULL;
-}
 
 int	main(void)
 {
@@ -136,5 +127,51 @@ int	main(void)
 	free(status);
 	rl_clear_history();
 	printf("Bye!\n");
+	return (0);
+}
+////////////////////// stuff here ain't it
+
+static void	clean_exit(t_context *ctx)
+{
+	if (ctx->line)
+		free(ctx->line);
+	if (ctx->tokens)
+		ft_lstclear(&ctx->tokens, free);
+	if (ctx->ast)
+		ast_clear(ctx->ast);
+	if (ctx->errmsg)
+		free(ctx->errmsg);
+	free(ctx);
+	rl_clear_history();
+	printf("Bye!\n");
+	exit(0);
+}
+
+static void	ctx_init(t_context *ctx, char **env)
+{
+	ctx->line = NULL;
+	ctx->tokens = NULL;
+	ctx->ast = NULL;
+	ctx->errmsg = NULL;
+	ctx->exit_code = 0;
+	ctx->has_error = 0;
+	(void)env;
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_context	*ctx;
+
+	(void)argc;
+	(void)argv;
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handler);
+	ctx = malloc(sizeof(t_context));
+	if (!ctx)
+		return (1);
+	status_init(ctx, env);
+	print_banner();
+	main_loop(ctx);
+	clean_exit(ctx);
 	return (0);
 }
