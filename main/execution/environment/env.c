@@ -1,7 +1,7 @@
 #include "../include/minishell.h"
 #include "../Libft/libft.h"
 
-void print_env(t_env *env)
+void print_env(t_context *ctx)
 {
 	while (env)
 	{
@@ -11,16 +11,16 @@ void print_env(t_env *env)
 	}
 }
 
-void print_export(t_env *env)
+void print_export(t_context *ctx)
 {
-	while (env)
+	while (ctx->envp)
 	{
-		if (env->value)
+		if (ctx->envp->value)
 		{
 			printf("declare -x ");
-			printf("%s=%s\n", env->key, env->value);
+			printf("%s=%s\n", ctx->envp->key, ctx->envp->value);
 		}
-		env = env->next;
+		ctx->envp = ctx->envp->next;
 	}
 }
 
@@ -39,31 +39,31 @@ int lenlist(t_env *env_list)
 	return (n);
 }
 
-char **my_env(t_env **list_env)
+char **my_env(t_context	*ctx)
 {
 	int		i;
 	int		n;
 	char	**arr;
-	t_env	*s;
+	t_context	*s;
 	char	*str;
 
-	s = *list_env;
+	s = ctx;
 	i = 0;
-	n = lenlist(*list_env);
+	n = lenlist(*ctx->envp);
 	arr = malloc(sizeof(char *) * (n + 1));
 	while (s)
 	{
-		str = ft_strjoin(s->key, "=");
-		str = ft_strjoin(str, s->value);
+		str = ft_strjoin(s->envp->key, "=");
+		str = ft_strjoin(str, s->envp->value);
 		arr[i] = str;
-		s = s->next;
+		s->envp = s->envp->next;
 		i++;
 		str = "\0";
 	}
 	return(arr);
 }
 
-char	*my_getenv(char *s, t_env *list)
+char	*my_getenv(char *s, t_context *ctx)
 {
 	t_env *t;
 	int	i;
@@ -71,8 +71,8 @@ char	*my_getenv(char *s, t_env *list)
 	i = 0;
 	while (s[i])
 		i++;
-	
-	t = list;
+
+	t = ctx->envp;
 	while (t)
 	{
 		if (ft_strncmp(s, t->key, i) == 0)
@@ -81,3 +81,4 @@ char	*my_getenv(char *s, t_env *list)
 	}
 	return (NULL);
 }
+

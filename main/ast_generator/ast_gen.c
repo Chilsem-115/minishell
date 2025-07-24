@@ -63,5 +63,5 @@ t_ast_node	*generate_ast(t_list *tokens)
 		else
 			return (NULL);//handle_parser_error(tokens));
 	}
-	return (make_root(current));
+	return (current);
 }

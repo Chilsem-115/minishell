@@ -12,19 +12,6 @@
 
 #include "ast.h"
 
-t_ast_node	*make_root(t_ast_node *child)
-{
-	t_ast_node	*node;
-
-	node = malloc(sizeof(*node));
-	if (!node)
-		return (NULL);
-	node->type = AST_ROOT;
-	node->data.ctrl.left = child;
-	node->data.ctrl.right = NULL;
-	return (node);
-}
-
 t_ast_node	*make_ctrl(t_list **tokens)
 {
 	t_token		*tok;

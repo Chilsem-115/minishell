@@ -88,7 +88,6 @@ int			is_redir(t_list *token);
 
 /* create_node */
 t_ast_node	*make_cmd(t_list **tokens);
-t_ast_node	*make_root(t_ast_node *child);
 t_ast_node	*make_ctrl(t_list **tokens);
 t_ast_node	*make_redir(t_list **tokens);
 

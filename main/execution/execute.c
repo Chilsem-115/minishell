@@ -1,6 +1,9 @@
-
 #include "messh.h"
 #include "libft.h"
+#include <sys/types.h>
+#include "execute.h"
+
+// #include "ast.h"
 
 char	**split_once(const char *str, char sep)
 {
@@ -40,12 +43,12 @@ void	ft_envadd_back(t_env **lst, t_env *new)
 	}
 }
 
-char *check_exec(char *s, t_env *env_list)
+char *check_exec(char *s, t_context *ctx)
 {
 	int    i;
 
 	i = 0;
-	char **str = ft_split(my_getenv("PATH", env_list), ':');
+	char **str = ft_split(my_getenv("PATH", ctx->envp), ':');
 	if(!str)
 		return(NULL);
 	while(str[i])
@@ -61,34 +64,37 @@ char *check_exec(char *s, t_env *env_list)
 
 int handle_builtin(t_context *ctx)
 {
-	if (!ft_strncmp(args[0], "cd", 3))
+	char	**argv;
+
+	argv = ctx->ast->data.cmd.text;
+	if (!ft_strncmp(argv[0], "cd", 3))
 	{
-		if(!args[1] || ft_strncmp(args[1], "~", 2) == 0)
+		if(!argv[1] || ft_strncmp(argv[1], "~", 2) == 0)
 			chdir("/home/oessmiri");
 		else
-			chdir(args[1]);
+			chdir(argv[1]);
 	}
-	else if (!ft_strncmp(args[0], "exit", 5))
-		exit_command(args);
-	else if (!ft_strncmp(args[0], "export", 7))
+	else if (!ft_strncmp(argv[0], "exit", 5))
+		exit_command(argv);
+	else if (!ft_strncmp(argv[0], "export", 7))
 	{
-		if (!args[1])
+		if (!argv[1])
 		{
-			print_export(*env_list);
+			print_export(*ctx->envp);
 			return (1);
 		}
 		int i = 1;
-		while(args[i])
+		while(argv[i])
 		{
-			export_var(env_list, args[i]);
+			export_var(ctx->envp, argv[i]);
 			i++;
 		}
 	}
-	else if (!ft_strncmp(args[0], "unset", 6) && args[1])
-		unset_var(env_list, args[1]);
-	else if (!ft_strncmp(args[0], "env", 4))
-		print_env(*env_list);
-	else if (!ft_strncmp(args[0], "pwd", 4))
+	else if (!ft_strncmp(argv[0], "unset", 6) && argv[1])
+		unset_var(ctx->envp, argv[1]);
+	else if (!ft_strncmp(argv[0], "env", 4))
+		print_env(*ctx->envp);
+	else if (!ft_strncmp(argv[0], "pwd", 4))
 		pwd();
 	// else if(!ft_strncmp(args[0], "echo", 5))// ??
 	// 	// ??
@@ -101,14 +107,18 @@ void	command_exec(t_context *ctx)
 {
 	pid_t	pid;
 	char	*path;
+	char	**argv;
 
-	if (handle_builtin(t_context *ctx))
-		continue ; // this will be later on used for error messages
+	argv = ctx->ast->data.cmd.text;
+	if (handle_builtin(ctx))
+		// continue; // this will be later on used for error messages
+	// else
+		// ....
 	pid = fork();
 	if (pid == 0)
 	{
-		path = check_exec(args[0], env_list);
-		execve(path, args, my_env(&env_list));
+		path = check_exec(argv[0], ctx->envp);
+		execve(path, argv, my_env(&ctx->envp));
 		perror("execve");
 		exit(1);
 	}

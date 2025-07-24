@@ -21,9 +21,10 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "tokenize.h"
 # include "libft.h"
+# include "tokenize.h"
 # include "ast_gen.h"
+# include "execute.h"
 
 typedef struct s_context
 {
@@ -33,7 +34,7 @@ typedef struct s_context
 	char			*errmsg;
 	unsigned int	has_error;
 	int				exit_code;
-	char			**envp;
+	t_env			*envp;
 }	t_context;
 
 void	main_loop(t_context *ctx);

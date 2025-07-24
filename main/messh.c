@@ -113,7 +113,7 @@ static void	status_init(t_context *ctx, char **env)
 	ctx->errmsg = NULL;
 	ctx->exit_code = 0;
 	ctx->has_error = 0;
-	ctx->envp = env;
+	ctx->envp = init_env(env);
 }
 
 int	main(int argc, char **argv, char **env)
