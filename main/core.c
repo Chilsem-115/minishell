@@ -67,8 +67,8 @@ static void	handle_line(t_context *ctx)
 	else
 		printf("\n\n dafuq ? where is it\n");
 //	execute_ast(ctx);
-//	ast_clear(ctx->ast);
 //	ft_lstclear(&ctx->tokens, free);
+//	ast_clear(ctx->ast);
 //	ctx->ast = NULL;
 } 
 

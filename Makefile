@@ -44,6 +44,14 @@ SRC_AST_GEN = \
 	main/ast_generator/ast/utils/type_mapping.c \
 	main/ast_generator/error/error_handling.c
 
+SRC_EXEC = \
+	main/execution/execute.c \
+	main/execution/execute_utils.c \
+	main/execution/environment/env.c \
+	main/execution/redirection/heredoc.c \
+	main/execution/redirection/redir.c \
+	main/execution/pipe/pipe.c
+
 # === Source & Object Management ===
 SRCS = $(SRC_MAIN) $(SRC_TOKENIZER) $(SRC_AST_GEN)
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
