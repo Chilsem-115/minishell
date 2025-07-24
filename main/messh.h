@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:44:02 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/24 13:24:39 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/07/24 21:16:05 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@
 # include "libft.h"
 # include "tokenize.h"
 # include "ast_gen.h"
-# include "execute.h"
+
+typedef struct s_env
+{
+	char *key;
+	char *value;
+	struct s_env *next;
+}	t_env;
 
 typedef struct s_context
 {

@@ -9,31 +9,39 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "messh.h"
 
-typedef struct s_env
-{
-	char *key;
-	char *value;
-	struct s_env *next;
-} t_env;
 
 char	**split_once(const char *str, char sep);
 void	ft_envadd_back(t_env **lst, t_env *new);
-char	*check_exec(char *s, t_env *env_list);
-int		handle_builtin(char **args, t_env **env_list);
+char	*check_exec(char *s, t_context *ctx);
 char	*ft_readline();
-void	handler(int sig);
-void	exit_command(char **args);
-t_env	*init_env(char **envp);
-void	export_var(t_env **env_list, char *arg);
-void	unset_var(t_env **env_list, char *key);
-void	print_env(t_env *env);
-void	pwd();
-void	print_export(t_env *env);
 char	**my_env(t_env **list_env);//?
 char	*my_getenv(char *s, t_env *list);
 
+void	command_exec(t_context *ctx);
+
+/* environment initialization */
+t_env	*init_env(char **envp);
+
 // void	heredoc(t_token *t);
+
+/* built-in handling*/
+int		handle_builtin(t_context *ctx);
+
+/* exports */
+void	print_export(t_env *env);
+
+
+/* mok */
+void	print_env(t_env *env);
+
+/* execute_utils*/
+t_env	*init_env(char **envp);
+void	export_var(t_context *ctx, char *arg);
+void	unset_var(t_context *ctx, char *key);
+void	exit_command(char **args);
+void	pwd();
 
 // #define GREEN "\33[0;32m"
 // #define CYELL "\33[0;35m"

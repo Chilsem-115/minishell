@@ -1,41 +1,22 @@
 
 #include "messh.h"
+#include "execute.h"
 
-static char	*trim_whitespace(char *str)
+char *ft_readline()
 {
-	char	*end;
-
-	while (ft_isspace((unsigned char)*str))
-		str++;
-	if (*str == '\0')
-		return (str);
-	end = str + strlen(str) - 1;
-	while (end > str && ft_isspace((unsigned char)*end))
-		end--;
-	end[1] = '\0';
-
-	return (str);
-}
-
-static char	*ft_readline()
-{
-//	char	cwd[1024];
-	char	prompt[] = "messh> ";
-	char	*s;
-
-	/*
+	char cwd[1024];
 	getcwd(cwd, sizeof(cwd));
-	prompt = ft_strjoin("", cwd);
+	char *prompt = ft_strjoin( "enigma@minishell:", cwd);
 	prompt = ft_strjoin(prompt, "$ ");
-	*/
-	s = readline(prompt);
+	char *s = readline(prompt);
 	if (!s)
 	{
 		printf("exit\n");
 		exit(0);
 	}
-//	free(prompt);
-	if (s && *s)
+
+	free(prompt);
+	if(s && *s)
 		add_history(s);
 	return (s);
 }
@@ -66,7 +47,7 @@ static void	handle_line(t_context *ctx)
 		print_ast(ctx->ast);
 	else
 		printf("\n\n dafuq ? where is it\n");
-//	execute_ast(ctx);
+	command_exec(ctx);
 //	ft_lstclear(&ctx->tokens, free);
 //	ast_clear(ctx->ast);
 //	ctx->ast = NULL;
@@ -79,7 +60,6 @@ void	main_loop(t_context *ctx)
 		ctx->line = ft_readline();
 		if (!ctx->line)
 			break ;
-		ctx->line = trim_whitespace(ctx->line);
 		if (*ctx->line && ft_strncmp(ctx->line, "exit", 5) == 0)
 			break ;
 		if (*ctx->line)

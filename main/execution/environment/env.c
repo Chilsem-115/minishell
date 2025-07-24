@@ -1,7 +1,7 @@
-#include "../include/minishell.h"
-#include "../Libft/libft.h"
+#include "messh.h"
+#include "libft.h"
 
-void print_env(t_context *ctx)
+void print_env(t_env env)
 {
 	while (env)
 	{

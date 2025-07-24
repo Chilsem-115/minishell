@@ -6,11 +6,12 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/24 12:48:15 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/07/24 21:29:36 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "messh.h"
+#include "execute.h"
 
 /*
 static char*	trim_whitespace(char *str)
@@ -87,6 +88,15 @@ static void	print_banner(void)
 	"\033[0;33m  ▶ \033[2;37mShell ready.\033[0m\n\n");
 }
 
+static void	handler(int sig)
+{
+	(void)sig;
+	rl_replace_line("", 0);
+	printf("\n");
+	rl_on_new_line();
+	rl_redisplay();
+}
+
 static void	clean_exit(t_context *ctx)
 {
 	if (ctx->line)
@@ -122,8 +132,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-//	signal(SIGQUIT, SIG_IGN);
-//	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handler);
 	ctx = malloc(sizeof(t_context));
 	if (!ctx)
 		return (1);

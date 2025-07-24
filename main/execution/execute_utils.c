@@ -1,5 +1,6 @@
-#include "../include/minishell.h"
-#include "../Libft/libft.h"
+
+#include "messh.h"
+#include "libft.h"
 #include "execute.h"
 
 void pwd()
@@ -41,7 +42,7 @@ t_env *init_env(char **envp)
 	return head;
 }
 
-void export_var(t_context **ctx, char *arg)
+void	export_var(t_context *ctx, char *arg)
 {
 	char *eq = ft_strchr(arg, '=');
 	if (!eq)
@@ -49,7 +50,7 @@ void export_var(t_context **ctx, char *arg)
 
 	char *key = ft_substr(arg, 0, eq - arg);
 	char *value = ft_strdup(eq + 1);
-	t_context *curr = *ctx;
+	t_context *curr = ctx;
 
 	while (curr)
 	{
@@ -70,11 +71,13 @@ void export_var(t_context **ctx, char *arg)
 	*ctx = new;
 }
 
-void unset_var(t_context **ctx, char *key)
+void	unset_var(t_context *ctx, char *key)
 {
-	t_context *curr = *env_list;
-	t_context *prev = NULL;
+	t_context	*curr;
+	t_context	*prev;
 
+	curr = *env_list;
+	prev = NULL;
 	while (curr)
 	{
 		if (!ft_strncmp(curr->envp->key, key, ft_strlen(key)))

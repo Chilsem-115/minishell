@@ -1,29 +1,27 @@
-#include "messh.h"
-#include "libft.h"
-#include <sys/types.h>
-#include "execute.h"
 
-// #include "ast.h"
+#include <sys/types.h>
+#include "messh.h"
+#include "execute.h"
+#include "libft.h"
 
 char	**split_once(const char *str, char sep)
 {
-	char	**res = malloc(sizeof(char *) * 3);
-	int		i = 0;
+	char	**res;
+	int		i;
 
+	res = malloc(sizeof(char *) * 3);
+	i = 0;
 	if (!res || !str)
 		return NULL;
-
 	while (str[i] && str[i] != sep)
 		i++;
-
 	res[0] = ft_substr(str, 0, i);
 	if (str[i] == sep)
 		res[1] = ft_strdup((char *)(str + i + 1));
 	else
 		res[1] = NULL;
 	res[2] = NULL;
-
-	return res;
+	return (res);
 }
 
 void	ft_envadd_back(t_env **lst, t_env *new)
@@ -43,17 +41,19 @@ void	ft_envadd_back(t_env **lst, t_env *new)
 	}
 }
 
-char *check_exec(char *s, t_context *ctx)
+char	*check_exec(char *s, t_context *ctx)
 {
-	int    i;
+	int		i;
+	char	**str;
+	char	*path;
 
 	i = 0;
-	char **str = ft_split(my_getenv("PATH", ctx->envp), ':');
+	str = ft_split(my_getenv("PATH", ctx->envp), ':');
 	if(!str)
 		return(NULL);
 	while(str[i])
 	{
-		char *path = ft_strjoin(str[i], "/");
+		path = ft_strjoin(str[i], "/");
 		path = ft_strjoin(path, s);
 		if(access(path, X_OK) == 0)
 			return (path);
@@ -62,9 +62,10 @@ char *check_exec(char *s, t_context *ctx)
 	return (NULL);
 }
 
-int handle_builtin(t_context *ctx)
+int	handle_builtin(t_context *ctx)
 {
 	char	**argv;
+	int		i;
 
 	argv = ctx->ast->data.cmd.text;
 	if (!ft_strncmp(argv[0], "cd", 3))
@@ -80,10 +81,10 @@ int handle_builtin(t_context *ctx)
 	{
 		if (!argv[1])
 		{
-			print_export(*ctx->envp);
+			print_export(ctx->envp);
 			return (1);
 		}
-		int i = 1;
+		i = 1;
 		while(argv[i])
 		{
 			export_var(ctx->envp, argv[i]);
@@ -93,7 +94,7 @@ int handle_builtin(t_context *ctx)
 	else if (!ft_strncmp(argv[0], "unset", 6) && argv[1])
 		unset_var(ctx->envp, argv[1]);
 	else if (!ft_strncmp(argv[0], "env", 4))
-		print_env(*ctx->envp);
+		print_env(ctx->envp);
 	else if (!ft_strncmp(argv[0], "pwd", 4))
 		pwd();
 	// else if(!ft_strncmp(args[0], "echo", 5))// ??
@@ -110,14 +111,11 @@ void	command_exec(t_context *ctx)
 	char	**argv;
 
 	argv = ctx->ast->data.cmd.text;
-	if (handle_builtin(ctx))
-		// continue; // this will be later on used for error messages
-	// else
-		// ....
+	handle_builtin(ctx);
 	pid = fork();
 	if (pid == 0)
 	{
-		path = check_exec(argv[0], ctx->envp);
+		path = check_exec(argv[0], ctx);
 		execve(path, argv, my_env(&ctx->envp));
 		perror("execve");
 		exit(1);
