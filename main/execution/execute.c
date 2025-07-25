@@ -48,7 +48,7 @@ char	*check_exec(char *s, t_context *ctx)
 	char	*path;
 
 	i = 0;
-	str = ft_split(my_getenv("PATH", ctx->envp), ':');
+	str = ft_split(my_getenv("PATH", ctx), ':');
 	if(!str)
 		return(NULL);
 	while(str[i])
@@ -111,14 +111,20 @@ void	command_exec(t_context *ctx)
 	char	**argv;
 
 	argv = ctx->ast->data.cmd.text;
-	handle_builtin(ctx);
+	if (handle_builtin(ctx))
+		return ;
 	pid = fork();
 	if (pid == 0)
 	{
 		path = check_exec(argv[0], ctx);
-		execve(path, argv, my_env(&ctx->envp));
-		perror("execve");
-		exit(1);
+		if(!path)
+		{
+			printf("enigma: %s: No such file or directory\n", argv[0]);
+			exit(127);
+		}
+		execve(path, argv, my_env(ctx));
+		perror("enigma : execve");
+		exit(126);
 	}
 	else if (pid > 0)
 		wait(NULL);

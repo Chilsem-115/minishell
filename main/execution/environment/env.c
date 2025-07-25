@@ -47,19 +47,19 @@ char **my_env(t_context	*ctx)
 	int		i;
 	int		n;
 	char	**arr;
-	t_context	*s;
+	t_env	*s;
 	char	*str;
 
-	s = ctx;
+	s = ctx->envp;
 	i = 0;
 	n = lenlist(ctx->envp);
 	arr = malloc(sizeof(char *) * (n + 1));
 	while (s)
 	{
-		str = ft_strjoin(s->envp->key, "=");
-		str = ft_strjoin(str, s->envp->value);
+		str = ft_strjoin(s->key, "=");
+		str = ft_strjoin(str, s->value);
 		arr[i] = str;
-		s->envp = s->envp->next;
+		s = s->next;
 		i++;
 		str = "\0";
 	}
@@ -78,7 +78,7 @@ char	*my_getenv(char *s, t_context *ctx)
 	t = ctx->envp;
 	while (t)
 	{
-		if (ft_strncmp(s, t->key, i) == 0)
+		if (ft_strncmp(s, t->key, i + 1) == 0)
 			return (t->value);
 		t = t->next;
 	}

@@ -16,8 +16,8 @@ char	**split_once(const char *str, char sep);
 void	ft_envadd_back(t_env **lst, t_env *new);
 char	*check_exec(char *s, t_context *ctx);
 char	*ft_readline();
-char	**my_env(t_env **list_env);//?
-char	*my_getenv(char *s, t_env *list);
+char	**my_env(t_context *ctx);
+char	*my_getenv(char *s, t_context *ctx);
 
 void	command_exec(t_context *ctx);
 
