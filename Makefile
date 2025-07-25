@@ -5,7 +5,7 @@
 
 # === Compiler and Flags ===
 CC      = cc
-CFLAGS  = -g -Wall -Wextra -Werror \
+CFLAGS  = -Wall -Wextra -Werror \
 		  -Ilibft \
 		  -Imain \
 		  -Imain/tokenizer \

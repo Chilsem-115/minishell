@@ -63,7 +63,6 @@ void	export_var(t_env *env_list, char *arg)
 		}
 		curr = curr->next;
 	}
-	// Add new var
 	t_env *new = malloc(sizeof(t_env));
 	new->key = key;
 	new->value = value;
