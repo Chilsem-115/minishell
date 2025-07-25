@@ -71,9 +71,15 @@ int	handle_builtin(t_context *ctx)
 	if (!ft_strncmp(argv[0], "cd", 3))
 	{
 		if(!argv[1])
-			chdir("/home");
+		{
+			if(chdir(my_getenv("HOME", ctx)) == -1)
+				printf("enigma: cd: HOME not set\n");
+		}
 		else
-			chdir(argv[1]);
+		{
+			if(chdir(argv[1]) == -1)
+				printf("cd: No such file or directory\n");
+		}
 	}
 	else if (!ft_strncmp(argv[0], "exit", 5))
 		exit_command(argv);
@@ -104,6 +110,13 @@ int	handle_builtin(t_context *ctx)
 	return (1);
 }
 
+int exec_check(char *s)
+{
+	if (s[0] == '/' || (s[0] == '.' && s[1] == '/'))
+		return (1);
+	return (0);
+}
+
 void	command_exec(t_context *ctx)
 {
 	pid_t	pid;
@@ -116,6 +129,12 @@ void	command_exec(t_context *ctx)
 	pid = fork();
 	if (pid == 0)
 	{
+		if (exec_check(argv[0]) == 1)
+		{
+			execve(argv[0], argv, my_env(ctx));
+			printf("enigma: %s: No such file or directory\n", argv[0]);
+			exit(127);
+		}
 		path = check_exec(argv[0], ctx);
 		if(!path)
 		{
