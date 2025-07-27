@@ -39,15 +39,15 @@ static void	handle_line(t_context *ctx)
 	if (is_valid_line(ctx->line))
 		add_history(ctx->line);
 	ctx->tokens = tokenize(ctx->line);
-	print_token_list(ctx->tokens);
 	ctx->ast = generate_ast(ctx->tokens);
-	ctx->tokens = NULL;
 //	ctx->ast = expand_variables(ctx);
+	print_token_list(ctx->tokens);
+	ctx->tokens = NULL;
 	if (ctx->ast)
 		print_ast(ctx->ast);
 	else
 		printf("\n\n dafuq ? where is it\n");
-	command_exec(ctx);
+//	command_exec(ctx);
 //	ft_lstclear(&ctx->tokens, free);
 //	ast_clear(ctx->ast);
 //	ctx->ast = NULL;

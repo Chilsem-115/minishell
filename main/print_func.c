@@ -130,6 +130,7 @@ static void	print_node(t_ast_node *node, int depth, int is_last)
 
 	print_indent(depth, is_last);
 
+	printf("\n\n\n\n");
 	switch (node->type)
 	{
 		case AST_ROOT:
