@@ -43,6 +43,10 @@ void	unset_var(t_env *env_list, char *key);
 void	exit_command(char **args);
 void	pwd();
 
+//pipe
+void pipline(t_context *ctx, t_ast_node *node, int input_fd);
+void exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd);
+
 // #define GREEN "\33[0;32m"
 // #define CYELL "\33[0;35m"
 // #define RESET "\33[0;0m"

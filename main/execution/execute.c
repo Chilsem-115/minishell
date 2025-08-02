@@ -117,7 +117,7 @@ int exec_check(char *s)
 	return (0);
 }
 
-void	command_exec(t_context *ctx)
+void	command(t_context *ctx)
 {
 	pid_t	pid;
 	char	*path;
@@ -145,6 +145,36 @@ void	command_exec(t_context *ctx)
 		perror("enigma : execve");
 		exit(126);
 	}
+	else if (pid < 0)
+    {
+        perror("fork");
+        exit(1);
+    }
 	else if (pid > 0)
-		wait(NULL);
+		 waitpid(pid, NULL, 0);
+}
+
+void exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
+{
+	if (!node)
+		return;
+
+	if (node->type == AST_CONTROL && node->data.ctrl.op == CTRL_PIPE)
+		pipline(ctx, node, input_fd);
+
+	else if (node->type == AST_COMMAND)
+	{
+		ctx->ast = node;
+		command(ctx);
+	}
+	else if (node->type == AST_REDIR)
+	{
+		// Redirection logic (to implement)
+		// write(1, "g", 1); | cat -e
+	}
+}
+
+void	command_exec(t_context *ctx)
+{
+	exec_ast_node(ctx, ctx->ast, STDIN_FILENO);
 }

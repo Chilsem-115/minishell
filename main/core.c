@@ -41,14 +41,14 @@ static void	handle_line(t_context *ctx)
 	ctx->tokens = tokenize(ctx->line);
 	ctx->ast = generate_ast(ctx->tokens);
 //	ctx->ast = expand_variables(ctx);
-	print_token_list(ctx->tokens);
-	ctx->tokens = NULL;
-	if (ctx->ast)
-		print_ast(ctx->ast);
-	else
-		printf("\n\n dafuq ? where is it\n");
-//	command_exec(ctx);
-//	ft_lstclear(&ctx->tokens, free);
+	// print_token_list(ctx->tokens);
+	// ctx->tokens = NULL;
+	// if (ctx->ast)
+	// 	print_ast(ctx->ast);
+	// else
+	// 	printf("\n\n dafuq ? where is it\n");
+	command_exec(ctx);
+	ft_lstclear(&ctx->tokens, free);
 //	ast_clear(ctx->ast);
 //	ctx->ast = NULL;
 } 
