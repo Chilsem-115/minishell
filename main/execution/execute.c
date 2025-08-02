@@ -170,7 +170,6 @@ void exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
 	else if (node->type == AST_REDIR)
 	{
 		// Redirection logic (to implement)
-		// write(1, "g", 1); | cat -e
 	}
 }
 
