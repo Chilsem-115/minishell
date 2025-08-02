@@ -47,6 +47,10 @@ void	pwd();
 void pipline(t_context *ctx, t_ast_node *node, int input_fd);
 void exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd);
 
+//redirections
+void heredoc(t_ast_node *ast);
+void redirections(t_ast_node *ast);
+
 // #define GREEN "\33[0;32m"
 // #define CYELL "\33[0;35m"
 // #define RESET "\33[0;0m"

@@ -168,9 +168,7 @@ void exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
 		command(ctx);
 	}
 	else if (node->type == AST_REDIR)
-	{
-		// Redirection logic (to implement)
-	}
+		redirections(ctx, node);
 }
 
 void	command_exec(t_context *ctx)

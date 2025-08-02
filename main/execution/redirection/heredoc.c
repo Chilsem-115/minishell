@@ -49,12 +49,13 @@ static char *generate_full_path(void)
     return (full_path);
 }
 
-void heredoc(t_token *t)
+void heredoc(t_ast_node *ast)
 {
 	int	fd_hd;
     char *s;
+    char *full_path;
 
-	char *full_path = generate_full_path();
+	full_path = generate_full_path();
 	fd_hd = open(full_path, O_CREAT | O_RDWR | O_TRUNC, 0600);
 	if (fd_hd < 0)
 	{
@@ -65,10 +66,12 @@ void heredoc(t_token *t)
 	s = readline("> ");
 	while (s)
 	{
-		if (ft_strncmp(s, t->text, ft_strlen(s)) != 0)
+		if (ft_strncmp(s, ast->data.redir.file, ft_strlen(s)) != 0)
+        {
             write(fd_hd, s, ft_strlen(s));
+	        s = readline("> ");
+        }
         else
             exit(0);
-	s = readline("> ");
 	}
 }
