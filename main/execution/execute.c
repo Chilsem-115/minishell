@@ -66,7 +66,9 @@ int	handle_builtin(t_context *ctx)
 {
 	char	**argv;
 	int		i;
+	char cwd[1024];
 
+	getcwd(cwd, sizeof(cwd));
 	argv = ctx->ast->data.cmd.text;
 	if (!ft_strncmp(argv[0], "cd", 3))
 	{
@@ -80,6 +82,8 @@ int	handle_builtin(t_context *ctx)
 			if(chdir(argv[1]) == -1)
 				printf("cd: No such file or directory\n");
 		}
+		update_var(&ctx->envp, "OLDPWD", ft_strdup(cwd));
+		update_var(&ctx->envp, "PWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
 	}
 	else if (!ft_strncmp(argv[0], "exit", 5))
 		exit_command(argv);
@@ -93,7 +97,7 @@ int	handle_builtin(t_context *ctx)
 		i = 1;
 		while(argv[i])
 		{
-			export_var(ctx->envp, argv[i]);
+			export_var(&ctx->envp, argv[i]);
 			i++;
 		}
 	}
@@ -168,7 +172,7 @@ void exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
 		command(ctx);
 	}
 	else if (node->type == AST_REDIR)
-		redirections(ctx, node);
+		redirections(node);
 }
 
 void	command_exec(t_context *ctx)

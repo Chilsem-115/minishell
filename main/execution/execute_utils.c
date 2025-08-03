@@ -42,7 +42,25 @@ t_env *init_env(char **envp)
 	return head;
 }
 
-void	export_var(t_env *env_list, char *arg)
+void update_var(t_env **list, char *key, char *value)
+{
+	t_env *curr;
+	
+	curr= *list;
+	while (curr)
+	{
+		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
+		{
+			free(curr->value);
+			curr->value = value;
+			// free(key);
+			return;
+		}
+		curr = curr->next;
+	}
+}
+
+void	export_var(t_env **env_list, char *arg)
 {
 	char *eq = ft_strchr(arg, '=');
 	if (!eq)
@@ -50,24 +68,14 @@ void	export_var(t_env *env_list, char *arg)
 
 	char *key = ft_substr(arg, 0, eq - arg);
 	char *value = ft_strdup(eq + 1);
-	t_env *curr = env_list;
 
-	while (curr)
-	{
-		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
-		{
-			free(curr->value);
-			curr->value = value;
-			free(key);
-			return;
-		}
-		curr = curr->next;
-	}
+	update_var(env_list, key, value);
+	
 	t_env *new = malloc(sizeof(t_env));
 	new->key = key;
 	new->value = value;
-	new->next = env_list;
-	env_list = new;
+	new->next = *env_list;
+	*env_list = new;
 }
 
 void	unset_var(t_env *env_list, char *key)

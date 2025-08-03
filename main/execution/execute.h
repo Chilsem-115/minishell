@@ -37,8 +37,9 @@ void	print_export(t_context *ctx);
 void	print_env(t_env *env);
 
 /* execute_utils*/
+void    update_var(t_env **list, char *key, char *value);
 t_env	*init_env(char **envp);
-void	export_var(t_env *env_list, char *arg);
+void	export_var(t_env **env_list, char *arg);
 void	unset_var(t_env *env_list, char *key);
 void	exit_command(char **args);
 void	pwd();
