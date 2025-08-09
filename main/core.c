@@ -49,8 +49,8 @@ static void	handle_line(t_context *ctx)
 	// 	printf("\n\n dafuq ? where is it\n");
 	command_exec(ctx);
 	ft_lstclear(&ctx->tokens, free);
-//	ast_clear(ctx->ast);
-//	ctx->ast = NULL;
+	ast_clear(ctx->ast);
+	ctx->ast = NULL;
 } 
 
 void	main_loop(t_context *ctx)

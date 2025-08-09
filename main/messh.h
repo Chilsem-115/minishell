@@ -41,6 +41,7 @@ typedef struct s_context
 	char			*errmsg;
 	unsigned int	has_error;
 	int				exit_code;
+	//int				flag;
 	t_env			*envp;
 }	t_context;
 
@@ -48,6 +49,8 @@ void	main_loop(t_context *ctx);
 
 /* Preview functions */
 
+
+void	handler(int sig);
 void	print_token_list(t_list *tokens);
 void	print_ast(t_ast_node *node);
 

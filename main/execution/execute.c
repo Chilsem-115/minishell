@@ -4,12 +4,12 @@
 #include "execute.h"
 #include "libft.h"
 
-char	**split_once(const char *str, char sep)
+char **split_once(const char *str, char sep)
 {
-	char	**res;
-	int		i;
+	char **res;
+	int i;
 
-	res = malloc(sizeof(char *) * 3);
+	res = garbage_coll(0, sizeof(char *) * 3);
 	i = 0;
 	if (!res || !str)
 		return NULL;
@@ -24,94 +24,30 @@ char	**split_once(const char *str, char sep)
 	return (res);
 }
 
-void	ft_envadd_back(t_env **lst, t_env *new)
+char *check_exec(char *s, t_context *ctx)
 {
-	t_env *node;
-
-	if (!lst || !new)
-		return ;
-	if (*lst == NULL)
-		*lst = new;
-	else
-	{
-		node = *lst;
-		while (node->next)
-			node = node->next;
-		node->next = new;
-	}
-}
-
-char	*check_exec(char *s, t_context *ctx)
-{
-	int		i;
+	int			i;
 	char	**str;
 	char	*path;
 
 	i = 0;
 	str = ft_split(my_getenv("PATH", ctx), ':');
-	if(!str)
-		return(NULL);
-	while(str[i])
+	if (!str || !*str)
+		return (s);
+	while (str[i])
 	{
 		path = ft_strjoin(str[i], "/");
 		path = ft_strjoin(path, s);
-		if(access(path, X_OK) == 0)
+		if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
+		{
+			perror("bash");
+			exit(126);
+		}
+		else if(access(path, X_OK) == 0)
 			return (path);
 		i++;
 	}
 	return (NULL);
-}
-
-int	handle_builtin(t_context *ctx)
-{
-	char	**argv;
-	int		i;
-	char cwd[1024];
-
-	getcwd(cwd, sizeof(cwd));
-	argv = ctx->ast->data.cmd.text;
-	if (!ft_strncmp(argv[0], "cd", 3))
-	{
-		if(!argv[1])
-		{
-			if(chdir(my_getenv("HOME", ctx)) == -1)
-				printf("enigma: cd: HOME not set\n");
-		}
-		else
-		{
-			if(chdir(argv[1]) == -1)
-				printf("cd: No such file or directory\n");
-		}
-		update_var(&ctx->envp, "OLDPWD", ft_strdup(cwd));
-		update_var(&ctx->envp, "PWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
-	}
-	else if (!ft_strncmp(argv[0], "exit", 5))
-		exit_command(argv);
-	else if (!ft_strncmp(argv[0], "export", 7))
-	{
-		if (!argv[1])
-		{
-			print_export(ctx);
-			return (1);
-		}
-		i = 1;
-		while(argv[i])
-		{
-			export_var(&ctx->envp, argv[i]);
-			i++;
-		}
-	}
-	else if (!ft_strncmp(argv[0], "unset", 6) && argv[1])
-		unset_var(ctx->envp, argv[1]);
-	else if (!ft_strncmp(argv[0], "env", 4))
-		print_env(ctx->envp);
-	else if (!ft_strncmp(argv[0], "pwd", 4))
-		pwd();
-	// else if(!ft_strncmp(args[0], "echo", 5))// ??
-	// 	// ??
-	else
-		return (0);
-	return (1);
 }
 
 int exec_check(char *s)
@@ -121,61 +57,92 @@ int exec_check(char *s)
 	return (0);
 }
 
-void	command(t_context *ctx)
+void command(t_context *ctx)
 {
+	int	stat;
 	pid_t	pid;
 	char	*path;
 	char	**argv;
 
-	argv = ctx->ast->data.cmd.text;
+	if (ctx->ast->data.cmd.text)
+		argv = ctx->ast->data.cmd.text;
+	else
+		argv = NULL;
 	if (handle_builtin(ctx))
-		return ;
+		return;
+	signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+    	signal(SIGQUIT, SIG_DFL);
 		if (exec_check(argv[0]) == 1)
 		{
 			execve(argv[0], argv, my_env(ctx));
-			printf("enigma: %s: No such file or directory\n", argv[0]);
+			ft_dprintf(2, "%s: No such file or directory\n", argv[0]);
 			exit(127);
 		}
 		path = check_exec(argv[0], ctx);
-		if(!path)
+		if (!path)
 		{
-			printf("enigma: %s: No such file or directory\n", argv[0]);
+			ft_dprintf(2, "%s: command not found\n", argv[0]);
 			exit(127);
 		}
 		execve(path, argv, my_env(ctx));
-		perror("enigma : execve");
+		perror(" execve");
 		exit(126);
 	}
 	else if (pid < 0)
+	{
+	    perror("fork");
+	    exit(1);
+	}
+    waitpid(pid, &stat, 0);
+	if (WIFSIGNALED(stat))
     {
-        perror("fork");
-        exit(1);
+        if (WTERMSIG(stat) == SIGINT || WTERMSIG(stat) == SIGQUIT)
+            write(1, "\n", 1);
     }
-	else if (pid > 0)
-		 waitpid(pid, NULL, 0);
+    signal(SIGINT, handler);
+    signal(SIGQUIT, SIG_IGN);
 }
 
 void exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
 {
-	if (!node)
+	if (!node){
+		// ft_dprintf(2, "invalid '|' or redir ... \n");
 		return;
-
+	}
 	if (node->type == AST_CONTROL && node->data.ctrl.op == CTRL_PIPE)
 		pipline(ctx, node, input_fd);
 
 	else if (node->type == AST_COMMAND)
 	{
 		ctx->ast = node;
-		command(ctx);
+		pipe_command(ctx);
 	}
-	else if (node->type == AST_REDIR)
-		redirections(node);
 }
 
-void	command_exec(t_context *ctx)
+void command_exec(t_context *ctx)
 {
+	int fd[2];
+
+	if (ctx->ast->type == AST_COMMAND)
+	{
+		command(ctx);
+		return ;
+	}
+	else if (ctx->ast->type == AST_REDIR)
+	{
+		redirections(ctx->ast);
+		return ;
+	}
+	fd[0] = dup(0);
+	fd[1] = dup(1);
 	exec_ast_node(ctx, ctx->ast, STDIN_FILENO);
+	dup2(fd[0], 0);
+	dup2(fd[1], 1);
+	close(fd[0]);
+	close(fd[1]);
 }

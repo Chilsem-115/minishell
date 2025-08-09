@@ -5,7 +5,7 @@
 
 # === Compiler and Flags ===
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror \
+CFLAGS  = -g -Wall -Wextra -Werror \
 		  -Ilibft \
 		  -Imain \
 		  -Imain/tokenizer \
@@ -50,11 +50,14 @@ SRC_AST_GEN = \
 
 SRC_EXEC = \
 	main/execution/execute.c \
+	main/execution/built_in.c \
 	main/execution/execute_utils.c \
 	main/execution/environment/env.c \
+	main/execution/export.c \
 	main/execution/redirection/heredoc.c \
 	main/execution/redirection/redir.c \
-	main/execution/pipe/pipe.c
+	main/execution/pipe/pipe.c \
+	main/execution/garbage_col.c 
 
 # === Source & Object Management ===
 SRCS = $(SRC_MAIN) $(SRC_TOKENIZER) $(SRC_AST_GEN) $(SRC_EXEC)

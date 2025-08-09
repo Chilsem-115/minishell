@@ -7,6 +7,7 @@
 static void red_in(t_ast_node *ast)
 {
     int	fd;
+
     fd = open(ast->data.redir.file, O_RDONLY);
 	if (fd == -1)
     {
@@ -19,6 +20,7 @@ static void red_in(t_ast_node *ast)
 static void red_out(t_ast_node *ast)
 {
     int	fd;
+
     fd = open(ast->data.redir.file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
     {
@@ -31,6 +33,7 @@ static void red_out(t_ast_node *ast)
 static void red_append(t_ast_node *ast)
 {
     int	fd;
+
     fd = open(ast->data.redir.file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
     {
@@ -46,7 +49,6 @@ void redirections(t_ast_node *ast)
 
     if (!ast)
         return ;
-
     if (ast->type == AST_REDIR)
     {
         if (ast->data.redir.redir_type == REDIR_IN)
@@ -57,7 +59,6 @@ void redirections(t_ast_node *ast)
             red_append(ast);
     }
     
-	
 	else if (ast->type == AST_REDIR && ast->data.redir.redir_type == REDIR_HEREDOC)
     {
         pid = fork();

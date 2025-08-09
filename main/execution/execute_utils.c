@@ -13,6 +13,7 @@ void pwd()
 
 void exit_command(char **args)
 {
+	// int status = get_exit_status();
 	int status = 0;
 
 	if(args[1])
@@ -20,83 +21,53 @@ void exit_command(char **args)
 	exit(status);
 }
 
-t_env *init_env(char **envp)
+void  echo_cmd(t_context *ctx, char **argv)
 {
-	t_env *head = NULL;
-	t_env *node;
+	(void) ctx;
 	int	i;
+	int	j;
+	int f;
 
-	i = 0;
-	while (envp[i])
+	i = 1;
+	f = 0;
+	if (argv[i] && argv[i][0] == '-')
 	{
-		char **kv = split_once(envp[i], '=');
-		node = malloc(sizeof(t_env));
-		node->key = ft_strdup(kv[0]);
-		if(kv[1])
-			node->value = ft_strdup(kv[1]);
-		else
-			node->value = NULL;
-		ft_envadd_back(&head, node);
+		j = 1;
+		while (argv[i][j])
+		{
+			if (argv[i][j] != 'n')
+			{
+				f = 0;
+				i--;
+				break;
+			}
+			f = 1;
+			j++;
+		}
 		i++;
 	}
-	return head;
-}
-
-void update_var(t_env **list, char *key, char *value)
-{
-	t_env *curr;
-	
-	curr= *list;
-	while (curr)
+	while (argv[i])
 	{
-		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
-		{
-			free(curr->value);
-			curr->value = value;
-			// free(key);
-			return;
-		}
-		curr = curr->next;
+		printf("%s", argv[i]);
+		if (argv[i + 1])
+			printf(" ");
+		i++;
 	}
+	if(f == 0)
+		printf("\n");
 }
 
-void	export_var(t_env **env_list, char *arg)
+int lenlist(t_env *env_list)
 {
-	char *eq = ft_strchr(arg, '=');
-	if (!eq)
-		return;
+	t_env *t;
+	int	n;
 
-	char *key = ft_substr(arg, 0, eq - arg);
-	char *value = ft_strdup(eq + 1);
-
-	update_var(env_list, key, value);
-	
-	t_env *new = malloc(sizeof(t_env));
-	new->key = key;
-	new->value = value;
-	new->next = *env_list;
-	*env_list = new;
-}
-
-void	unset_var(t_env *env_list, char *key)
-{
-	t_env *curr = env_list;
-	t_env *prev = NULL;
-
-	while (curr)
+	n = 0;
+	t = env_list;
+	while (t)
 	{
-		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
-		{
-			if (prev)
-				prev->next = curr->next;
-			else
-				env_list = curr->next;
-			free(curr->key);
-			free(curr->value);
-			free(curr);
-			return;
-		}
-		prev = curr;
-		curr = curr->next;
+		n++;
+		t = t->next;
 	}
+	return (n);
 }

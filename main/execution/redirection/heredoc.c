@@ -1,4 +1,5 @@
 #include "messh.h"
+#include "execute.h"
 #include "libft.h"
 
 static char *generate_heredoc_filename(void)
@@ -20,7 +21,7 @@ static char *generate_heredoc_filename(void)
     }
     random_part[8] = '\0';
     close(fd);
-    char *filename = malloc(8 + 1);
+    char *filename = garbage_coll(0, 8 + 1);
     if (!filename)
         return NULL;
 
@@ -36,7 +37,7 @@ static char *generate_full_path(void)
     if (!name)
         return NULL;
 
-    char *full_path = malloc(strlen("/tmp/") + strlen(name) + 1);
+    char *full_path = garbage_coll(0, strlen("/tmp/") + strlen(name) + 1);
     if (!full_path)
 	{
         free(name);

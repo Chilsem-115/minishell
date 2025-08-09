@@ -88,7 +88,7 @@ static void	print_banner(void)
 	"\033[0;33m  ▶ \033[2;37mShell ready.\033[0m\n\n");
 }
 
-static void	handler(int sig)
+void	handler(int sig)
 {
 	(void)sig;
 	rl_replace_line("", 0);

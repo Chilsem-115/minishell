@@ -1,0 +1,87 @@
+#include "messh.h"
+#include "execute.h"
+
+void    cd_cmd(t_context *ctx, char *argv)
+{
+    char	cwd[1024];
+
+	getcwd(cwd, sizeof(cwd));
+    if (!argv)
+		{
+			if (chdir(my_getenv("HOME", ctx)) == -1)
+				ft_dprintf(2, "enigma: cd: HOME not set\n");
+		}
+		else
+		{
+			if (chdir(argv) == -1)
+				ft_dprintf(2, "cd: No such file or directory\n");
+		}
+		update_var(&ctx->envp, "OLDPWD", ft_strdup(cwd));
+		update_var(&ctx->envp, "PWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
+}
+
+void	unset_var(t_env *env_list, char *key)
+{
+	t_env	*curr;
+	t_env	*prev;
+
+	curr = env_list;
+	prev = NULL;
+	while (curr)
+	{
+		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
+		{
+			if (prev)
+				prev->next = curr->next;
+			else
+				env_list = curr->next;
+			free(curr->key);
+			free(curr->value);
+			free(curr);
+			return;
+		}
+		prev = curr;
+		curr = curr->next;
+	}
+}
+
+void ft_export(t_context *ctx, char **argv)
+{
+    int i;
+
+    if (!argv[1])
+	{
+		print_export(ctx);
+		return ;
+	}
+	i = 1;
+	while (argv[i])
+	{
+		export_var(&ctx->envp, argv[i]);
+		i++;
+	}
+}
+
+int handle_builtin(t_context *ctx)
+{
+	char	**argv;
+
+	argv = ctx->ast->data.cmd.text;
+	if (!ft_strncmp(argv[0], "cd", 3))
+		cd_cmd(ctx, argv[1]);
+	else if (!ft_strncmp(argv[0], "exit", 5))
+		exit_command(argv);
+	else if (!ft_strncmp(argv[0], "export", 7))
+		ft_export(ctx, argv);
+	else if (!ft_strncmp(argv[0], "unset", 6) && argv[1])
+		unset_var(ctx->envp, argv[1]);
+	else if (!ft_strncmp(argv[0], "env", 4))
+		print_env(ctx->envp);
+	else if (!ft_strncmp(argv[0], "pwd", 4))
+		pwd();
+	else if(!ft_strncmp(argv[0], "echo", 5))
+		echo_cmd(ctx, argv);
+	else
+		return (0);
+	return (1);
+}

@@ -12,6 +12,8 @@ void left_cmd(t_context *ctx, t_ast_node *node, int input_fd, int *pipefd)
         close(pipefd[0]);
         close(pipefd[1]);
         exec_ast_node(ctx, node->data.ctrl.left, STDIN_FILENO);
+        close(0);
+        close(1);
         exit(1);
 }
 
@@ -21,6 +23,8 @@ void right(t_context *ctx, t_ast_node *node, int *pipefd)
         close(pipefd[1]);
         close(pipefd[0]);
         exec_ast_node(ctx, node->data.ctrl.right, STDIN_FILENO);
+        close(0);
+        close(1);
         exit(1);
 }
 
@@ -30,6 +34,7 @@ void pipline(t_context *ctx, t_ast_node *node, int input_fd)
 	pid_t	left_pid;
 	pid_t	right_pid;
 
+    
     if (pipe(pipefd) == -1)
 	{
         perror("pipe");
@@ -45,8 +50,40 @@ void pipline(t_context *ctx, t_ast_node *node, int input_fd)
 
     close(pipefd[0]);
     close(pipefd[1]);
-    if (input_fd != STDIN_FILENO)
-        close(input_fd);
+    close(0);
+    close(1);
     while (wait(NULL) > 0)
         ;
+}
+
+void pipe_command(t_context *ctx)
+{
+	char	*path;
+	char	**argv;
+	FILE	*saved_stdout;
+
+	if (ctx->ast->data.cmd.text)
+		argv = ctx->ast->data.cmd.text;
+	else
+		argv = NULL;
+	if (handle_builtin(ctx))
+		return ;
+	saved_stdout = stdout;
+	stdout = stderr;
+	if (exec_check(argv[0]) == 1)
+	{
+		execve(argv[0], argv, my_env(ctx));
+		printf("%s: No such file or directory\n", argv[0]);
+		exit(127);
+	}
+	path = check_exec(argv[0], ctx);
+	if (!path)
+	{
+		printf("%s: command not found\n", argv[0]);
+		exit(127);
+	}
+	stdout = saved_stdout;
+	execve(path, argv, my_env(ctx));
+	perror("execve");
+	exit(126);
 }
