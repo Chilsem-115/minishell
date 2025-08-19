@@ -5,11 +5,16 @@
 
 void pwd()
 {
-	char cwd[1024];
-	if(getcwd(cwd, sizeof(cwd)))
+	char cwd[PATH_MAX];
+	if(!getcwd(cwd, sizeof(cwd)))
+	{
+		printf("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+		return ;
+	}
+	else
 	{
 		cwd[ft_strlen(cwd)] = '\0';
-		printf("%s\n", getcwd(cwd, sizeof(cwd)));
+		printf("%s\n", cwd);
 	}
 	// else
 	// {
