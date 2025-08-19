@@ -50,16 +50,13 @@ static void red_append(t_ast_node *ast)
 
 void redirections(t_ast_node *ast)
 {
-	// int	pid;
-    char *full_file;
-    int a = dup(0);
-    // int b = dup(1);
-   
+    char    *full_file;
+    int     a;
+
+    a = dup(0);
     if (!ast)
         return ;
-
     redirections(ast->data.redir.child);
-    
     if (ast->type == AST_REDIR)
     {
         if (ast->data.redir.redir_type == REDIR_IN || ast->data.redir.redir_type == REDIR_HEREDOC)
@@ -69,5 +66,4 @@ void redirections(t_ast_node *ast)
 	    else if (ast->data.redir.redir_type == REDIR_APPEND)
             red_append(ast);
     }
-    // if (ast->data.redir.child && ast->data.redir.child->type == AST_REDIR)
 }

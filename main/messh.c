@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messh.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.42.ma>          +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/24 22:33:15 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/19 23:26:07 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,7 @@ void	handler(int sig)
 {
 	(void)sig;
 	gsignum = 2;
-	// rl_replace_line("", 0);
-	// printf("\n");
 	rl_done = 1;
-	// rl_redisplay();
 }
 
 int do_nothing(void)

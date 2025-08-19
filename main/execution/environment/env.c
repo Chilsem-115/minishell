@@ -1,21 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/19 22:29:19 by oessmiri          #+#    #+#             */
+/*   Updated: 2025/08/19 22:31:47 by oessmiri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "messh.h"
 #include "libft.h"
 #include "execute.h"
 
-t_env *init_env(char **envp)
+t_env	*init_env(char **envp)
 {
-	t_env *head;
-	t_env *node;
-	int	i;
+	t_env	*head;
+	t_env	*node;
+	int		i;
+	char	**kv;
 
 	head = NULL;
 	i = 0;
 	while (envp[i])
 	{
-		char **kv = split_once(envp[i], '=');
+		kv = split_once(envp[i], '=');
 		node = garbage_coll(0, sizeof(t_env));
 		node->key = ft_strdup(kv[0]);
-		if(kv[1])
+		if (kv[1])
 			node->value = ft_strdup(kv[1]);
 		else
 			node->value = NULL;
@@ -23,12 +36,12 @@ t_env *init_env(char **envp)
 		ft_envadd_back(&head, node);
 		i++;
 	}
-	return head;
+	return (head);
 }
 
 void	print_env(t_env *env)
 {
-	if(!env)
+	if (!env)
 		return ;
 	// printf("**\n");
 	// printf("%p\n", env);
@@ -41,7 +54,7 @@ void	print_env(t_env *env)
 	}
 }
 
-char **my_env(t_context	*ctx)
+char	**my_env(t_context	*ctx)
 {
 	int		i;
 	int		n;
@@ -83,12 +96,12 @@ char	*my_getenv(char *s, t_context *ctx)
 	return (NULL);
 }
 
-void ft_envadd_back(t_env **lst, t_env *new)
+void	ft_envadd_back(t_env **lst, t_env *new)
 {
 	t_env	*node;
 
 	if (!lst || !new)
-		return;
+		return ;
 	if (*lst == NULL)
 		*lst = new;
 	else

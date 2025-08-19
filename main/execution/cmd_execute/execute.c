@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
+/*   Updated: 2025/08/19 22:28:13 by oessmiri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sys/types.h>
 #include "messh.h"
 #include "execute.h"
 #include "libft.h"
 #include <signal.h>
 
-void check(t_context *ctx)
+void	check(t_context *ctx)
 {
 	if (exec_check(ctx->argv[0]) == 1)
 	{
@@ -20,19 +32,21 @@ void check(t_context *ctx)
 	}
 }
 
-static int help_func(t_context *ctx)
+static int	help_func(t_context *ctx)
 {
-	pid_t pid;
-	static void(*oldhdl_INT)(int);
-	static void(*oldhdl_QUIT)(int);
+	pid_t		pid;
+	static void	(*oldhdl_int)(int);
+	static void	(*oldhdl_quit)(int);
 
-	oldhdl_INT = saved_signal(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN), 1);
-	oldhdl_QUIT = saved_signal(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN), 2);
+	oldhdl_int = saved_signal(signal(SIGINT, SIG_IGN),
+			signal(SIGQUIT, SIG_IGN), 1);
+	oldhdl_quit = saved_signal(signal(SIGINT, SIG_IGN),
+			signal(SIGQUIT, SIG_IGN), 2);
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, oldhdl_INT);
-    	signal(SIGQUIT,oldhdl_QUIT);
+		signal(SIGINT, oldhdl_int);
+		signal(SIGQUIT, oldhdl_quit);
 		check(ctx);
 		execve(ctx->path, ctx->argv, my_env(ctx));
 		perror(" execve");
@@ -41,38 +55,39 @@ static int help_func(t_context *ctx)
 	return (pid);
 }
 
-void command(t_context *ctx)
+void	command(t_context *ctx)
 {
 	pid_t	pid;
-	
+
 	if (ctx->ast->data.cmd.text)
 		ctx->argv = ctx->ast->data.cmd.text;
 	else
 		ctx->argv = NULL;
 	if (handle_builtin(ctx))
-		return;
+		return ;
 	pid = help_func(ctx);
 	if (pid < 0)
 	{
-	    perror("fork");
-	    exit(1);
+		perror("fork");
+		exit(1);
 	}
-    waitpid(pid, &ctx->stat, 0);
+	waitpid(pid, &ctx->stat, 0);
 	if (WIFSIGNALED(ctx->stat))
-    {
-        if (WTERMSIG(ctx->stat) == SIGINT || WTERMSIG(ctx->stat) == SIGQUIT)
-            write(1, "\n", 1);
-    }
+	{
+		if (WTERMSIG(ctx->stat) == SIGINT || WTERMSIG(ctx->stat) == SIGQUIT)
+			write(1, "\n", 1);
+	}
 	get_exit_status(ctx->stat, 0);
-    signal(SIGINT, handler);
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
+void	exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
 {
-	if (!node){
+	if (!node)
+	{
 		// ft_dprintf(2, "invalid '|' or redir ... \n");
-		return;
+		return ;
 	}
 	if (node->type == AST_REDIR)
 	{
@@ -91,9 +106,9 @@ void exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
 	}
 }
 
-void command_exec(t_context *ctx)
+void	command_exec(t_context *ctx)
 {
-	int fd[2];
+	int	fd[2];
 
 	fd[0] = dup(0);
 	fd[1] = dup(1);

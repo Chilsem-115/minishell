@@ -54,6 +54,7 @@ SRC_EXEC = \
 	main/execution/built_in/btn_utils.c \
 	main/execution/environment/env.c \
 	main/execution/built_in/export.c \
+	main/execution/built_in/exit.c \
 	main/execution/built_in/built_in.c \
 	main/execution/redirection/heredoc.c \
 	main/execution/redirection/redir.c \

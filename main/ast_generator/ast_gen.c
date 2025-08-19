@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ast_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 20:30:27 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/20 22:01:16 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/19 23:37:29 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_gen.h"
+#include "execute.h"
 
 static t_ast_node	*reduce_redirection(t_ast_node *cmd, t_list **tokens)
 {

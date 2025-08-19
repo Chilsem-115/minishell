@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/19 22:33:23 by oessmiri          #+#    #+#             */
+/*   Updated: 2025/08/19 23:00:54 by oessmiri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execute.h"
 #include "messh.h"
 
-void left_cmd(t_context *ctx, t_ast_node *node, int input_fd, int *pipefd)
+void    left_cmd(t_context *ctx, t_ast_node *node, int input_fd, int *pipefd)
 {
     if (input_fd != STDIN_FILENO)
 	{
@@ -17,7 +29,7 @@ void left_cmd(t_context *ctx, t_ast_node *node, int input_fd, int *pipefd)
     exit(1);
 }
 
-void right(t_context *ctx, t_ast_node *node, int *pipefd)
+void    right(t_context *ctx, t_ast_node *node, int *pipefd)
 {
     dup2(pipefd[0], STDIN_FILENO);
     close(pipefd[1]);
@@ -28,13 +40,13 @@ void right(t_context *ctx, t_ast_node *node, int *pipefd)
     exit(1);
 }
 
-void pipline(t_context *ctx, t_ast_node *node, int input_fd)
+void    pipline(t_context *ctx, t_ast_node *node, int input_fd)
 {
-    int		pipefd[2];
-    int stat1;
-    int stat2;
-	pid_t	left_pid;
-	pid_t	right_pid;
+    int     pipefd[2];
+    int     stat1;
+    int     stat2;
+    pid_t   left_pid;
+    pid_t   right_pid;
 
     static void(*oldhdl_INT)(int);
 	static void(*oldhdl_QUIT)(int);

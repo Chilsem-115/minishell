@@ -24,12 +24,9 @@ static char *generate_heredoc_filename(void)
     char *filename = garbage_coll(0, 8 + 1);
     if (!filename)
         return NULL;
-
     strcpy(filename, random_part);
-
     return filename;
 }
-
 
 char *generate_full_path(void)
 {
