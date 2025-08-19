@@ -1,22 +1,24 @@
 #include "messh.h"
 #include "execute.h"
 
-void update_var(t_env **list, char *key, char *value)
+int update_var(t_env **list, char *key, char *value)
 {
 	t_env *curr;
-	
+	int r = 0;
+
 	curr= *list;
 	while (curr)
 	{
 		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
 		{
 			free(curr->value);
-			curr->value = value;
 			// free(key);
-			return;
+			curr->value = value;
+			r = 1;
 		}
 		curr = curr->next;
 	}
+	return r;
 }
 
 void valid_export(char *key, char *value)
@@ -57,7 +59,8 @@ void	export_var(t_env **env_list, char *arg)
 	key = ft_substr(arg, 0, eq - arg);
 	value = ft_strdup(eq + 1);
 	valid_export(key, value);
-	update_var(env_list, key, value);
+	if((update_var(env_list, key, value)) == 1)
+		return ;
 	new = garbage_coll(0, sizeof(t_env));
 	new->key = key;
 	new->value = value;
@@ -75,7 +78,7 @@ void print_export(t_context *ctx)
 		if (env->value)
 		{
 			printf("declare -x ");
-			printf("%s=%s\n", env->key, env->value);
+			printf("%s=\"%s\"\n", env->key, env->value);
 		}
 		env = env->next;
 	}

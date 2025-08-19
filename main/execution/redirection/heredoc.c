@@ -31,7 +31,7 @@ static char *generate_heredoc_filename(void)
 }
 
 
-static char *generate_full_path(void)
+char *generate_full_path(void)
 {
     char *name = generate_heredoc_filename();
     if (!name)
@@ -44,35 +44,48 @@ static char *generate_full_path(void)
         return NULL;
     }
 
-    strcpy(full_path, "/tmp/");//..FORBIDEN
+    ft_strcpy(full_path, "/tmp/");
     strcat(full_path, name);//..FORBIDEN
     free(name);
     return (full_path);
 }
 
-void heredoc(t_ast_node *ast)
+int gsignum ;//?
+bool    heredoc(char **list)
 {
 	int	fd_hd;
     char *s;
-    char *full_path;
+    char *file;
 
-	full_path = generate_full_path();
-	fd_hd = open(full_path, O_CREAT | O_RDWR | O_TRUNC, 0600);
-	if (fd_hd < 0)
-	{
-    	perror("open heredoc");
-    	free(full_path);
-    	return;
-	}
-	s = readline("> ");
-	while (s)
-	{
-		if (ft_strncmp(s, ast->data.redir.file, ft_strlen(s)) != 0)
+    file = generate_full_path();
+    fd_hd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0600);
+    if (fd_hd < 0)
+    {
+        perror("open heredoc");
+        free(file);
+        return (false);
+    }
+    gsignum = 0;
+    s = readline("> ");
+    while (s)
+    {
+        if (gsignum != 0)
+            return (false);
+        
+        if (!gsignum && ft_strncmp(s, *list, ft_strlen(s) + 1) != 0)
         {
             write(fd_hd, s, ft_strlen(s));
-	        s = readline("> ");
+            write(fd_hd, "\n", 1);
+            gsignum = 0;
+            s = readline("> ");
         }
         else
-            exit(0);
-	}
+        {
+            close(fd_hd);
+            break ;
+            // exit(0);
+        }
+    }
+    *list = file;
+    return (true);
 }

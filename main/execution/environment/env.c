@@ -28,6 +28,11 @@ t_env *init_env(char **envp)
 
 void	print_env(t_env *env)
 {
+	if(!env)
+		return ;
+	// printf("**\n");
+	// printf("%p\n", env);
+	// printf("key = %s --- value = %s\n", env->key, env->value);
 	while (env)
 	{
 		if (env->value)

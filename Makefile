@@ -5,7 +5,7 @@
 
 # === Compiler and Flags ===
 CC      = cc
-CFLAGS  = -g -Wall -Wextra -Werror \
+CFLAGS  = -g  \
 		  -Ilibft \
 		  -Imain \
 		  -Imain/tokenizer \
@@ -20,7 +20,7 @@ CFLAGS  = -g -Wall -Wextra -Werror \
 		  -Imain/execution/redirection \
 		  -Imain/execution/environment
 
-NAME    = mesh
+NAME    = minishell
 OBJDIR  = obj
 LIBFT_DIR = libft
 LIBFT    = $(LIBFT_DIR)/libft.a
@@ -49,11 +49,12 @@ SRC_AST_GEN = \
 	main/ast_generator/error/error_handling.c
 
 SRC_EXEC = \
-	main/execution/execute.c \
-	main/execution/built_in.c \
-	main/execution/execute_utils.c \
+	main/execution/cmd_execute/execute.c \
+	main/execution/cmd_execute/execute_utls.c \
+	main/execution/built_in/btn_utils.c \
 	main/execution/environment/env.c \
-	main/execution/export.c \
+	main/execution/built_in/export.c \
+	main/execution/built_in/built_in.c \
 	main/execution/redirection/heredoc.c \
 	main/execution/redirection/redir.c \
 	main/execution/pipe/pipe.c \

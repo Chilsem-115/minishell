@@ -38,10 +38,16 @@ typedef struct s_context
 	char			*line;
 	t_list			*tokens;
 	t_ast_node		*ast;
+	t_redir_node	heredocs;
 	char			*errmsg;
 	unsigned int	has_error;
 	int				exit_code;
 	//int				flag;
+	int					max;
+	int					p;
+	int				stat;
+	char			*path;
+	char			**argv;
 	t_env			*envp;
 }	t_context;
 

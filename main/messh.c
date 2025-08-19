@@ -87,33 +87,39 @@ static void	print_banner(void)
 	"\033[0m\n"
 	"\033[0;33m  ▶ \033[2;37mShell ready.\033[0m\n\n");
 }
-
+extern int gsignum;
 void	handler(int sig)
 {
 	(void)sig;
-	rl_replace_line("", 0);
-	printf("\n");
-	rl_on_new_line();
-	rl_redisplay();
+	gsignum = 2;
+	// rl_replace_line("", 0);
+	// printf("\n");
+	rl_done = 1;
+	// rl_redisplay();
 }
 
-static void	clean_exit(t_context *ctx)
+int do_nothing(void)
 {
-	if (ctx->line)
-		free(ctx->line);
-	if (ctx->tokens)
-		ft_lstclear(&ctx->tokens, free);
-	/*
-	if (ctx->ast)
-		ast_clear(ctx->ast);
-		*/
-	if (ctx->errmsg)
-		free(ctx->errmsg);
-	free(ctx);
-	rl_clear_history();
-	printf("Bye!\n");
-	exit(0);
+	return (1);
 }
+
+// static void	clean_exit(t_context *ctx)
+// {
+// 	if (ctx->line)
+// 		free(ctx->line);
+// 	if (ctx->tokens)
+// 		ft_lstclear(&ctx->tokens, free);
+// 	/*
+// 	if (ctx->ast)
+// 		ast_clear(ctx->ast);
+// 		*/
+// 	if (ctx->errmsg)
+// 		free(ctx->errmsg);
+// 	free(ctx);
+// 	rl_clear_history();
+// 	printf("Bye!\n");
+// 	exit(0);
+// }
 
 static void	status_init(t_context *ctx, char **env)
 {
@@ -123,6 +129,8 @@ static void	status_init(t_context *ctx, char **env)
 	ctx->errmsg = NULL;
 	ctx->exit_code = 0;
 	ctx->has_error = 0;
+	ctx->max = 0;
+	ctx->p = 0;
 	ctx->envp = init_env(env);
 }
 
@@ -132,14 +140,16 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handler);
+
+	rl_outstream = stderr;
+	rl_event_hook = do_nothing;
+	saved_signal(signal(SIGINT, handler), signal(SIGQUIT, SIG_IGN), 0);
 	ctx = malloc(sizeof(t_context));
 	if (!ctx)
 		return (1);
 	status_init(ctx, env);
 	print_banner();
 	main_loop(ctx);
-	clean_exit(ctx);
+	// clean_exit(ctx);
 	return (0);
 }

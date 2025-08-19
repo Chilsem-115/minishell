@@ -21,6 +21,8 @@ static t_ast_node	*reduce_redirection(t_ast_node *cmd, t_list **tokens)
 		redir = make_redir(tokens);
 		if (!redir)
 			return (NULL);
+		if (redir->data.redir.redir_type == REDIR_HEREDOC)
+			ft_lstadd_back(get_heredocs(), ft_lstnew(&redir->data.redir.file));
 		set_redir_child(redir, cmd);
 		cmd = redir;
 	}

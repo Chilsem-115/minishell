@@ -3,18 +3,19 @@
 #include "execute.h"
 #include "libft.h"
 
-
-static void red_in(t_ast_node *ast)
+void red_in(t_ast_node *ast)
 {
     int	fd;
 
     fd = open(ast->data.redir.file, O_RDONLY);
 	if (fd == -1)
     {
-        perror("open");
-        close(fd);
+        perror("-->open");
+        return ;
     }
-    dup2(fd, 0);
+    if(dup2(fd, 0) == -1)
+        perror("dup2");
+    close(fd);
 }
 
 static void red_out(t_ast_node *ast)
@@ -25,9 +26,11 @@ static void red_out(t_ast_node *ast)
 	if (fd == -1)
     {
         perror("open");
-        close(fd);
+        return ;
     }
-	dup2(fd, 1);
+    if(dup2(fd, 1) == -1)
+        perror("dup2");
+    close(fd);
 }
 
 static void red_append(t_ast_node *ast)
@@ -38,36 +41,33 @@ static void red_append(t_ast_node *ast)
 	if (fd == -1)
     {
         perror("open");
-        close(fd);
+        return ;
     }
-    dup2(fd, 1);
+    if(dup2(fd, 1) == -1)
+        perror("dup2");
+    close(fd);
 }
 
 void redirections(t_ast_node *ast)
 {
-	int	pid;
-
+	// int	pid;
+    char *full_file;
+    int a = dup(0);
+    // int b = dup(1);
+   
     if (!ast)
         return ;
+
+    redirections(ast->data.redir.child);
+    
     if (ast->type == AST_REDIR)
     {
-        if (ast->data.redir.redir_type == REDIR_IN)
+        if (ast->data.redir.redir_type == REDIR_IN || ast->data.redir.redir_type == REDIR_HEREDOC)
             red_in(ast);
 	    else if (ast->data.redir.redir_type == REDIR_OUT)
             red_out(ast);
 	    else if (ast->data.redir.redir_type == REDIR_APPEND)
             red_append(ast);
     }
-    
-	else if (ast->type == AST_REDIR && ast->data.redir.redir_type == REDIR_HEREDOC)
-    {
-        pid = fork();
-        if (pid == 0)
-		    heredoc(ast);
-        else if(pid > 0)
-            wait(NULL);
-        else
-            perror("pid");
-    }
-        redirections(ast->data.redir.child);
+    // if (ast->data.redir.child && ast->data.redir.child->type == AST_REDIR)
 }

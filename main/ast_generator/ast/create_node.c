@@ -16,6 +16,7 @@ static t_ast_node	*consume_leading_redirs(t_list **tokens, t_ast_node **redir_ch
 {
 	t_ast_node	*redir;
 
+	
 	while (*tokens && is_redir(*tokens))
 	{
 		redir = make_redir(tokens);
@@ -33,12 +34,12 @@ static t_ast_node	*make_cmd_node(t_list **tokens)
 
 	if (!*tokens || !is_valid_cmd_token(((t_token *)(*tokens)->content)->type))
 		return (NULL);
-	cmd_node = malloc(sizeof(*cmd_node));
+	cmd_node = ft_calloc(1, sizeof(*cmd_node));
 	if (!cmd_node)
 		return (NULL);
 	cmd_node->type = AST_COMMAND;
 	cmd_node->data.cmd.text = tokens_to_argv(*tokens);
-	while (*tokens && is_valid_cmd_token(((t_token *)(*tokens)->content)->type))
+	while (*tokens && is_valid_cmd_token(((t_token *)(*tokens)->content)->type)) //?
 		*tokens = (*tokens)->next;
 	return (cmd_node);
 }
@@ -74,7 +75,7 @@ t_ast_node	*make_ctrl(t_list **tokens)
 	op = map_ctrl_type(tok->type);
 	if (op == CTRL_INVALID)
 		return (NULL);
-	node = malloc(sizeof(*node));
+	node = ft_calloc(1, sizeof(*node));
 	if (!node)
 		return (NULL);
 	node->type = AST_CONTROL;
@@ -102,7 +103,7 @@ t_ast_node	*make_redir(t_list **tokens)
 	if (!*tokens)
 		return (NULL);
 	file_tok = (*tokens)->content;
-	node = malloc(sizeof(*node));
+	node = ft_calloc(1, sizeof(*node));
 	if (!node)
 		return (NULL);
 	node->type = AST_REDIR;
