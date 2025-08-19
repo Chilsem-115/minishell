@@ -4,7 +4,7 @@
 
 char *ft_readline()
 {
-	char cwd[1024];
+	char cwd[PATH_MAX];
 	cwd[0] = 0;
 	getcwd(cwd, sizeof(cwd));
 	char *prompt = ft_strjoin( "enigma@minishell:", cwd);
