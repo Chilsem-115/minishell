@@ -26,6 +26,10 @@
 # include "tokenize.h"
 # include "ast_gen.h"
 
+/* olive + reset (readline-safe) */
+#define C_OLIVE "\001\033[38;5;142m\002"
+#define C_RESET "\001\033[0m\002"
+
 typedef struct s_env
 {
 	char *key;

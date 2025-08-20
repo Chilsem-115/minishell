@@ -14,13 +14,38 @@
 #include "expansion.h"
 #include "execute.h"
 
+char	*ft_readline(void)
+{
+	char	cwd[PATH_MAX];
+	char	*tmp;
+	char	*prompt;
+	char	*s;
+
+	cwd[0] = 0;
+	getcwd(cwd, sizeof(cwd));
+	tmp = ft_strjoin(C_OLIVE "enigma@minishell:", cwd);
+	prompt = ft_strjoin(tmp, C_RESET "$ ");
+	free(tmp);
+	s = readline(prompt);
+	free(prompt);
+	if (!s)
+	{
+		printf("exit\n");
+		exit(0);
+	}
+	if (*s)
+		add_history(s);
+	return (s);
+}
+
+/*
 char *ft_readline()
 {
 	char cwd[PATH_MAX];
 	cwd[0] = 0;
 	getcwd(cwd, sizeof(cwd));
 	char *prompt = ft_strjoin( "enigma@minishell:", cwd);
-	prompt = ft_strjoin(prompt, " $ ");
+	prompt = ft_strjoin(prompt, "$ ");
 	char *s = readline(prompt);
 	if (!s)
 	{
@@ -33,6 +58,7 @@ char *ft_readline()
 		add_history(s);
 	return (s);
 }
+*/
 
 static int    is_valid_line(char *line)
 {
@@ -55,11 +81,12 @@ static void	handle_line(t_context *ctx)
 	t_list *list;
 	if (!is_valid_line(ctx->line))
 		return ;
-	add_history(ctx->line);
+//	add_history(ctx->line);
 	ctx->tokens = tokenize(ctx->line);
 	expand_variables(ctx);
 	ctx->ast = generate_ast(ctx->tokens);
-	//print_token_list(ctx->tokens);
+	print_token_list(ctx->tokens);
+	print_ast(ctx->ast);
 	list = *get_heredocs();
 	while (list)
 	{
@@ -70,7 +97,6 @@ static void	handle_line(t_context *ctx)
 		}
 		list = list->next;
 	}
-	
 	command_exec(ctx);
 	ft_lstclear(&ctx->tokens, free);
 	ast_clear(ctx->ast);
