@@ -27,22 +27,18 @@
 typedef enum e_tokentype
 {
 	TOK_WORD,
-	TOK_SQUOTE,
-	TOK_DQUOTE,
 	TOK_PIPE,
 	TOK_REDIR_IN,
 	TOK_HEREDOC,
 	TOK_REDIR_OUT,
 	TOK_REDIR_APPEND,
 	TOK_EXIT_STATUS,
-	TOK_ENV_VAR
 }	t_tokentype;
 
 /* Error codes */
 typedef enum e_tok_err
 {
 	ERR_NONE,
-	ERR_UNCLOSED_QUOTE,
 	ERR_EMPTY_INPUT,
 	ERR_MEMORY,
 	ERR_ESCAPE_SEQ,
@@ -80,24 +76,16 @@ void	ctx_init(t_tokenizer_state *ctx);
 /*      TOKEN HANDLERS     */
 /* ======================= */
 
-/* Quote handling */
-int		quote_handler(t_tokenizer_state *ctx, char *line);
-int		handle_quote(t_tokenizer_state *ctx, char *line);
-
 /* Operator handling */
 int		operator_handler(t_tokenizer_state *ctx, char *line);
 int		dispatch_control_ops(t_tokenizer_state *ctx, char *line);
 int		dispatch_redirections(t_tokenizer_state *ctx, char *line);
 int		add_token(t_tokenizer_state *ctx, t_tokentype type, size_t size);
+void	token_free(void *ptr);
 
 /* Word handling */
 int		word_handler(t_tokenizer_state *ctx, char *line);
 
-/* ENV handling */
-void	handle_exit_status(t_tokenizer_state *ctx, char *line);
-void	handle_env_variable(t_tokenizer_state *ctx, char *line);
-void	handle_dollar_literal(t_tokenizer_state *ctx);
-int		env_handler(t_tokenizer_state *ctx, char *line);
 
 void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type);
 

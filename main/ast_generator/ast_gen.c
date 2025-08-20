@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 20:30:27 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/19 23:37:29 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/07/20 22:01:16 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_gen.h"
-#include "execute.h"
 
 static t_ast_node	*reduce_redirection(t_ast_node *cmd, t_list **tokens)
 {
@@ -22,8 +21,6 @@ static t_ast_node	*reduce_redirection(t_ast_node *cmd, t_list **tokens)
 		redir = make_redir(tokens);
 		if (!redir)
 			return (NULL);
-		if (redir->data.redir.redir_type == REDIR_HEREDOC)
-			ft_lstadd_back(get_heredocs(), ft_lstnew(&redir->data.redir.file));
 		set_redir_child(redir, cmd);
 		cmd = redir;
 	}

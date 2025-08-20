@@ -5,7 +5,7 @@
 
 # === Compiler and Flags ===
 CC      = cc
-CFLAGS  = -g  \
+CFLAGS  = -g -Wall -Wextra -Werror \
 		  -Ilibft \
 		  -Imain \
 		  -Imain/tokenizer \
@@ -15,6 +15,9 @@ CFLAGS  = -g  \
 		  -Imain/ast_generator/ast \
 		  -Imain/ast_generator/ast/utils \
 		  -Imain/ast_generator/error \
+		  -Imain/expansion \
+		  -Imain/expansion/parser \
+		  -Imain/expansion/utils \
 		  -Imain/execution \
 		  -Imain/execution/pipe \
 		  -Imain/execution/redirection \
@@ -33,12 +36,17 @@ SRC_MAIN = \
 
 SRC_TOKENIZER = \
 	main/tokenizer/tokenize.c \
-	main/tokenizer/handle_events/quote.c \
 	main/tokenizer/handle_events/redirect.c \
 	main/tokenizer/handle_events/control.c \
 	main/tokenizer/handle_events/handler.c \
-	main/tokenizer/handle_events/env.c \
 	main/tokenizer/handle_events/errors/err_handler.c
+
+SRC_EXPANSION = \
+	main/expansion/expansion.c \
+	main/expansion/parser/env_lookup.c \
+	main/expansion/parser/grab_variable.c \
+	main/expansion/parser/locate_var.c \
+	main/expansion/utils/expansion_utils.c
 
 SRC_AST_GEN = \
 	main/ast_generator/ast_gen.c \
@@ -62,7 +70,7 @@ SRC_EXEC = \
 	main/execution/garbage_col.c 
 
 # === Source & Object Management ===
-SRCS = $(SRC_MAIN) $(SRC_TOKENIZER) $(SRC_AST_GEN) $(SRC_EXEC)
+SRCS = $(SRC_MAIN) $(SRC_TOKENIZER) $(SRC_EXPANSION) $(SRC_AST_GEN) $(SRC_EXEC)
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 
 # === Targets ===

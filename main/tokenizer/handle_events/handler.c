@@ -19,17 +19,15 @@ int	add_token(t_tokenizer_state *ctx, t_tokentype type, size_t size)
 	return (1);
 }
 
-int	env_handler(t_tokenizer_state *ctx, char *line)
+void	token_free(void *ptr)
 {
-	if (line[ctx->pos] != '$')
-		return (0);
-	if (line[ctx->pos + 1] == '?')
-		handle_exit_status(ctx, line);
-	else if (isalpha(line[ctx->pos + 1]) || line[ctx->pos + 1] == '_')
-		handle_env_variable(ctx, line);
-	else
-		handle_dollar_literal(ctx);
-	return (1);
+	t_token	*tok;
+
+	if (!ptr)
+		return ;
+	tok = (t_token *)ptr;
+	free(tok->text);
+	free(tok);
 }
 
 int	operator_handler(t_tokenizer_state *ctx, char *line)
@@ -38,13 +36,6 @@ int	operator_handler(t_tokenizer_state *ctx, char *line)
 		return (1);
 	if (dispatch_control_ops(ctx, line))
 		return (1);
-	return (0);
-}
-
-int	quote_handler(t_tokenizer_state *ctx, char *line)
-{
-	if (line[ctx->pos] == '\'' || line[ctx->pos] == '"')
-		return (handle_quote(ctx, line));
 	return (0);
 }
 
@@ -58,10 +49,7 @@ int	word_handler(t_tokenizer_state *ctx, char *line)
 		&& !isspace((unsigned char)line[ctx->pos])
 		&& line[ctx->pos] != '|'
 		&& line[ctx->pos] != '<'
-		&& line[ctx->pos] != '>'
-		&& line[ctx->pos] != '"'
-		&& line[ctx->pos] != '\''
-		&& line[ctx->pos] != '$')
+		&& line[ctx->pos] != '>')
 		ctx->pos++;
 	if (ctx->pos == start)
 		return (0);

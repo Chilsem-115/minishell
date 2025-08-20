@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "tokenize.h"
 
 void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type)
@@ -51,8 +52,7 @@ t_list	*tokenize(char *line)
 			ctx.pos++;
 		if (!line[ctx.pos])
 			break ;
-		if (quote_handler(&ctx, line) || operator_handler(&ctx, line)
-			|| env_handler(&ctx, line))
+		if (operator_handler(&ctx, line))
 			continue ;
 		word_handler(&ctx, line);
 	}

@@ -50,10 +50,10 @@ static void red_append(t_ast_node *ast)
 
 void redirections(t_ast_node *ast)
 {
-    char    *full_file;
-    int     a;
+    //char    *full_file;
+    //int     a;
 
-    a = dup(0);
+    //a = dup(0);
     if (!ast)
         return ;
     redirections(ast->data.redir.child);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "messh.h"
+#include "expansion.h"
 #include "execute.h"
 
 char *ft_readline()
@@ -56,23 +57,9 @@ static void	handle_line(t_context *ctx)
 		return ;
 	add_history(ctx->line);
 	ctx->tokens = tokenize(ctx->line);
+	expand_variables(ctx);
 	ctx->ast = generate_ast(ctx->tokens);
-
-	// while (ctx->ast->data.redir.child != NULL)
-	// {
-	// 	printf("childptr: %p\n", ctx->ast->data.redir.child);
-	// 	ctx->ast = ctx->ast->data.redir.child;
-	// }
-
-	// return ;
-	// ctx->ast = expand_variables(ctx);
 	//print_token_list(ctx->tokens);
-	// ctx->tokens = NULL;
-	// if (ctx->ast)
-	// 	print_ast(ctx->ast);
-	// else
-	// 	printf("\n\n dafuq ? where is it\n");
-
 	list = *get_heredocs();
 	while (list)
 	{

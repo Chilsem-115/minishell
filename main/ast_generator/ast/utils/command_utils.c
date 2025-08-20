@@ -14,10 +14,7 @@
 
 int	is_valid_cmd_token(t_tokentype type)
 {
-	return (type == TOK_WORD
-		|| type == TOK_SQUOTE
-		|| type == TOK_DQUOTE
-		|| type == TOK_ENV_VAR);
+	return (type == TOK_WORD);
 }
 
 static int	count_valid_tokens(t_list *tokens)

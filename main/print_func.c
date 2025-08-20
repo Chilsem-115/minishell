@@ -1,16 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   print_func.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/19 21:20:03 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/19 23:26:02 by oessmiri         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include <stdio.h>
+#include "tokenize.h"
 #include "messh.h"
 
 static void	print_node(t_ast_node *node, int depth, int is_last);
@@ -19,10 +9,6 @@ const char	*token_type_str(t_tokentype type)
 {
 	if (type == TOK_WORD)
 		return "TOK_WORD";
-	if (type == TOK_SQUOTE)
-		return "TOK_SQUOTE";
-	if (type == TOK_DQUOTE)
-		return "TOK_DQUOTE";
 	if (type == TOK_PIPE)
 		return "TOK_PIPE";
 	if (type == TOK_REDIR_IN)
@@ -33,8 +19,6 @@ const char	*token_type_str(t_tokentype type)
 		return "TOK_REDIR_OUT";
 	if (type == TOK_REDIR_APPEND)
 		return "TOK_REDIR_APPEND";
-	if (type == TOK_ENV_VAR)
-		return "TOK_ENV_VAR";
 	return "TOK_UNKNOWN";
 }
 
