@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/19 22:28:13 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:42:47 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ void	command(t_context *ctx)
 
 	if (ctx->ast->data.cmd.text)
 		ctx->argv = ctx->ast->data.cmd.text;
-	else
+	else{
 		ctx->argv = NULL;
+	}
 	if (handle_builtin(ctx))
 		return ;
 	pid = help_func(ctx);
@@ -76,8 +77,10 @@ void	command(t_context *ctx)
 	{
 		if (WTERMSIG(ctx->stat) == SIGINT || WTERMSIG(ctx->stat) == SIGQUIT)
 			write(1, "\n", 1);
+		get_exit_status(WTERMSIG(ctx->stat) + 128, 0);
 	}
-	get_exit_status(ctx->stat, 0);
+	else
+		get_exit_status(WEXITSTATUS(ctx->stat), 0);
 	signal(SIGINT, handler);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -112,6 +115,8 @@ void	command_exec(t_context *ctx)
 
 	fd[0] = dup(0);
 	fd[1] = dup(1);
+	if (!ctx->ast)
+		return ;
 	if (ctx->ast->type == AST_REDIR)
 	{
 		redirections(ctx->ast);

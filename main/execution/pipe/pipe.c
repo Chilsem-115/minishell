@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:33:23 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/19 23:00:54 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:00:28 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,54 +40,109 @@ void    right(t_context *ctx, t_ast_node *node, int *pipefd)
     exit(1);
 }
 
-void    pipline(t_context *ctx, t_ast_node *node, int input_fd)
+static void	setup_signals(void (**oldhdl_INT)(int), void (**oldhdl_QUIT)(int))
 {
-    int     pipefd[2];
-    int     stat1;
-    int     stat2;
-    pid_t   left_pid;
-    pid_t   right_pid;
+	*oldhdl_INT = saved_signal(signal(SIGINT, SIG_IGN),
+			signal(SIGQUIT, SIG_IGN), 1);
+	*oldhdl_QUIT = saved_signal(signal(SIGINT, SIG_IGN),
+			signal(SIGQUIT, SIG_IGN), 2);
+}
 
-    static void(*oldhdl_INT)(int);
-	static void(*oldhdl_QUIT)(int);
+static pid_t	launch_left(t_context *ctx, t_ast_node *node,
+				int input_fd, int pipefd[2],
+				void (*oldhdl_INT)(int), void (*oldhdl_QUIT)(int))
+{
+	pid_t	pid;
 
-    oldhdl_INT = saved_signal(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN), 1);
-	oldhdl_QUIT = saved_signal(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN), 2);
-    if (pipe(pipefd) == -1)
+	pid = fork();
+	if (pid == 0)
 	{
-        perror("pipe");
-        exit(1);
-    }
-    left_pid = fork();
-    if (left_pid == 0)
-    {
-        signal(SIGINT, oldhdl_INT);
-    	signal(SIGQUIT,oldhdl_QUIT);
-        left_cmd(ctx, node, input_fd, pipefd);
-    }
+		signal(SIGINT, oldhdl_INT);
+		signal(SIGQUIT, oldhdl_QUIT);
+		left_cmd(ctx, node, input_fd, pipefd);
+	}
+	return (pid);
+}
 
-    right_pid = fork();
-    if (right_pid == 0)
-    {
-        signal(SIGINT, oldhdl_INT);
-    	signal(SIGQUIT,oldhdl_QUIT);
-        right(ctx, node, pipefd);
-    }
+static pid_t	launch_right(t_context *ctx, t_ast_node *node,
+				int pipefd[2],
+				void (*oldhdl_INT)(int), void (*oldhdl_QUIT)(int))
+{
+	pid_t	pid;
 
-    close(pipefd[0]);
-    close(pipefd[1]);
-    close(0);
-    close(1);
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, oldhdl_INT);
+		signal(SIGQUIT, oldhdl_QUIT);
+		right(ctx, node, pipefd);
+	}
+	return (pid);
+}
+
+static void parent_wait(pid_t left_pid, pid_t right_pid, int stat1, int stat2)
+{
     waitpid(left_pid, &stat1, 0);
     waitpid(right_pid, &stat2, 0);
-	if (WIFSIGNALED(stat1) || WIFSIGNALED(stat2))
+
+    if (WIFSIGNALED(stat2))
     {
-        if (WTERMSIG(stat1) == SIGINT || WTERMSIG(stat1) == SIGQUIT || WTERMSIG(stat2) == SIGINT || WTERMSIG(stat2) == SIGQUIT)
+        if (WTERMSIG(stat2) == SIGINT || WTERMSIG(stat2) == SIGQUIT)
             write(2, "\n", 1);
+        get_exit_status(WTERMSIG(stat2) + 128, 0);
     }
-	get_exit_status(stat2, 0);
+    else if (WIFSIGNALED(stat1))
+    {
+        if (WTERMSIG(stat1) == SIGINT || WTERMSIG(stat1) == SIGQUIT)
+            write(2, "\n", 1);
+        get_exit_status(WTERMSIG(stat1) + 128, 0);
+    }
+    else
+        get_exit_status(WEXITSTATUS(stat2), 0);
+
     signal(SIGINT, handler);
     signal(SIGQUIT, SIG_IGN);
+}
+
+
+void	pipline(t_context *ctx, t_ast_node *node, int input_fd)
+{
+	int		pipefd[2];
+	int		stat1;
+	int		stat2;
+	pid_t	left_pid;
+	pid_t	right_pid;
+	void	(*oldhdl_INT)(int);
+	void	(*oldhdl_QUIT)(int);
+
+    stat1 = 0;
+    stat2 = 0;
+	setup_signals(&oldhdl_INT, &oldhdl_QUIT);
+	if (pipe(pipefd) == -1)
+	{
+		perror("pipe");
+		exit(1);
+	}
+	left_pid = launch_left(ctx, node, input_fd, pipefd, oldhdl_INT, oldhdl_QUIT);
+	right_pid = launch_right(ctx, node, pipefd, oldhdl_INT, oldhdl_QUIT);
+	close(pipefd[0]);
+	close(pipefd[1]);
+	close(0);
+	close(1);
+	parent_wait(left_pid, right_pid, stat1, stat2);
+}
+
+char **check_empty(t_context *ctx)//--
+{
+	char **argv;
+
+	argv = ctx->ast->data.cmd.text;
+	if (!argv || !argv[0])
+	{
+	    ft_dprintf(2, "minishell: empty command\n");
+	    exit(127);
+	}
+	return (argv);
 }
 
 void pipe_command(t_context *ctx)
@@ -96,10 +151,7 @@ void pipe_command(t_context *ctx)
 	char	**argv;
 	int	saved_stdout;
 
-	if (ctx->ast->data.cmd.text)
-		argv = ctx->ast->data.cmd.text;
-	else
-		argv = NULL;
+	argv = check_empty(ctx);//--
 	if (handle_builtin(ctx))
 		return ;
 	saved_stdout = dup(STDOUT_FILENO);
@@ -121,3 +173,53 @@ void pipe_command(t_context *ctx)
 	perror("execve");
 	exit(126);
 }
+
+// void    pipline(t_context *ctx, t_ast_node *node, int input_fd)
+// {
+//     int     pipefd[2];
+//     int     stat1;
+//     int     stat2;
+//     pid_t   left_pid;
+//     pid_t   right_pid;
+
+//     static void(*oldhdl_INT)(int);
+// 	static void(*oldhdl_QUIT)(int);
+
+//     oldhdl_INT = saved_signal(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN), 1);
+// 	oldhdl_QUIT = saved_signal(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN), 2);
+//     if (pipe(pipefd) == -1)
+// 	{
+//         perror("pipe");
+//         exit(1);
+//     }
+//     left_pid = fork();
+//     if (left_pid == 0)
+//     {
+//         signal(SIGINT, oldhdl_INT);
+//     	signal(SIGQUIT,oldhdl_QUIT);
+//         left_cmd(ctx, node, input_fd, pipefd);
+//     }
+
+//     right_pid = fork();
+//     if (right_pid == 0)
+//     {
+//         signal(SIGINT, oldhdl_INT);
+//     	signal(SIGQUIT,oldhdl_QUIT);
+//         right(ctx, node, pipefd);
+//     }
+
+//     close(pipefd[0]);
+//     close(pipefd[1]);
+//     close(0);
+//     close(1);
+//     waitpid(left_pid, &stat1, 0);
+//     waitpid(right_pid, &stat2, 0);
+// 	if (WIFSIGNALED(stat1) || WIFSIGNALED(stat2))
+//     {
+//         if (WTERMSIG(stat1) == SIGINT || WTERMSIG(stat1) == SIGQUIT || WTERMSIG(stat2) == SIGINT || WTERMSIG(stat2) == SIGQUIT)
+//             write(2, "\n", 1);
+//     }
+// 	get_exit_status(stat2, 0);
+//     signal(SIGINT, handler);
+//     signal(SIGQUIT, SIG_IGN);
+// }

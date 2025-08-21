@@ -29,13 +29,14 @@ void	command_exec(t_context *ctx);
 // exit status
 long get_exit_status(int st, int c);
 
+void	unset_var(t_env **env_list, char *key);
 /* built-in*/
 
 t_env	*init_env(char **envp);
 int		handle_builtin(t_context *ctx);
 void	print_export(t_context *ctx);
 void	print_env(t_env *env);
-void	pwd();
+int    pwd();
 void  echo_cmd(t_context *ctx, char **argv);
 int    update_var(t_env **list, char *key, char *value);
 t_env	*init_env(char **envp);

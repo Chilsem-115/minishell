@@ -6,34 +6,41 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:32:35 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/19 21:36:48 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:09:08 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "messh.h"
 #include "execute.h"
 
-static void	cd_cmd(t_context *ctx, char *argv)
+static int	cd_cmd(t_context *ctx, char *argv)
 {
-	char	cwd[1024];
+	char	cwd[PATH_MAX];
 
 	cwd[0] = 0;
 	getcwd(cwd, sizeof(cwd));
 	if (!argv)
 	{
 		if (chdir(my_getenv("HOME", ctx)) == -1)
+		{
 			ft_dprintf(2, "enigma: cd: HOME not set\n");
+			return (1);
+		}
 	}
 	else
 	{
 		if (chdir(argv) == -1)
+		{
 			ft_dprintf(2, "cd: No such file or directory\n");
+			return (1);
+		}
 	}
 	update_var (&ctx->envp, "OLDPWD", ft_strdup(my_getenv("PWD", ctx)));
 	update_var (&ctx->envp, "PWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
+	return (0);
 }
 
-static void	unset_var(t_env **env_list, char *key)
+void	unset_var(t_env **env_list, char *key)
 {
 	t_env	*curr;
 	t_env	*prev;
@@ -90,12 +97,14 @@ static void	ft_unset(t_context *ctx, char **argv)
 int	handle_builtin(t_context *ctx)
 {
 	char	**argv;
+	int	stat;
 
+	stat = 0;
 	argv = ctx->ast->data.cmd.text;
 	if (!argv)
 		return (0);
 	if (!ft_strncmp(argv[0], "cd", 3))
-		cd_cmd(ctx, argv[1]);
+		stat = cd_cmd(ctx, argv[1]);
 	else if (!ft_strncmp(argv[0], "exit", 5))
 		exit_command(ctx, argv);
 	else if (!ft_strncmp(argv[0], "export", 7))
@@ -105,10 +114,11 @@ int	handle_builtin(t_context *ctx)
 	else if (!ft_strncmp(argv[0], "env", 4))
 		print_env(ctx->envp);
 	else if (!ft_strncmp(argv[0], "pwd", 4))
-		pwd();
+		stat = pwd();
 	else if (!ft_strncmp(argv[0], "echo", 5))
 		echo_cmd(ctx, argv);
 	else
 		return (0);
+	get_exit_status(stat, 0);
 	return (1);
 }

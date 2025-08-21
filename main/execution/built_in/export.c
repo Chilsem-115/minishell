@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:51:40 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/19 22:20:14 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:21:55 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	update_var(t_env **list, char *key, char *value)
 
 	r = 0;
 	curr = *list;
+	if (!value)
+		return (0);
 	while (curr)
 	{
 		if (!ft_strncmp(curr->key, key, ft_strlen(key)))

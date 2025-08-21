@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:14:21 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/19 21:28:48 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:44:03 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "execute.h"
 
-void	pwd(void)
+int	pwd(void)
 {
 	char	cwd[PATH_MAX];
 
@@ -22,13 +22,14 @@ void	pwd(void)
 	{
 		printf("pwd: error retrieving current directory: getcwd: cannot");
 		printf("access parent directories: No such file or directory\n");
-		return ;
+		return (1);
 	}
 	else
 	{
 		cwd[ft_strlen(cwd)] = '\0';
 		printf("%s\n", cwd);
 	}
+	return (0);
 }
 
 static void	n_option(char **argv, int *i, int *f)
