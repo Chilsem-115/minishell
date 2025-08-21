@@ -29,13 +29,8 @@ int	grab_variable(const char *s, int pos, char **out_name)
 	*out_name = NULL;
 	if (!s || s[pos] != '$' || !s[pos + 1])
 		return (0);
-	/*
-	if (s[pos + 1] == "?")
-	{
-		*out = ft_strdup("?");
+	if (s[pos + 1] == '?')
 		return (2);
-	}
-	*/
 	if (!is_name_start(s[pos + 1]))
 		return (0);
 	start = pos + 1;

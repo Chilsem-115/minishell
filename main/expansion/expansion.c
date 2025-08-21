@@ -2,6 +2,7 @@
 #include "messh.h"
 #include "expansion.h"
 
+/*
 static int	replace_one_at(char **expanded, int pos, t_context *ctx)
 {
 	char	*name;
@@ -12,7 +13,7 @@ static int	replace_one_at(char **expanded, int pos, t_context *ctx)
 
 	name = NULL;
 	consumed = grab_variable(*expanded, pos, &name);
-	if (consumed < 0)
+	if (consumed <= 0)
 		return (-1);
 	if (consumed == 0)
 		return (0);
@@ -30,6 +31,7 @@ static int	replace_one_at(char **expanded, int pos, t_context *ctx)
 	*expanded = new_str;
 	return (1);
 }
+*/
 
 static char	*expand_token_text(char *text, t_context *ctx)
 {
