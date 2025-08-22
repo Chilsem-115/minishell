@@ -67,7 +67,7 @@ bool    heredoc(char **list)
     {
         gsignum = 0;
         s = readline("> ");
-        if (!s && ft_strncmp(s, *list, ft_strlen(s) + 1) != 0)
+        if (s && ft_strncmp(s, *list, ft_strlen(s) + 1) != 0)
         {
             write(fd_hd, s, ft_strlen(s));
             write(fd_hd, "\n", 1);
