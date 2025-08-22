@@ -1,5 +1,6 @@
 
 #include "expansion.h"
+#include "execute.h"
 
 static int	precheck_consumed(int consumed)
 {
@@ -45,7 +46,7 @@ static int	apply_qmark(char **expanded, int pos, int consumed, int code)
 	if (!str)
 		return (-1);
 	rc = apply_replacement(expanded, pos, consumed, str);
-	printf("%s is the value of the qweoqoiejqwo\n", str);
+	// printf("%s is the value of the qweoqoiejqwo\n", str);
 	free(str);
 	return (rc);
 }
@@ -64,7 +65,7 @@ int	replace_one_at(char **expanded, int pos, t_context *ctx)
 	if (rc == -1 || rc == 0)
 		return (rc);
 	if (rc == 2)
-		return (apply_qmark(expanded, pos, consumed, ctx->exit_code));
+		return (apply_qmark(expanded, pos, consumed, get_exit_status(0, 1)));
 	replacement = resolve_replacement(ctx, name);
 	rc = apply_replacement(expanded, pos, consumed, replacement);
 	free(name);

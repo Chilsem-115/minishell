@@ -6,22 +6,23 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:51:40 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/21 15:21:55 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 01:15:12 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "messh.h"
 #include "execute.h"
 
-int	update_var(t_env **list, char *key, char *value)
+int	update_var(t_env **list, char *key, char *value, int k)
 {
 	t_env	*curr;
+	t_env	*new;
 	int		r;
 
 	r = 0;
 	curr = *list;
 	if (!value)
-		return (0);
+		value = ft_strdup("\0");
 	while (curr)
 	{
 		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
@@ -31,6 +32,14 @@ int	update_var(t_env **list, char *key, char *value)
 			r = 1;
 		}
 		curr = curr->next;
+	}
+	if(r == 0 && k == 0)
+	{
+		new = garbage_coll(0, sizeof(t_env));
+		new->key = key;
+		new->value = value;
+		new->next = *list;
+		*list = new;
 	}
 	return (r);
 }
@@ -78,7 +87,7 @@ void	export_var(t_env **env_list, char *arg)
 	key = ft_substr(arg, 0, eq - arg);
 	value = ft_strdup(eq + 1);
 	valid_export(key, value);
-	if ((update_var(env_list, key, value)) == 1)
+	if ((update_var(env_list, key, value, 1)) == 1)
 		return ;
 	new = garbage_coll(0, sizeof(t_env));
 	new->key = key;

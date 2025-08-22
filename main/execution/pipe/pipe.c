@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:33:23 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/21 16:00:28 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 03:32:46 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static pid_t	launch_left(t_context *ctx, t_ast_node *node,
 	pid = fork();
 	if (pid == 0)
 	{
+		close(ctx->fd[0]);
+		close(ctx->fd[1]);
 		signal(SIGINT, oldhdl_INT);
 		signal(SIGQUIT, oldhdl_QUIT);
 		left_cmd(ctx, node, input_fd, pipefd);
@@ -73,6 +75,8 @@ static pid_t	launch_right(t_context *ctx, t_ast_node *node,
 	pid = fork();
 	if (pid == 0)
 	{
+		close(ctx->fd[0]);
+		close(ctx->fd[1]);
 		signal(SIGINT, oldhdl_INT);
 		signal(SIGQUIT, oldhdl_QUIT);
 		right(ctx, node, pipefd);
@@ -149,26 +153,22 @@ void pipe_command(t_context *ctx)
 {
 	char	*path;
 	char	**argv;
-	int	saved_stdout;
 
 	argv = check_empty(ctx);//--
 	if (handle_builtin(ctx))
 		return ;
-	saved_stdout = dup(STDOUT_FILENO);
-	dup2(STDERR_FILENO, STDOUT_FILENO);
 	if (exec_check(argv[0]) == 1)
 	{
 		execve(argv[0], argv, my_env(ctx));
-		printf("%s: No such file or directory\n", argv[0]);
+		ft_dprintf(2, "%s: No such file or directory\n", argv[0]);
 		exit(127);
 	}
 	path = check_exec(argv[0], ctx);
 	if (!path)
 	{
-		printf("%s: command not found\n", argv[0]);
+		ft_dprintf(2, "%s: command not found\n", argv[0]);
 		exit(127);
 	}
-    dup2(saved_stdout, STDOUT_FILENO);
 	execve(path, argv, my_env(ctx));
 	perror("execve");
 	exit(126);

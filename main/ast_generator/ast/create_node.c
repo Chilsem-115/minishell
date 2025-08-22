@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:32:08 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/24 16:29:01 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/22 01:01:21 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_ast_node	*make_cmd_node(t_list **tokens)
 
 	if (!*tokens || !is_valid_cmd_token(((t_token *)(*tokens)->content)->type))
 		return (NULL);
-	cmd_node = malloc(sizeof(*cmd_node));
+	cmd_node = ft_calloc(1, sizeof(*cmd_node));
 	if (!cmd_node)
 		return (NULL);
 	cmd_node->type = AST_COMMAND;

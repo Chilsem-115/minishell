@@ -10,7 +10,7 @@ static int	find_char(const char *s, char c, int start)
 	if (!s || start < 0)
 		return (-1);
 	s += start;
-	found = strchr(s, c);
+	found = strchr(s, c);//?
 	if (!found)
 		return (-1);
 	return (start + (int)(found - s));

@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:32:35 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/21 15:09:08 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 01:14:12 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static int	cd_cmd(t_context *ctx, char *argv)
 			return (1);
 		}
 	}
-	update_var (&ctx->envp, "OLDPWD", ft_strdup(my_getenv("PWD", ctx)));
-	update_var (&ctx->envp, "PWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
+	update_var (&ctx->envp, "OLDPWD", ft_strdup(my_getenv("PWD", ctx)), 0);
+	update_var (&ctx->envp, "PWD", ft_strdup(getcwd(cwd, sizeof(cwd))), 0);
 	return (0);
 }
 

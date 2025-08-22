@@ -38,7 +38,7 @@ void	print_export(t_context *ctx);
 void	print_env(t_env *env);
 int    pwd();
 void  echo_cmd(t_context *ctx, char **argv);
-int    update_var(t_env **list, char *key, char *value);
+int    update_var(t_env **list, char *key, char *value, int k);
 t_env	*init_env(char **envp);
 void	export_var(t_env **env_list, char *arg);
 

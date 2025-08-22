@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:44:02 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/19 23:20:43 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 03:09:46 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_context
 	char			*path;
 	char			**argv;
 	t_env			*envp;
+	int				*fd;
 }	t_context;
 
 void	main_loop(t_context *ctx);

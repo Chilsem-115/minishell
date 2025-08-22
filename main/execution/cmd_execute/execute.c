@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/21 15:42:47 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 03:14:25 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static int	help_func(t_context *ctx)
 	pid = fork();
 	if (pid == 0)
 	{
+		close(ctx->fd[0]);
+		close(ctx->fd[1]);
 		signal(SIGINT, oldhdl_int);
 		signal(SIGQUIT, oldhdl_quit);
 		check(ctx);
@@ -54,7 +56,6 @@ static int	help_func(t_context *ctx)
 	}
 	return (pid);
 }
-
 void	command(t_context *ctx)
 {
 	pid_t	pid;
@@ -111,10 +112,8 @@ void	exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
 
 void	command_exec(t_context *ctx)
 {
-	int	fd[2];
-
-	fd[0] = dup(0);
-	fd[1] = dup(1);
+	(ctx->fd)[0] = dup(0);
+	(ctx->fd)[1] = dup(1);
 	if (!ctx->ast)
 		return ;
 	if (ctx->ast->type == AST_REDIR)
@@ -127,9 +126,9 @@ void	command_exec(t_context *ctx)
 		command(ctx);
 	else
 		exec_ast_node(ctx, ctx->ast, STDIN_FILENO);
-	dup2(fd[0], 0);
-	dup2(fd[1], 1);
-	close(fd[0]);
-	close(fd[1]);
+	dup2((ctx->fd)[0], 0);
+	dup2((ctx->fd)[1], 1);
+	close((ctx->fd)[0]);
+	close((ctx->fd)[1]);
 	ctx->p = 0;
 }

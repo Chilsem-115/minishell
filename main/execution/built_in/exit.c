@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:38:43 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/19 21:44:13 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 03:25:06 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	exit_command(t_context	*ctx, char **args)
 		status = long_atoi(args[1], ctx);
 		if (ctx->max == 1 || number_check(args[1]) == 1)
 		{
+			close(ctx->fd[0]);
+			close(ctx->fd[1]);
 			printf("bash: exit: %s: numeric argument required\n", args[1]);
 			exit(2);
 		}
@@ -91,7 +93,11 @@ void	exit_command(t_context	*ctx, char **args)
 	if (args[2])
 		printf("bash: exit: too many arguments\n");
 	else
+	{
+		close(ctx->fd[0]);
+		close(ctx->fd[1]);
 		exit(status);
+	}
 }
 
 long	get_exit_status(int st, int c)

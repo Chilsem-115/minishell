@@ -55,7 +55,7 @@ bool    heredoc(char **list)
     char *file;
 
     file = generate_full_path();
-    fd_hd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0600);
+    fd_hd = open(file, O_CREAT | O_RDWR | O_TRUNC , 0600);
     if (fd_hd < 0)
     {
         perror("open heredoc");
@@ -63,24 +63,19 @@ bool    heredoc(char **list)
         return (false);
     }
     gsignum = 0;
-    s = readline("> ");
-    while (s)
+    while (1)
     {
-        if (gsignum != 0)
-            return (false);
-        
-        if (!gsignum && ft_strncmp(s, *list, ft_strlen(s) + 1) != 0)
+        gsignum = 0;
+        s = readline("> ");
+        if (!s && ft_strncmp(s, *list, ft_strlen(s) + 1) != 0)
         {
             write(fd_hd, s, ft_strlen(s));
             write(fd_hd, "\n", 1);
-            gsignum = 0;
-            s = readline("> ");
         }
-        else
+        else if (!gsignum)
         {
             close(fd_hd);
             break ;
-            // exit(0);
         }
     }
     *list = file;
