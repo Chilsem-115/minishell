@@ -26,6 +26,7 @@ int	update_var(t_env **list, char *key, char *value, int k)
 		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
 		{
 			free(curr->value);
+			curr->value = value;
 			return (1);
 		}
 		curr = curr->next;
