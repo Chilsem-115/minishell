@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:29:53 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/22 00:59:38 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/07/20 22:30:31 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	set_ctrl_branch(t_ast_node *ctrl, t_ast_node *left, t_ast_node *right)
 	ctrl->data.ctrl.right = right;
 }
 
-void	set_redir_child(t_ast_node *current, t_ast_node *child)
+void    set_redir_child(t_ast_node *current, t_ast_node *child)
 {
 	while (current && current->type == AST_REDIR && current->data.redir.child)
 	{
@@ -28,8 +28,6 @@ void	set_redir_child(t_ast_node *current, t_ast_node *child)
 			current = current->data.redir.child;
 	}
 	current->data.redir.child = child;
-	// if (current && current->type == AST_REDIR)
-	// 	current->data.redir.child = child;
 }
 
 int	is_control(t_list *token)

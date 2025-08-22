@@ -93,7 +93,6 @@ static void	handle_line(t_context *ctx)
 	t_list *list;
 	if (!is_valid_line(ctx->line))
 		return ;
-//	add_history(ctx->line);
 	ctx->tokens = tokenize(ctx->line);
 	expand_variables(ctx);
 	ctx->ast = generate_ast(ctx->tokens);

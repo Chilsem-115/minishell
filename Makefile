@@ -11,13 +11,14 @@ CFLAGS  = -g -Wall -Wextra -Werror \
 		  -Imain/tokenizer \
 		  -Imain/tokenizer/handle_events \
 		  -Imain/tokenizer/handle_events/errors \
-		  -Imain/ast_generator \
-		  -Imain/ast_generator/ast \
-		  -Imain/ast_generator/ast/utils \
-		  -Imain/ast_generator/error \
 		  -Imain/expansion \
 		  -Imain/expansion/parser \
 		  -Imain/expansion/utils \
+		  -Imain/ast_generator \
+		  -Imain/ast_generator/ast \
+		  -Imain/ast_generator/ast/utils \
+		  -Imain/ast_generator/ast/node_creation \
+		  -Imain/ast_generator/error \
 		  -Imain/execution \
 		  -Imain/execution/pipe \
 		  -Imain/execution/redirection \
@@ -52,7 +53,8 @@ SRC_EXPANSION = \
 SRC_AST_GEN = \
 	main/ast_generator/ast_gen.c \
 	main/ast_generator/ast/ast.c \
-	main/ast_generator/ast/create_node.c \
+	main/ast_generator/ast/node_creation/create_node.c \
+	main/ast_generator/ast/node_creation/cmd_create.c \
 	main/ast_generator/ast/utils/command_utils.c \
 	main/ast_generator/ast/utils/type_mapping.c \
 	main/ast_generator/error/error_handling.c
