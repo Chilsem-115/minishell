@@ -21,7 +21,7 @@ static int	cd_cmd(t_context *ctx, char *argv)
 	getcwd(cwd, sizeof(cwd));
 	if (!argv)
 	{
-		if (chdir(my_getenv("HOME", ctx)) == -1)
+		if (my_getenv("HOME", ctx) == NULL || chdir(my_getenv("HOME", ctx)) == -1)
 		{
 			ft_dprintf(2, "enigma: cd: HOME not set\n");
 			return (1);
