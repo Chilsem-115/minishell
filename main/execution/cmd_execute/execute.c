@@ -6,15 +6,15 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 03:14:25 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:52:13 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include "messh.h"
 #include "execute.h"
 #include "libft.h"
+#include "messh.h"
 #include <signal.h>
+#include <sys/types.h>
 
 void	check(t_context *ctx)
 {
@@ -38,10 +38,10 @@ static int	help_func(t_context *ctx)
 	static void	(*oldhdl_int)(int);
 	static void	(*oldhdl_quit)(int);
 
-	oldhdl_int = saved_signal(signal(SIGINT, SIG_IGN),
-			signal(SIGQUIT, SIG_IGN), 1);
-	oldhdl_quit = saved_signal(signal(SIGINT, SIG_IGN),
-			signal(SIGQUIT, SIG_IGN), 2);
+	oldhdl_int = saved_signal(signal(SIGINT, SIG_IGN), signal(SIGQUIT, SIG_IGN),
+			1);
+	oldhdl_quit = saved_signal(signal(SIGINT, SIG_IGN), signal(SIGQUIT,
+				SIG_IGN), 2);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -56,15 +56,15 @@ static int	help_func(t_context *ctx)
 	}
 	return (pid);
 }
+
 void	command(t_context *ctx)
 {
 	pid_t	pid;
 
 	if (ctx->ast->data.cmd.text)
 		ctx->argv = ctx->ast->data.cmd.text;
-	else{
+	else
 		ctx->argv = NULL;
-	}
 	if (handle_builtin(ctx))
 		return ;
 	pid = help_func(ctx);
@@ -86,7 +86,7 @@ void	command(t_context *ctx)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
+void	exec_ast_node(t_context *ctx, t_ast_node *node)
 {
 	if (!node)
 	{
@@ -101,7 +101,8 @@ void	exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
 	if (node->type == AST_CONTROL && node->data.ctrl.op == CTRL_PIPE)
 	{
 		ctx->p = 1;
-		pipline(ctx, node, input_fd);
+		ctx->ast = node;
+		pipline(ctx);
 	}
 	else if (node->type == AST_COMMAND)
 	{
@@ -112,8 +113,8 @@ void	exec_ast_node(t_context *ctx, t_ast_node *node, int input_fd)
 
 void	command_exec(t_context *ctx)
 {
-	(ctx->fd)[0] = dup(0);
-	(ctx->fd)[1] = dup(1);
+	ctx->fd[0] = dup(0);
+	ctx->fd[1] = dup(1);
 	if (!ctx->ast)
 		return ;
 	if (ctx->ast->type == AST_REDIR)
@@ -125,10 +126,13 @@ void	command_exec(t_context *ctx)
 	if (ctx->ast->type == AST_COMMAND)
 		command(ctx);
 	else
-		exec_ast_node(ctx, ctx->ast, STDIN_FILENO);
-	dup2((ctx->fd)[0], 0);
-	dup2((ctx->fd)[1], 1);
-	close((ctx->fd)[0]);
-	close((ctx->fd)[1]);
+	{
+		ctx->input_fd = STDIN_FILENO;
+		exec_ast_node(ctx, ctx->ast);
+	}
+	dup2(ctx->fd[0], 0);
+	dup2(ctx->fd[1], 1);
+	close(ctx->fd[0]);
+	close(ctx->fd[1]);
 	ctx->p = 0;
 }

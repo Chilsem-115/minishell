@@ -19,8 +19,8 @@ int	is_valid_cmd_token(t_tokentype type)
 
 static int	count_valid_tokens(t_list *tokens)
 {
-	int			count;
-	t_token		*tok;
+	int		count;
+	t_token	*tok;
 
 	count = 0;
 	while (tokens)
@@ -78,7 +78,7 @@ char	*extract_flags(t_list **tokens)
 	return (deldup(flags));
 }
 
-char	**tokens_to_argv(t_list	*tokens)
+char	**tokens_to_argv(t_list *tokens)
 {
 	char	**argv;
 	int		count;

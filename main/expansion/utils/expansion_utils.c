@@ -1,20 +1,21 @@
 
+#include "libft.h"
+#include "tokenize.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "libft.h"
-#include "tokenize.h"
 
-char	*str_replace_range(const char *src, size_t start, size_t len, const char *replacement)
+char	*str_replace_range(const char *src, size_t start, size_t len,
+		const char *replacement)
 {
 	size_t	new_len;
 	size_t	src_len;
 	size_t	rep_len;
 	char	*result;
 
-	src_len = strlen(src);
+	src_len = strlen(src); //?
 	rep_len = strlen(replacement);
-	new_len =  src_len - len + rep_len;
+	new_len = src_len - len + rep_len;
 	result = malloc(new_len + 1);
 	if (!result)
 		return (NULL);
@@ -39,7 +40,7 @@ static t_list	*lst_find_prev(t_list *head, t_list *node)
 }
 
 static t_list	*lst_remove_node(t_list **head, t_list *prev, t_list *node,
-								void (*del)(void *))
+		void (*del)(void *))
 {
 	t_list	*next;
 
@@ -56,7 +57,8 @@ static t_list	*lst_remove_node(t_list **head, t_list *prev, t_list *node,
 	return (next);
 }
 
-static void	lst_splice_chain(t_list **head, t_list *prev, t_list *sub, t_list *next)
+static void	lst_splice_chain(t_list **head, t_list *prev, t_list *sub,
+		t_list *next)
 {
 	t_list	*tail;
 

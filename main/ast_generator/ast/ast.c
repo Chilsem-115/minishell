@@ -20,7 +20,7 @@ void	set_ctrl_branch(t_ast_node *ctrl, t_ast_node *left, t_ast_node *right)
 	ctrl->data.ctrl.right = right;
 }
 
-void    set_redir_child(t_ast_node *current, t_ast_node *child)
+void	set_redir_child(t_ast_node *current, t_ast_node *child)
 {
 	while (current && current->type == AST_REDIR && current->data.redir.child)
 	{
@@ -47,10 +47,6 @@ int	is_redir(t_list *token)
 	if (!token || !token->content)
 		return (0);
 	tok = (t_token *)token->content;
-	return (
-		tok->type == TOK_REDIR_IN ||
-		tok->type == TOK_REDIR_OUT ||
-		tok->type == TOK_REDIR_APPEND ||
-		tok->type == TOK_HEREDOC
-	);
+	return (tok->type == TOK_REDIR_IN || tok->type == TOK_REDIR_OUT
+		|| tok->type == TOK_REDIR_APPEND || tok->type == TOK_HEREDOC);
 }

@@ -1,7 +1,7 @@
 
+#include "expansion.h"
 #include <stdlib.h>
 #include <string.h>
-#include "expansion.h"
 
 static int	find_char(const char *s, char c, int start)
 {
@@ -10,7 +10,7 @@ static int	find_char(const char *s, char c, int start)
 	if (!s || start < 0)
 		return (-1);
 	s += start;
-	found = strchr(s, c);//?
+	found = strchr(s, c); //?
 	if (!found)
 		return (-1);
 	return (start + (int)(found - s));
@@ -64,4 +64,3 @@ int	next_dollar(const char *s, int start, t_emode *out_mode)
 	}
 	return (-1);
 }
-

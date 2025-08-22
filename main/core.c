@@ -6,15 +6,15 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:19:34 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 03:52:24 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:28:02 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "messh.h"
-#include "expansion.h"
 #include "execute.h"
+#include "expansion.h"
+#include "messh.h"
 
-extern int gsignum;
+extern int	g_gsignum;
 char	*ft_readline(void)
 {
 	char	cwd[PATH_MAX];
@@ -29,42 +29,44 @@ char	*ft_readline(void)
 	free(tmp);
 	while (1)
 	{
-		gsignum = 0;
+		g_gsignum = 0;
 		s = readline(prompt);
 		if (!s)
-    	{
-			free(s);
-        	ft_dprintf(2, "exit\n");
-        	exit(get_exit_status(0, 1));
-    	}
-		if (gsignum == 2)
 		{
 			free(s);
-			continue;
+			ft_dprintf(2, "exit\n");
+			exit(get_exit_status(0, 1));
+		}
+		if (g_gsignum == 2)
+		{
+			free(s);
+			continue ;
 		}
 		if (s && *s)
 			add_history(s);
-		break;
+		break ;
 	}
 	free(prompt);
 	return (s);
 }
 
 /*
-char *ft_readline()
+char	*ft_readline(void)
 {
-	char cwd[PATH_MAX];
+	char	cwd[PATH_MAX];
+	char	*prompt;
+	char	*s;
+
 	cwd[0] = 0;
 	getcwd(cwd, sizeof(cwd));
-	char *prompt = ft_strjoin( "enigma@minishell:", cwd);
+	prompt = ft_strjoin( "enigma@minishell:", cwd);
 	prompt = ft_strjoin(prompt, "$ ");
-	char *s = readline(prompt);
+	s = readline(prompt);
 	if (!s)
 	{
 		printf("exit\n");
 		exit(0);
 	}
-
 	free(prompt);
 	if(s && *s)
 		add_history(s);
@@ -72,25 +74,26 @@ char *ft_readline()
 }
 */
 
-static int    is_valid_line(char *line)
+static int	is_valid_line(char *line)
 {
-    int    i;
+	int	i;
 
-    if (!line)
-        return (0);
-    i = 0;
-    while (line[i])
-    {
-        if (!ft_isspace(line[i]))
-            return (1);
-        i++;
-    }
-    return (0);
+	if (!line)
+		return (0);
+	i = 0;
+	while (line[i])
+	{
+		if (!ft_isspace(line[i]))
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 static void	handle_line(t_context *ctx)
 {
-	t_list *list;
+	t_list	*list;
+
 	if (!is_valid_line(ctx->line))
 		return ;
 	ctx->tokens = tokenize(ctx->line);
@@ -101,7 +104,7 @@ static void	handle_line(t_context *ctx)
 	list = *get_heredocs();
 	while (list)
 	{
-		if(heredoc(list->content) == false)
+		if (heredoc(list->content) == false)
 		{
 			*get_heredocs() = NULL;
 			return ;
@@ -115,9 +118,9 @@ static void	handle_line(t_context *ctx)
 	ctx->ast = NULL;
 }
 
-t_list	**get_heredocs()
+t_list	**get_heredocs(void)
 {
-	static t_list *heredocs;
+	static t_list	*heredocs;
 
 	return (&heredocs);
 }
@@ -130,7 +133,7 @@ void	main_loop(t_context *ctx)
 		// 	break ;
 		if (!ctx->line)
 			exit(get_exit_status(0, 1));
-		if (*ctx->line)// check later why 
+		if (*ctx->line) // check later why
 			handle_line(ctx);
 		free(ctx->line);
 	}

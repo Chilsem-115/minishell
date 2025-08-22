@@ -1,7 +1,8 @@
 
 #include "ast.h"
 
-static t_ast_node	*consume_leading_redirs(t_list **tokens, t_ast_node **redir_chain)
+static t_ast_node	*consume_leading_redirs(t_list **tokens,
+		t_ast_node **redir_chain)
 {
 	t_ast_node	*redir;
 
@@ -32,12 +33,15 @@ static t_ast_node	*make_cmd_node(t_list **tokens)
 	return (cmd_node);
 }
 
-static t_ast_node *make_empty_cmd(void)
+static t_ast_node	*make_empty_cmd(void)
 {
-	t_ast_node *n = ft_calloc(1, sizeof(*n));
-	if (!n) return NULL;
+	t_ast_node	*n;
+
+	n = ft_calloc(1, sizeof(*n));
+	if (!n)
+		return (NULL);
 	n->type = AST_COMMAND;
-	return n;
+	return (n);
 }
 
 t_ast_node	*make_cmd(t_list **tokens)

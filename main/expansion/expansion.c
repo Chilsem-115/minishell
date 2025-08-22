@@ -1,14 +1,14 @@
 
-#include "messh.h"
 #include "expansion.h"
+#include "messh.h"
 
 /*
 static int	replace_one_at(char **expanded, int pos, t_context *ctx)
 {
-	char	*name;
-	t_env	*node;
-	char	*new_str;
-	int		consumed;
+	char		*name;
+	t_env		*node;
+	char		*new_str;
+	int			consumed;
 	const char	*replacement;
 
 	name = NULL;
@@ -72,7 +72,7 @@ static int	expand_and_splice(t_list **head, t_list *node, t_context *ctx)
 		return (-1);
 	sub = tokenize(text);
 	free(text);
-	lst_replace_node(head, node,sub);
+	lst_replace_node(head, node, sub);
 	return (0);
 }
 

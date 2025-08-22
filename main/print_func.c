@@ -1,23 +1,29 @@
 
+#include "messh.h"
+#include "tokenize.h"
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "tokenize.h"
-#include "messh.h"
 
 /* Forward */
-static void	print_node(t_ast_node *node, int depth, int is_last);
+static void			print_node(t_ast_node *node, int depth, int is_last);
 
 /* ------------------------- TOKEN LIST PRINTER ------------------------- */
 
 static const char	*token_type_str(t_tokentype type)
 {
-	if (type == TOK_WORD)         return ("TOK_WORD");
-	if (type == TOK_PIPE)         return ("TOK_PIPE");
-	if (type == TOK_REDIR_IN)     return ("TOK_REDIR_IN");
-	if (type == TOK_HEREDOC)      return ("TOK_HEREDOC");
-	if (type == TOK_REDIR_OUT)    return ("TOK_REDIR_OUT");
-	if (type == TOK_REDIR_APPEND) return ("TOK_REDIR_APPEND");
+	if (type == TOK_WORD)
+		return ("TOK_WORD");
+	if (type == TOK_PIPE)
+		return ("TOK_PIPE");
+	if (type == TOK_REDIR_IN)
+		return ("TOK_REDIR_IN");
+	if (type == TOK_HEREDOC)
+		return ("TOK_HEREDOC");
+	if (type == TOK_REDIR_OUT)
+		return ("TOK_REDIR_OUT");
+	if (type == TOK_REDIR_APPEND)
+		return ("TOK_REDIR_APPEND");
 	return ("TOK_UNKNOWN");
 }
 
@@ -30,7 +36,6 @@ void	print_token_list(t_list *tokens)
 	{
 		tok = (t_token *)tokens->content;
 		type_str = token_type_str(tok->type);
-
 		write(STDOUT_FILENO, type_str, strlen(type_str));
 		write(STDOUT_FILENO, ": ", 2);
 		if (tok->text)
@@ -58,7 +63,8 @@ static void	print_indent(int depth, int is_last)
 		dprintf(STDERR_FILENO, "%s── ", is_last ? "└" : "├");
 }
 
-static void	print_labeled_value(int depth, int is_last, const char *label, const char *value)
+static void	print_labeled_value(int depth, int is_last, const char *label,
+		const char *value)
 {
 	print_indent(depth, is_last);
 	dprintf(STDERR_FILENO, "%s%s\n", label, value ? value : "(null)");
@@ -66,7 +72,8 @@ static void	print_labeled_value(int depth, int is_last, const char *label, const
 
 static const char	*redir_label(int t)
 {
-	static const char *label[] = { "<", ">", ">>", "<<" };
+	static const char	*label[] = {"<", ">", ">>", "<<"};
+
 	if (t >= 0 && t < 4)
 		return (label[t]);
 	return ("(invalid)");
@@ -74,7 +81,8 @@ static const char	*redir_label(int t)
 
 static const char	*ctrl_label(int op)
 {
-	static const char *label[] = { "|", "||", "&&" };
+	static const char	*label[] = {"|", "||", "&&"};
+
 	if (op >= 0 && op < 3)
 		return (label[op]);
 	return ("(invalid)");
@@ -122,7 +130,6 @@ static void	print_node(t_ast_node *node, int depth, int is_last)
 {
 	if (!node)
 		return ;
-
 	if (node->type == AST_ROOT)
 	{
 		print_root_line(depth, is_last);

@@ -1,6 +1,6 @@
 
-#include "expansion.h"
 #include "execute.h"
+#include "expansion.h"
 
 static int	precheck_consumed(int consumed)
 {
@@ -24,12 +24,12 @@ static const char	*resolve_replacement(t_context *ctx, const char *name)
 }
 
 static int	apply_replacement(char **expanded, int pos, int consumed,
-								const char *replacement)
+		const char *replacement)
 {
 	char	*new_str;
 
-	new_str = str_replace_range(*expanded, (size_t)pos,
-			(size_t)consumed, replacement);
+	new_str = str_replace_range(*expanded, (size_t)pos, (size_t)consumed,
+			replacement);
 	if (!new_str)
 		return (-1);
 	free(*expanded);

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "messh.h"
-#include "libft.h"
 #include "execute.h"
+#include "libft.h"
+#include "messh.h"
 
 int	pwd(void)
 {
@@ -53,7 +53,7 @@ void	echo_cmd(t_context *ctx, char **argv)
 	int	i;
 	int	f;
 
-	(void) ctx;
+	(void)ctx;
 	i = 1;
 	f = 0;
 	n_option(argv, &i, &f);

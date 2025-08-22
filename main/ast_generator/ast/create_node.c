@@ -12,7 +12,8 @@
 
 #include "ast.h"
 
-static t_ast_node	*consume_leading_redirs(t_list **tokens, t_ast_node **redir_chain)
+static t_ast_node	*consume_leading_redirs(t_list **tokens,
+		t_ast_node **redir_chain)
 {
 	t_ast_node	*redir;
 

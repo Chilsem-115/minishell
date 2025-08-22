@@ -6,12 +6,12 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/22 03:09:36 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:28:23 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "messh.h"
 #include "execute.h"
+#include "messh.h"
 
 /*
 static char*	trim_whitespace(char *str)
@@ -26,13 +26,12 @@ static char*	trim_whitespace(char *str)
 	while (end > str && ft_isspace((unsigned char)*end))
 		end--;
 	end[1] = '\0';
-
 	return (str);
 }
 
 int	main(void)
 {
-	t_data		*status;
+	t_data	*status;
 
 	status_init(&status);
 	print_banner();
@@ -45,7 +44,7 @@ int	main(void)
 		if (*status->line && strcmp(status->line, "exit") == 0)
 		{
 			free(status->line);
-			break;
+			break ;
 		}
 		if (*status->line)
 		{
@@ -71,31 +70,31 @@ int	main(void)
 static void	print_banner(void)
 {
 	printf("\n"
-	"\033[1;34m"
-	"  ╔══════════════════════════════════════════════╗\n"
-	"  ║                                              ║\n"
-	"  ║  \033[1;37m███╗   ███╗███████╗███████╗███████╗██╗  ██╗\033[1;34m ║\n"
-	"  ║  \033[1;37m████╗ ████║██╔════╝██╔════╝██╔════╝██║  ██║\033[1;34m ║\n"
-	"  ║  \033[1;37m██╔████╔██║█████╗  ███████╗███████╗███████║\033[1;34m ║\n"
-	"  ║  \033[1;37m██║╚██╔╝██║██╔══╝  ╚════██║╚════██║██╔══██║\033[1;34m ║\n"
-	"  ║  \033[1;37m██║ ╚═╝ ██║███████╗███████║███████║██║  ██║\033[1;34m ║\n"
-	"  ║  \033[1;37m╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝\033[1;34m ║\n"
-	"  ║                                              ║\n"
-	"  ║       \033[0;37mMinimalist Experience Shell v0.1\033[1;34m       ║\n"
-	"  ║                                              ║\n"
-	"  ╚══════════════════════════════════════════════╝\n"
-	"\033[0m\n"
-	"\033[0;33m  ▶ \033[2;37mShell ready.\033[0m\n\n");
+			"\033[1;34m"
+			"  ╔══════════════════════════════════════════════╗\n"
+			"  ║                                              ║\n"
+			"  ║  \033[1;37m███╗   ███╗███████╗███████╗███████╗██╗  ██╗\033[1;34m ║\n"
+			"  ║  \033[1;37m████╗ ████║██╔════╝██╔════╝██╔════╝██║  ██║\033[1;34m ║\n"
+			"  ║  \033[1;37m██╔████╔██║█████╗  ███████╗███████╗███████║\033[1;34m ║\n"
+			"  ║  \033[1;37m██║╚██╔╝██║██╔══╝  ╚════██║╚════██║██╔══██║\033[1;34m ║\n"
+			"  ║  \033[1;37m██║ ╚═╝ ██║███████╗███████║███████║██║  ██║\033[1;34m ║\n"
+			"  ║  \033[1;37m╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝\033[1;34m ║\n"
+			"  ║                                              ║\n"
+			"  ║       \033[0;37mMinimalist Experience Shell v0.1\033[1;34m       ║\n"
+			"  ║                                              ║\n"
+			"  ╚══════════════════════════════════════════════╝\n"
+			"\033[0m\n"
+			"\033[0;33m  ▶ \033[2;37mShell ready.\033[0m\n\n");
 }
-extern int gsignum;
+extern int	g_gsignum;
 void	handler(int sig)
 {
 	(void)sig;
-	gsignum = 2;
+	g_gsignum = 2;
 	rl_done = 1;
 }
 
-int do_nothing(void)
+int	do_nothing(void)
 {
 	return (1);
 }
@@ -129,7 +128,7 @@ static void	status_init(t_context *ctx, char **env)
 	ctx->max = 0;
 	ctx->p = 0;
 	ctx->envp = init_env(env);
-	ctx->fd = malloc(8);
+	ctx->fd = garbage_coll(0, sizeof(int) * 2);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -138,7 +137,6 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-
 	rl_outstream = stderr;
 	rl_event_hook = do_nothing;
 	saved_signal(signal(SIGINT, handler), signal(SIGQUIT, SIG_IGN), 0);

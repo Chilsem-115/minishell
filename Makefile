@@ -70,6 +70,7 @@ SRC_EXEC = \
 	main/execution/redirection/heredoc.c \
 	main/execution/redirection/redir.c \
 	main/execution/pipe/pipe.c \
+	main/execution/pipe/pipe_utils.c \
 	main/execution/garbage_col.c 
 
 # === Source & Object Management ===

@@ -13,14 +13,14 @@
 #include "tokenize.h"
 
 static const char	*g_error_messages[] = {
-	"No error",						// ERR_NONE
-	"Unclosed quote",				// ERR_UNCLOSED_QUOTE
-	"Unclosed group",				// ERR_UNCLOSED_GROUP
-	"Empty input",					// ERR_EMPTY_INPUT
-	"Too many tokens",				// ERR_OVERFLOW
-	"Memory allocation failed",		// ERR_MEMORY
-	"Invalid escape sequence",		// ERR_ESCAPE_SEQ
-	"Syntax error"					// ERR_SYNTAX
+	"No error",                 // ERR_NONE
+	"Unclosed quote",           // ERR_UNCLOSED_QUOTE
+	"Unclosed group",           // ERR_UNCLOSED_GROUP
+	"Empty input",              // ERR_EMPTY_INPUT
+	"Too many tokens",          // ERR_OVERFLOW
+	"Memory allocation failed", // ERR_MEMORY
+	"Invalid escape sequence",  // ERR_ESCAPE_SEQ
+	"Syntax error"              // ERR_SYNTAX
 };
 
 void	tokenizer_error(t_tok_err err)

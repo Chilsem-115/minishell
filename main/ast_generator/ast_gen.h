@@ -13,10 +13,10 @@
 #ifndef GENERATE_H
 # define GENERATE_H
 
-# include <stdlib.h>
+# include "ast.h"
 # include "libft.h"
 # include "tokenize.h"
-# include "ast.h"
+# include <stdlib.h>
 
 /* Entry point (requires tokens) */
 t_ast_node	*generate_ast(t_list *tokens);

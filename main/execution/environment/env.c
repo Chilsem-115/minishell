@@ -6,13 +6,13 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:29:19 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/19 22:31:47 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:07:04 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "messh.h"
-#include "libft.h"
 #include "execute.h"
+#include "libft.h"
+#include "messh.h"
 
 t_env	*init_env(char **envp)
 {
@@ -43,9 +43,6 @@ void	print_env(t_env *env)
 {
 	if (!env)
 		return ;
-	// printf("**\n");
-	// printf("%p\n", env);
-	// printf("key = %s --- value = %s\n", env->key, env->value);
 	while (env)
 	{
 		if (env->value)
@@ -54,7 +51,7 @@ void	print_env(t_env *env)
 	}
 }
 
-char	**my_env(t_context	*ctx)
+char	**my_env(t_context *ctx)
 {
 	int		i;
 	int		n;

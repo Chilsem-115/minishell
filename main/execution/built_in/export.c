@@ -6,20 +6,18 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:51:40 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 01:15:12 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:05:42 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "messh.h"
 #include "execute.h"
+#include "messh.h"
 
 int	update_var(t_env **list, char *key, char *value, int k)
 {
 	t_env	*curr;
 	t_env	*new;
-	int		r;
 
-	r = 0;
 	curr = *list;
 	if (!value)
 		value = ft_strdup("\0");
@@ -28,12 +26,11 @@ int	update_var(t_env **list, char *key, char *value, int k)
 		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
 		{
 			free(curr->value);
-			curr->value = value;
-			r = 1;
+			return (1);
 		}
 		curr = curr->next;
 	}
-	if(r == 0 && k == 0)
+	if (k == 0)
 	{
 		new = garbage_coll(0, sizeof(t_env));
 		new->key = key;
@@ -41,31 +38,28 @@ int	update_var(t_env **list, char *key, char *value, int k)
 		new->next = *list;
 		*list = new;
 	}
-	return (r);
+	return (0);
 }
 
 void	valid_export(char *key, char *value)
 {
 	int	i;
 
-	if ((key[0] > 'z' || key[0] < 'a') && (key[0] > 'Z'
-			|| key[0] < 'A') && key[0] != '_')
+	if ((key[0] > 'z' || key[0] < 'a') && (key[0] > 'Z' || key[0] < 'A')
+		&& key[0] != '_')
 	{
 		ft_dprintf(2, "bash: export: `%s=%s'", key, value);
 		(ft_dprintf(2, ": not a valid identifier\n"));
 		return ;
-	}//need handl "key"=value ou 'key'=value
+	}
 	i = 1;
 	while (key[i])
 	{
 		if (key[i] == '+' && key[i + 1] == '\0')
 		{
-			key[i] = '\0';
-			i++;
+			key[i++] = '\0';
 		}
-		else if ((key[i] > 'z' || key[i] < 'a') && (key[i] > 'Z'
-				|| key[i] < 'A') && key[i] != '_' && (key[i] > '9'
-				|| key[i] < '0'))
+		else if (!ft_isalnum(key[i]) && key[i] != '_')
 		{
 			ft_dprintf(2, "bash: export: not a valid identifier\n", key, value);
 			return ;

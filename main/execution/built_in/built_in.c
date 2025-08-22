@@ -6,12 +6,12 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:32:35 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 01:14:12 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/22 06:01:46 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "messh.h"
 #include "execute.h"
+#include "messh.h"
 
 static int	cd_cmd(t_context *ctx, char *argv)
 {
@@ -35,8 +35,8 @@ static int	cd_cmd(t_context *ctx, char *argv)
 			return (1);
 		}
 	}
-	update_var (&ctx->envp, "OLDPWD", ft_strdup(my_getenv("PWD", ctx)), 0);
-	update_var (&ctx->envp, "PWD", ft_strdup(getcwd(cwd, sizeof(cwd))), 0);
+	update_var(&ctx->envp, "OLDPWD", ft_strdup(my_getenv("PWD", ctx)), 0);
+	update_var(&ctx->envp, "PWD", ft_strdup(getcwd(cwd, sizeof(cwd))), 0);
 	return (0);
 }
 
@@ -97,7 +97,7 @@ static void	ft_unset(t_context *ctx, char **argv)
 int	handle_builtin(t_context *ctx)
 {
 	char	**argv;
-	int	stat;
+	int		stat;
 
 	stat = 0;
 	argv = ctx->ast->data.cmd.text;

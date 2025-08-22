@@ -45,10 +45,8 @@ int	word_handler(t_tokenizer_state *ctx, char *line)
 	char	*word;
 
 	start = ctx->pos;
-	while (line[ctx->pos]
-		&& !isspace((unsigned char)line[ctx->pos])
-		&& line[ctx->pos] != '|'
-		&& line[ctx->pos] != '<'
+	while (line[ctx->pos] && !isspace((unsigned char)line[ctx->pos])
+		&& line[ctx->pos] != '|' && line[ctx->pos] != '<'
 		&& line[ctx->pos] != '>')
 		ctx->pos++;
 	if (ctx->pos == start)

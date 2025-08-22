@@ -1,7 +1,7 @@
 
 /* env_lookup.c */
-#include "messh.h"
 #include "libft.h"
+#include "messh.h"
 
 static int	env_key_eq(const char *a, const char *b)
 {

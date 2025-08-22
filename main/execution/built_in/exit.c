@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "messh.h"
 #include "execute.h"
+#include "messh.h"
 
 static long	atoi_routine(char *s, t_context *ctx, int i, int r)
 {
@@ -72,7 +72,7 @@ static int	number_check(char *s)
 	return (0);
 }
 
-void	exit_command(t_context	*ctx, char **args)
+void	exit_command(t_context *ctx, char **args)
 {
 	long	status;
 
