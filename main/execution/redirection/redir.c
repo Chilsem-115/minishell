@@ -10,7 +10,7 @@ void red_in(t_ast_node *ast)
     fd = open(ast->data.redir.file, O_RDONLY);
 	if (fd == -1)
     {
-        perror("-->open");
+        perror("open");
         return ;
     }
     if(dup2(fd, 0) == -1)
