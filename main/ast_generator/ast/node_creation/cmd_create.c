@@ -1,5 +1,6 @@
 
 #include "ast.h"
+#include "execute.h"
 
 static t_ast_node	*consume_leading_redirs(t_list **tokens,
 		t_ast_node **redir_chain)
@@ -11,6 +12,8 @@ static t_ast_node	*consume_leading_redirs(t_list **tokens,
 		redir = make_redir(tokens);
 		if (!redir)
 			return (NULL);
+		if (redir->data.redir.redir_type == REDIR_HEREDOC)
+			ft_lstadd_back(get_heredocs(), ft_lstnew(&redir->data.redir.file));
 		set_redir_child(redir, *redir_chain);
 		*redir_chain = redir;
 	}
