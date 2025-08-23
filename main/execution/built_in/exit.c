@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:38:43 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 14:47:44 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:44:14 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static long	atoi_routine(char *s, t_context *ctx, int i, int r)
 	int		digit;
 	long	j;
 
+	j = 0;
 	while (s[i] >= '0' && s[i] <= '9')
 	{
 		digit = s[i] - '0';
@@ -72,13 +73,22 @@ static int	number_check(char *s)
 	return (0);
 }
 
+static int len(char **args)
+{
+	int i = 0;
+
+	while (args[i])
+		i++;
+	return (i);
+}
+
 void	exit_command(t_context *ctx, char **args)
 {
 	long	status;
 
 	status = get_exit_status(0, 1);
 	if (ctx->var->p != 1)
-		printf("exit\n");
+		ft_dprintf(2, "exit\n");
 	if (args[1])
 	{
 		status = long_atoi(args[1], ctx);
@@ -90,7 +100,7 @@ void	exit_command(t_context *ctx, char **args)
 			exit(2);
 		}
 	}
-	if (args[2])
+	if (len(args) >= 3)
 		printf("bash: exit: too many arguments\n");
 	else
 	{

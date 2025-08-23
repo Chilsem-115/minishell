@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 14:52:12 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:13:55 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,7 @@ void	command(t_context *ctx)
 {
 	pid_t	pid;
 
-	if (ctx->ast->data.cmd.text)
-		ctx->var->argv = ctx->ast->data.cmd.text;
-	else
-		ctx->var->argv = NULL;
+	ctx->var->argv = ctx->ast->data.cmd.text;
 	if (handle_builtin(ctx))
 		return ;
 	pid = help_func(ctx);
