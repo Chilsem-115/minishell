@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/22 18:28:23 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:07:02 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,13 @@ static void	status_init(t_context *ctx, char **env)
 	ctx->tokens = NULL;
 	ctx->ast = NULL;
 	ctx->errmsg = NULL;
+	ctx->var = garbage_coll(0, sizeof(t_used_var));;
 	ctx->exit_code = 0;
 	ctx->has_error = 0;
-	ctx->max = 0;
-	ctx->p = 0;
+	ctx->var->max = 0;
+	ctx->var->p = 0;
 	ctx->envp = init_env(env);
-	ctx->fd = garbage_coll(0, sizeof(int) * 2);
+	ctx->var->fd = garbage_coll(0, sizeof(int) * 2);
 }
 
 int	main(int argc, char **argv, char **env)

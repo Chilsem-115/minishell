@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:44:02 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/22 17:48:43 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:04:20 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@
 # define C_OLIVE "\001\033[38;5;142m\002"
 # define C_RESET "\001\033[0m\002"
 
+typedef struct s_used_var
+{
+    int				max;
+	int				p;
+	int				stat;
+	char			*path;
+	char			**argv;
+	int				stat1;
+	int				stat2;
+	int				*fd;
+	int			input_fd;
+}	t_used_var;
+
 typedef struct s_env
 {
 	char			*key;
@@ -46,17 +59,8 @@ typedef struct s_context
 	char			*errmsg;
 	unsigned int	has_error;
 	int				exit_code;
-	// int				flag;
-	int				max;
-	int				p;
-	int				stat;
-	char			*path;
-	char			**argv;
-	int				stat1;
-	int				stat2;
+	t_used_var		*var;
 	t_env			*envp;
-	int				*fd;
-	int			input_fd;
 }					t_context;
 
 void				main_loop(t_context *ctx);

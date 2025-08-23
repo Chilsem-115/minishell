@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:19:34 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 21:49:25 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:59:26 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ static void	handle_line(t_context *ctx)
 	ctx->tokens = tokenize(ctx->line);
 	expand_variables(ctx);
 	ctx->ast = generate_ast(ctx->tokens);
-	 print_token_list(ctx->tokens);
-	 print_ast(ctx->ast);
+	//  print_token_list(ctx->tokens);
+	//  print_ast(ctx->ast);
 	list = *get_heredocs();
 	while (list)
 	{

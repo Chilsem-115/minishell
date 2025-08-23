@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:38:43 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 03:25:06 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 14:47:44 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static long	atoi_routine(char *s, t_context *ctx, int i, int r)
 		digit = s[i] - '0';
 		if (r == 1 && (j > (LLONG_MAX - digit) / 10))
 		{
-			ctx->max = 1;
+			ctx->var->max = 1;
 			return (0);
 		}
 		if (r == -1 && (-j < (LLONG_MIN + digit) / 10))
 		{
-			ctx->max = 1;
+			ctx->var->max = 1;
 			return (0);
 		}
 		j = j * 10 + digit;
@@ -77,15 +77,15 @@ void	exit_command(t_context *ctx, char **args)
 	long	status;
 
 	status = get_exit_status(0, 1);
-	if (ctx->p != 1)
+	if (ctx->var->p != 1)
 		printf("exit\n");
 	if (args[1])
 	{
 		status = long_atoi(args[1], ctx);
-		if (ctx->max == 1 || number_check(args[1]) == 1)
+		if (ctx->var->max == 1 || number_check(args[1]) == 1)
 		{
-			close(ctx->fd[0]);
-			close(ctx->fd[1]);
+			close(ctx->var->fd[0]);
+			close(ctx->var->fd[1]);
 			printf("bash: exit: %s: numeric argument required\n", args[1]);
 			exit(2);
 		}
@@ -94,8 +94,8 @@ void	exit_command(t_context *ctx, char **args)
 		printf("bash: exit: too many arguments\n");
 	else
 	{
-		close(ctx->fd[0]);
-		close(ctx->fd[1]);
+		close(ctx->var->fd[0]);
+		close(ctx->var->fd[1]);
 		exit(status);
 	}
 }

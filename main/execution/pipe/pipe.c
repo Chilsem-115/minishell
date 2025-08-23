@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:33:23 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 17:57:12 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 14:53:11 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static pid_t	launch_left(t_context *ctx,
 	pid = fork();
 	if (pid == 0)
 	{
-		close(ctx->fd[0]);
-		close(ctx->fd[1]);
+		close(ctx->var->fd[0]);
+		close(ctx->var->fd[1]);
 		signal(SIGINT, oldhdl_int);
 		signal(SIGQUIT, oldhdl_quit);
 		left_cmd(ctx, pipefd);
@@ -41,8 +41,8 @@ static pid_t	launch_right(t_context *ctx, int pipefd[2],
 		signal(SIGINT, oldhdl_int);
 		signal(SIGQUIT, oldhdl_quit);
 		right(ctx, pipefd);
-		close(ctx->fd[0]);
-		close(ctx->fd[1]);
+		close(ctx->var->fd[0]);
+		close(ctx->var->fd[1]);
 	}
 	return (pid);
 }
@@ -77,8 +77,8 @@ void	pipline(t_context *ctx)
 	void	(*oldhdl_int)(int);
 	void	(*oldhdl_quit)(int);
 
-	ctx->stat1 = 0;
-	ctx->stat2 = 0;
+	ctx->var->stat1 = 0;
+	ctx->var->stat2 = 0;
 	setup_signals(&oldhdl_int, &oldhdl_quit);
 	if (pipe(pipefd) == -1)
 	{
@@ -92,7 +92,7 @@ void	pipline(t_context *ctx)
 	close(pipefd[1]);
 	close(0);
 	close(1);
-	parent_wait(left_pid, right_pid, ctx->stat1, ctx->stat2);
+	parent_wait(left_pid, right_pid, ctx->var->stat1, ctx->var->stat2);
 }
 
 void	pipe_command(t_context *ctx)

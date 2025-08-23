@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 17:52:13 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 14:52:12 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,23 @@
 #include <signal.h>
 #include <sys/types.h>
 
-void	check(t_context *ctx)
+static bool	check(t_context *ctx)
 {
-	if (exec_check(ctx->argv[0]) == 1)
+	if(!ctx->var->argv || !ctx->var->argv[0])
+		return (false);
+	if (exec_check(ctx->var->argv[0]) == 1)
 	{
-		execve(ctx->argv[0], ctx->argv, my_env(ctx));
-		ft_dprintf(2, "%s: No such file or directory\n", ctx->argv[0]);
+		execve(ctx->var->argv[0], ctx->var->argv, my_env(ctx));
+		ft_dprintf(2, "%s: No such file or directory\n", ctx->var->argv[0]);
 		exit(127);
 	}
-	ctx->path = check_exec(ctx->argv[0], ctx);
-	if (!ctx->path)
+	ctx->var->path = check_exec(ctx->var->argv[0], ctx);
+	if (!ctx->var->path)
 	{
-		ft_dprintf(2, "%s: command not found\n", ctx->argv[0]);
+		ft_dprintf(2, "%s: command not found\n", ctx->var->argv[0]);
 		exit(127);
 	}
+	return (true);
 }
 
 static int	help_func(t_context *ctx)
@@ -45,12 +48,13 @@ static int	help_func(t_context *ctx)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(ctx->fd[0]);
-		close(ctx->fd[1]);
+		close(ctx->var->fd[0]);
+		close(ctx->var->fd[1]);
 		signal(SIGINT, oldhdl_int);
 		signal(SIGQUIT, oldhdl_quit);
-		check(ctx);
-		execve(ctx->path, ctx->argv, my_env(ctx));
+		if(check(ctx) == false)
+			return(-42);
+		execve(ctx->var->path, ctx->var->argv, my_env(ctx));
 		perror(" execve");
 		exit(126);
 	}
@@ -62,26 +66,27 @@ void	command(t_context *ctx)
 	pid_t	pid;
 
 	if (ctx->ast->data.cmd.text)
-		ctx->argv = ctx->ast->data.cmd.text;
+		ctx->var->argv = ctx->ast->data.cmd.text;
 	else
-		ctx->argv = NULL;
+		ctx->var->argv = NULL;
 	if (handle_builtin(ctx))
 		return ;
 	pid = help_func(ctx);
 	if (pid < 0)
 	{
-		perror("fork");
+		if(pid != -42)
+			perror("fork");
 		exit(1);
 	}
-	waitpid(pid, &ctx->stat, 0);
-	if (WIFSIGNALED(ctx->stat))
+	waitpid(pid, &ctx->var->stat, 0);
+	if (WIFSIGNALED(ctx->var->stat))
 	{
-		if (WTERMSIG(ctx->stat) == SIGINT || WTERMSIG(ctx->stat) == SIGQUIT)
+		if (WTERMSIG(ctx->var->stat) == SIGINT || WTERMSIG(ctx->var->stat) == SIGQUIT)
 			write(1, "\n", 1);
-		get_exit_status(WTERMSIG(ctx->stat) + 128, 0);
+		get_exit_status(WTERMSIG(ctx->var->stat) + 128, 0);
 	}
 	else
-		get_exit_status(WEXITSTATUS(ctx->stat), 0);
+		get_exit_status(WEXITSTATUS(ctx->var->stat), 0);
 	signal(SIGINT, handler);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -100,7 +105,7 @@ void	exec_ast_node(t_context *ctx, t_ast_node *node)
 	}
 	if (node->type == AST_CONTROL && node->data.ctrl.op == CTRL_PIPE)
 	{
-		ctx->p = 1;
+		ctx->var->p = 1;
 		ctx->ast = node;
 		pipline(ctx);
 	}
@@ -113,8 +118,8 @@ void	exec_ast_node(t_context *ctx, t_ast_node *node)
 
 void	command_exec(t_context *ctx)
 {
-	ctx->fd[0] = dup(0);
-	ctx->fd[1] = dup(1);
+	ctx->var->fd[0] = dup(0);
+	ctx->var->fd[1] = dup(1);
 	if (!ctx->ast)
 		return ;
 	if (ctx->ast->type == AST_REDIR)
@@ -127,12 +132,12 @@ void	command_exec(t_context *ctx)
 		command(ctx);
 	else
 	{
-		ctx->input_fd = STDIN_FILENO;
+		ctx->var->input_fd = STDIN_FILENO;
 		exec_ast_node(ctx, ctx->ast);
 	}
-	dup2(ctx->fd[0], 0);
-	dup2(ctx->fd[1], 1);
-	close(ctx->fd[0]);
-	close(ctx->fd[1]);
-	ctx->p = 0;
+	dup2(ctx->var->fd[0], 0);
+	dup2(ctx->var->fd[1], 1);
+	close(ctx->var->fd[0]);
+	close(ctx->var->fd[1]);
+	ctx->var->p = 0;
 }
