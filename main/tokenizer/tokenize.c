@@ -13,20 +13,22 @@
 #include "libft.h"
 #include "tokenize.h"
 
-
+/* context data initializer */
 static void	ctx_init(t_tokenizer_state *ctx)
 {
 	ctx->pos = 0;
 	ctx->tokens = NULL;
 	ctx->error = ERR_NONE;
+	ctx->mark_quotes = 1;
 }
 
-/* NOTE: this function is unsafe; not recommended with NULL or empty string */
-t_list	*tokenize(char *line)
+/* the main implemenation for tokenizing */
+static t_list	*tokenize_impl(char *line, int mark_quotes)
 {
 	t_tokenizer_state	ctx;
 
 	ctx_init(&ctx);
+	ctx.mark_quotes = mark_quotes;
 	while (line[ctx.pos])
 	{
 		while (ft_isspace(line[ctx.pos]))
@@ -36,6 +38,20 @@ t_list	*tokenize(char *line)
 		if (operator_handler(&ctx, line) || quote_handler(&ctx, line))
 			continue ;
 		word_handler(&ctx, line);
+		if (ctx.error != ERR_NONE)
+			break ;
 	}
 	return (ctx.tokens);
+}
+
+/* first pass from the shell: mark quotes -> sentinels */
+t_list	*tokenize(char *line)
+{
+	return (tokenize_impl(line, 1));
+}
+
+/* second pass from expansion: do NOT mark quotes */
+t_list	*tokenize_nomark(char *line)
+{
+	return (tokenize_impl(line, 0));
 }

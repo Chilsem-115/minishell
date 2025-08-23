@@ -44,6 +44,8 @@ int	quote_handler(t_tokenizer_state *ctx, char *line)
 	char	*word;
 	char	*marked;
 
+	if (!ctx->mark_quotes)
+		return (0);
 	if (line[ctx->pos] != '\'' && line[ctx->pos] != '"')
 		return (0);
 	start = ctx->pos;

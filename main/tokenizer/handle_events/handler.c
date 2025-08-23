@@ -39,7 +39,7 @@ static size_t	advance_word(t_tokenizer_state *ctx, char *line, size_t i)
 	return (i);
 }
 
-/* slices [start, end), marks syntactic quotes, and creates the TOK_WORD */
+/* slices [start,end); only mark syntactic quotes if ctx->mark_quotes == 1 */
 static int	create_marked_word(t_tokenizer_state *ctx, char *line, size_t start, size_t end)
 {
 	size_t	len;
@@ -50,11 +50,16 @@ static int	create_marked_word(t_tokenizer_state *ctx, char *line, size_t start, 
 	word = ft_strndup(&line[start], len);
 	if (!word)
 		tokenizer_error(ERR_MEMORY);
-	marked = mark_syntactic_quotes(word);
-	free(word);
-	if (!marked)
-		tokenizer_error(ERR_MEMORY);
-	create_token(ctx, marked, TOK_WORD);
+	if (ctx->mark_quotes)
+	{
+		marked = mark_syntactic_quotes(word);
+		free(word);
+		if (!marked)
+			tokenizer_error(ERR_MEMORY);
+		create_token(ctx, marked, TOK_WORD);
+	}
+	else
+		create_token(ctx, word, TOK_WORD);
 	return (1);
 }
 

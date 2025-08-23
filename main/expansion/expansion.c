@@ -72,7 +72,7 @@ static int	expand_and_splice(t_list **head, t_list *node, t_context *ctx)
 	text = expand_token_text(tok->text, ctx);
 	if (!text)
 		return (-1);
-	sub = tokenize(text);
+	sub = tokenize_nomark(text);
 	free(text);
 	lst_replace_node(head, node, sub);
 	return (0);
