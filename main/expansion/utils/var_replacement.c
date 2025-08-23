@@ -46,7 +46,6 @@ static int	apply_qmark(char **expanded, int pos, int consumed, int code)
 	if (!str)
 		return (-1);
 	rc = apply_replacement(expanded, pos, consumed, str);
-	// printf("%s is the value of the qweoqoiejqwo\n", str);
 	free(str);
 	return (rc);
 }

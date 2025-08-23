@@ -33,7 +33,7 @@ typedef enum e_tokentype
 	TOK_REDIR_OUT,
 	TOK_REDIR_APPEND,
 	TOK_EXIT_STATUS,
-}				t_tokentype;
+}	t_tokentype;
 
 /* Error codes */
 typedef enum e_tok_err
@@ -42,14 +42,14 @@ typedef enum e_tok_err
 	ERR_EMPTY_INPUT,
 	ERR_MEMORY,
 	ERR_ESCAPE_SEQ,
-}				t_tok_err;
+}	t_tok_err;
 
 /* Token structure */
 typedef struct s_token
 {
 	char		*text;
 	t_tokentype	type;
-}				t_token;
+}	t_token;
 
 /* Tokenizer state */
 typedef struct s_tokenizer_state
@@ -57,37 +57,37 @@ typedef struct s_tokenizer_state
 	size_t		pos;
 	t_list		*tokens;
 	t_tok_err	error;
-}				t_tokenizer_state;
+}	t_tokenizer_state;
+
 
 /* ======================= */
 /*      CORE FUNCTIONS     */
 /* ======================= */
 
-t_list			*tokenize(char *line);
-void			tokenizer_error(t_tok_err err);
-
-/* ======================= */
-/*    STATE MANAGEMENT     */
-/* ======================= */
-
-void			ctx_init(t_tokenizer_state *ctx);
+t_list	*tokenize(char *line);
+void	tokenizer_error(t_tok_err err);
 
 /* ======================= */
 /*      TOKEN HANDLERS     */
 /* ======================= */
 
-/* Operator handling */
-int				operator_handler(t_tokenizer_state *ctx, char *line);
-int				dispatch_control_ops(t_tokenizer_state *ctx, char *line);
-int				dispatch_redirections(t_tokenizer_state *ctx, char *line);
-int				add_token(t_tokenizer_state *ctx, t_tokentype type,
-					size_t size);
-void			token_free(void *ptr);
+/* Operator handling (return 1 if consumed, 0 otherwise) */
+int		operator_handler(t_tokenizer_state *ctx, char *line);
+int		dispatch_control_ops(t_tokenizer_state *ctx, char *line);
+int		dispatch_redirections(t_tokenizer_state *ctx, char *line);
 
-/* Word handling */
-int				word_handler(t_tokenizer_state *ctx, char *line);
+/* Word handling (return 1 if consumed, 0 otherwise) */
+int		word_handler(t_tokenizer_state *ctx, char *line);
+int		quote_handler(t_tokenizer_state *ctx, char *line);
 
-void			create_token(t_tokenizer_state *ctx, char *text,
-					t_tokentype type);
+/* ======================= */
+/*     HANDLER UTILITIES   */
+/* ======================= */
+
+int		is_op_char(char c);
+int		add_token(t_tokenizer_state *ctx, t_tokentype type, size_t size);
+void	token_free(void *ptr);
+void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type);
+size_t	skip_quoted(t_tokenizer_state *ctx, const char *s, size_t pos);
 
 #endif

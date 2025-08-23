@@ -37,9 +37,11 @@ SRC_MAIN = \
 
 SRC_TOKENIZER = \
 	main/tokenizer/tokenize.c \
+	main/tokenizer/handle_events/quote.c \
 	main/tokenizer/handle_events/redirect.c \
 	main/tokenizer/handle_events/control.c \
 	main/tokenizer/handle_events/handler.c \
+	main/tokenizer/handle_events/handler_utils.c \
 	main/tokenizer/handle_events/errors/err_handler.c
 
 SRC_EXPANSION = \

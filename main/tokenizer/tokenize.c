@@ -13,27 +13,8 @@
 #include "libft.h"
 #include "tokenize.h"
 
-void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type)
-{
-	t_token	*tok;
-	t_list	*node;
 
-	tok = malloc(sizeof(t_token));
-	if (!tok)
-		tokenizer_error(ERR_MEMORY);
-	tok->text = text;
-	tok->type = type;
-	node = ft_lstnew(tok);
-	if (!node)
-	{
-		free(tok->text);
-		free(tok);
-		tokenizer_error(ERR_MEMORY);
-	}
-	ft_lstadd_back(&ctx->tokens, node);
-}
-
-void	ctx_init(t_tokenizer_state *ctx)
+static void	ctx_init(t_tokenizer_state *ctx)
 {
 	ctx->pos = 0;
 	ctx->tokens = NULL;
@@ -52,7 +33,7 @@ t_list	*tokenize(char *line)
 			ctx.pos++;
 		if (!line[ctx.pos])
 			break ;
-		if (operator_handler(&ctx, line))
+		if (operator_handler(&ctx, line) || quote_handler(&ctx, line))
 			continue ;
 		word_handler(&ctx, line);
 	}
