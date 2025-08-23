@@ -6,23 +6,24 @@
 # === Compiler and Flags ===
 CC      = cc
 CFLAGS  = -g -Wall -Wextra -Werror \
-		  -Ilibft \
-		  -Imain \
-		  -Imain/tokenizer \
-		  -Imain/tokenizer/handle_events \
-		  -Imain/tokenizer/handle_events/errors \
-		  -Imain/expansion \
-		  -Imain/expansion/parser \
-		  -Imain/expansion/utils \
-		  -Imain/ast_generator \
-		  -Imain/ast_generator/ast \
-		  -Imain/ast_generator/ast/utils \
-		  -Imain/ast_generator/ast/node_creation \
-		  -Imain/ast_generator/error \
-		  -Imain/execution \
-		  -Imain/execution/pipe \
-		  -Imain/execution/redirection \
-		  -Imain/execution/environment
+          -Ilibft \
+          -Imain \
+          -Imain/tokenizer \
+          -Imain/tokenizer/handle_events \
+          -Imain/tokenizer/handle_events/quotes \
+          -Imain/tokenizer/handle_events/errors \
+          -Imain/expansion \
+          -Imain/expansion/parser \
+          -Imain/expansion/utils \
+          -Imain/ast_generator \
+          -Imain/ast_generator/ast \
+          -Imain/ast_generator/ast/utils \
+          -Imain/ast_generator/ast/node_creation \
+          -Imain/ast_generator/error \
+          -Imain/execution \
+          -Imain/execution/pipe \
+          -Imain/execution/redirection \
+          -Imain/execution/environment
 
 NAME    = minishell
 OBJDIR  = obj
@@ -36,13 +37,15 @@ SRC_MAIN = \
 	main/core.c
 
 SRC_TOKENIZER = \
-	main/tokenizer/tokenize.c \
-	main/tokenizer/handle_events/quote.c \
-	main/tokenizer/handle_events/redirect.c \
-	main/tokenizer/handle_events/control.c \
-	main/tokenizer/handle_events/handler.c \
-	main/tokenizer/handle_events/handler_utils.c \
-	main/tokenizer/handle_events/errors/err_handler.c
+    main/tokenizer/tokenize.c \
+    main/tokenizer/handle_events/redirect.c \
+    main/tokenizer/handle_events/control.c \
+    main/tokenizer/handle_events/handler.c \
+    main/tokenizer/handle_events/handler_utils.c \
+    main/tokenizer/handle_events/quotes/quote.c \
+    main/tokenizer/handle_events/quotes/quote_utils.c \
+    main/tokenizer/handle_events/quotes/quote_scan.c \
+    main/tokenizer/handle_events/errors/err_handler.c
 
 SRC_EXPANSION = \
 	main/expansion/expansion.c \

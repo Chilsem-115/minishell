@@ -54,9 +54,9 @@ size_t	skip_quoted(t_tokenizer_state *ctx, const char *s, size_t pos)
 		i++;
 	if (!s[i])
 	{
-		ctx->error = ERR_ESCAPE_SEQ; /* reuse this as “unclosed quote” */
-		return (i - pos);            /* consumed until '\0' */
+		ctx->error = ERR_ESCAPE_SEQ;
+		return (i - pos);
 	}
-	return (i - pos + 1);            /* include closing quote */
+	return (i - pos + 1);
 }
 

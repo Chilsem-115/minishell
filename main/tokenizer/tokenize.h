@@ -21,7 +21,8 @@
 # include <string.h>
 
 /* Constants */
-# define MAX_TOKENS 4096
+# define SQ_SENTINEL '\x01'
+# define DQ_SENTINEL '\x02'
 
 /* Token types */
 typedef enum e_tokentype
@@ -89,5 +90,19 @@ int		add_token(t_tokenizer_state *ctx, t_tokentype type, size_t size);
 void	token_free(void *ptr);
 void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type);
 size_t	skip_quoted(t_tokenizer_state *ctx, const char *s, size_t pos);
+
+/* quote handling utils */
+int		is_syntactic(int sq, int dq, char c);
+void	toggle_state(int *sq, int *dq, char c);
+void	init_state(size_t *i, size_t *j, int *sq, int *dq);
+char	handle_char(char c, int *sq, int *dq);
+char	get_sentinel(char c);
+
+/* tokenize.h additions */
+int		is_quote_char(char c);
+size_t	skip_quoted_any(t_tokenizer_state *ctx, const char *s, size_t pos);
+
+/* Mark only syntactic quotes in a freshly formed WORD */
+char	*mark_syntactic_quotes(const char *s);
 
 #endif
