@@ -1,5 +1,6 @@
 
 #include "expansion.h"
+#include "tokenize.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -10,7 +11,7 @@ static int	find_char(const char *s, char c, int start)
 	if (!s || start < 0)
 		return (-1);
 	s += start;
-	found = strchr(s, c); //?
+	found = strchr(s, c);
 	if (!found)
 		return (-1);
 	return (start + (int)(found - s));
@@ -29,9 +30,9 @@ static t_emode	var_mode_at(const char *s, int pos)
 	i = 0;
 	while (s[i] && i < pos)
 	{
-		if (!in_dq && s[i] == '\'')
+		if (!in_dq && (s[i] == '\'' || s[i] == SQ_SENTINEL))
 			in_sq = !in_sq;
-		else if (!in_sq && s[i] == '\"')
+		else if (!in_sq && (s[i] == '\"' || s[i] == DQ_SENTINEL))
 			in_dq = !in_dq;
 		i++;
 	}

@@ -67,6 +67,8 @@ static int	expand_and_splice(t_list **head, t_list *node, t_context *ctx)
 	if (!head || !*head || !node || !ctx)
 		return (-1);
 	tok = (t_token *)node->content;
+	if (!tok || tok->type != TOK_WORD || !tok->text)
+		return (0);
 	text = expand_token_text(tok->text, ctx);
 	if (!text)
 		return (-1);
@@ -93,4 +95,5 @@ void	expand_variables(t_context *ctx)
 			return ;
 		curr = next;
 	}
+	strip_sentinels_post_expansion(ctx->tokens);
 }

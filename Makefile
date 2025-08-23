@@ -52,6 +52,7 @@ SRC_EXPANSION = \
 	main/expansion/parser/env_lookup.c \
 	main/expansion/parser/grab_variable.c \
 	main/expansion/parser/locate_var.c \
+	main/expansion/utils/quote_strip.c \
 	main/expansion/utils/expansion_utils.c \
 	main/expansion/utils/var_replacement.c
 

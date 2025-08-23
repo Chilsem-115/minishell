@@ -25,6 +25,10 @@ char	*str_replace_range(const char *src, size_t start, size_t len,
 void	lst_replace_node(t_list **head, t_list *node, t_list *sub);
 int		replace_one_at(char **expanded, int pos, t_context *ctx);
 
+/* quote_strip */
+void	strip_sentinels_post_expansion(t_list *tokens);
+char	*remove_syntactic_sentinels(const char *s);
+
 /* the main function */
 void	expand_variables(t_context *ctx);
 
