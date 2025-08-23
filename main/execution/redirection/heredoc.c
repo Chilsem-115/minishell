@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:49 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 18:04:00 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 18:28:04 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ bool	heredoc(char **list)
 		s = readline("> ");
 		if(!s)
 		{
-			ft_dprintf(2, "bash: warning: here-document at line 2 delimited by end-of-file (wanted `k')\n");
+			ft_dprintf(2, "bash: warning: here-document at line 2 delimited by end-of-file (wanted `%s')\n", delimiter);
+			close(fd_hd);
 			break;
 		}
 		if (ft_strcmp(s, delimiter) != 0)
