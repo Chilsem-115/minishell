@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 22:31:27 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 23:23:10 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,13 @@ static int	help_func(t_context *ctx)
 		signal(SIGQUIT, oldhdl_quit);
 		if(check(ctx) == false)
 			return(-42);
+		if(ft_strcmp(ctx->var->argv[0], "") == 0 || !ctx->var->argv[0])
+		{
+			ft_dprintf(2, "bash :command not found\n");
+			return (-1337);
+		}
 		execve(ctx->var->path, ctx->var->argv, my_env(ctx));
-		perror(" execve");
+		perror("**execve");
 		exit(126);
 	}
 	return (pid);
@@ -71,6 +76,8 @@ void	command(t_context *ctx)
 	pid = help_func(ctx);
 	if (pid < 0)
 	{
+		if(pid == -1337)
+			exit(127);
 		if(pid != -42)
 			perror("fork");
 		exit(1);

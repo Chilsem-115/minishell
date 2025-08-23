@@ -6,20 +6,25 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:32:35 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 15:35:29 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:54:25 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "messh.h"
 
-static int	cd_cmd(t_context *ctx, char *argv)
+static int	cd_cmd(t_context *ctx, char **argv)
 {
 	char	cwd[PATH_MAX];
 
+	if(argv[2])
+	{
+		ft_dprintf(2, "bash: cd: too many arguments\n");
+		return (1);
+	}
 	cwd[0] = 0;
 	getcwd(cwd, sizeof(cwd));
-	if (!argv)
+	if (!argv[1])
 	{
 		if (my_getenv("HOME", ctx) == NULL || chdir(my_getenv("HOME", ctx)) == -1)
 		{
@@ -27,13 +32,10 @@ static int	cd_cmd(t_context *ctx, char *argv)
 			return (1);
 		}
 	}
-	else
+	else if (chdir(argv[1]) == -1)
 	{
-		if (chdir(argv) == -1)
-		{
-			ft_dprintf(2, "cd: No such file or directory\n");
-			return (1);
-		}
+		ft_dprintf(2, "cd : %s: %s\n", argv[1], strerror(errno));
+		return (1);
 	}
 	update_var(&ctx->envp, "OLDPWD", ft_strdup(my_getenv("PWD", ctx)), 0);
 	update_var(&ctx->envp, "PWD", ft_strdup(getcwd(cwd, sizeof(cwd))), 0);
@@ -104,7 +106,7 @@ int	handle_builtin(t_context *ctx)
 	if (!argv)
 		return (0);
 	if (!ft_strncmp(argv[0], "cd", 3))
-		stat = cd_cmd(ctx, argv[1]);
+		stat = cd_cmd(ctx, argv);
 	else if (!ft_strncmp(argv[0], "exit", 5))
 		exit_command(ctx, argv);
 	else if (!ft_strncmp(argv[0], "export", 7))

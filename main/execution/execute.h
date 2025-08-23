@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:40 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 22:32:05 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:48:32 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <errno.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
