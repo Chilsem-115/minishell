@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 15:13:55 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:31:27 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,11 @@ void	exec_ast_node(t_context *ctx, t_ast_node *node)
 	}
 	if (node->type == AST_REDIR)
 	{
-		redirections(node);
+		if(redirections(node) == 1)
+		{
+			get_exit_status(1, 0);
+			return ;
+		}
 		node = node->data.redir.child;
 	}
 	if (node->type == AST_CONTROL && node->data.ctrl.op == CTRL_PIPE)
@@ -121,7 +125,12 @@ void	command_exec(t_context *ctx)
 		return ;
 	if (ctx->ast->type == AST_REDIR)
 	{
-		redirections(ctx->ast);
+		if(redirections(ctx->ast) == 1)
+		{
+			get_exit_status(1, 0);
+			close_fds(ctx);
+			return ;
+		}
 		while (ctx->ast && ctx->ast->type != AST_COMMAND)
 			ctx->ast = ctx->ast->data.redir.child;
 	}
@@ -132,9 +141,6 @@ void	command_exec(t_context *ctx)
 		ctx->var->input_fd = STDIN_FILENO;
 		exec_ast_node(ctx, ctx->ast);
 	}
-	dup2(ctx->var->fd[0], 0);
-	dup2(ctx->var->fd[1], 1);
-	close(ctx->var->fd[0]);
-	close(ctx->var->fd[1]);
+	close_fds(ctx);
 	ctx->var->p = 0;
 }

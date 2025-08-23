@@ -33,7 +33,7 @@ static int	replace_one_at(char **expanded, int pos, t_context *ctx)
 }
 */
 
-static char	*expand_token_text(char *text, t_context *ctx)
+char	*expand_token_text(char *text, t_context *ctx)
 {
 	char	*expanded;
 	int		pos;

@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:40 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 17:15:53 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:32:05 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*check_exec(char *s, t_context *ctx);
 char	*ft_readline(void);
 char	**my_env(t_context *ctx);
 char	*my_getenv(char *s, t_context *ctx);
+void    close_fds(t_context *ctx);
 void	command_exec(t_context *ctx);
 // exit status
 long	get_exit_status(int st, int c);
@@ -56,9 +57,8 @@ void	pipe_command(t_context *ctx);
 void	exec_ast_node(t_context *ctx, t_ast_node *node);
 // redirections
 t_list	**get_heredocs(void);
-void	red_in(t_ast_node *ast);
-bool	heredoc(char **list);
-void	redirections(t_ast_node *ast);
+bool	heredoc(char **list, t_context *ctx);
+int	redirections(t_ast_node *ast);
 char	*generate_full_path(void);
 int		lenlist(t_env *env_list);
 int		exec_check(char *s);

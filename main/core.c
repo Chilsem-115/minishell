@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:19:34 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 13:59:26 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:20:30 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static void	handle_line(t_context *ctx)
 	list = *get_heredocs();
 	while (list)
 	{
-		if (heredoc(list->content) == false)
+		if (heredoc(list->content, ctx) == false)
 		{
 			*get_heredocs() = NULL;
 			return ;

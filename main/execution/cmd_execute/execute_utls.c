@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:12:56 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/19 22:17:37 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:31:38 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,12 @@ void	*saved_signal(void *sig1, void *sig2, int f)
 	else if (f == 1)
 		return (oldhdl_int);
 	return (oldhdl_quit);
+}
+
+void close_fds(t_context *ctx)
+{
+	dup2(ctx->var->fd[0], 0);
+	dup2(ctx->var->fd[1], 1);
+	close(ctx->var->fd[0]);
+	close(ctx->var->fd[1]);
 }

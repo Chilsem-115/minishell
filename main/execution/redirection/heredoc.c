@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:49 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 18:28:04 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:23:35 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static int	name_file(char	**file)
 	return (fd_hd);
 }
 
-bool	heredoc(char **list)
+bool	heredoc(char **list, t_context *ctx)
 {
 	int		fd_hd;
 	char	(*s),(*delimiter);
@@ -112,6 +112,7 @@ bool	heredoc(char **list)
 	while (g_gsignum == 0)
 	{
 		s = readline("> ");
+		s = expand_token_text(s, ctx);
 		if(!s)
 		{
 			ft_dprintf(2, "bash: warning: here-document at line 2 delimited by end-of-file (wanted `%s')\n", delimiter);

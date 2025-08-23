@@ -14,6 +14,8 @@ typedef enum e_emode
 	EXP_DQ
 }		t_emode;
 
+char	*expand_token_text(char *text, t_context *ctx);
+
 /* parser */
 t_env	*env_find_node(t_env *head, const char *key);
 int		next_dollar(const char *s, int start, t_emode *out_mode); //!
