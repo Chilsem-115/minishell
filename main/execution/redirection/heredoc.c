@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:49 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 18:29:17 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 18:04:00 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,18 +104,20 @@ static int	name_file(char	**file)
 bool	heredoc(char **list)
 {
 	int		fd_hd;
-	char	*s;
-	char	*file;
+	char	(*s),(*delimiter);
 
-	fd_hd = name_file(&file);
-	g_gsignum = 0;
-	while (1)
+//	should_expand = (*list);
+	delimiter = remove_syntactic_sentinels(*list);
+	fd_hd = name_file(list);
+	while (g_gsignum == 0)
 	{
-		if (g_gsignum != 0)
-			return (false);
-		g_gsignum = 0;
 		s = readline("> ");
-		if (s && ft_strncmp(s, *list, ft_strlen(s) + 1) != 0)
+		if(!s)
+		{
+			ft_dprintf(2, "bash: warning: here-document at line 2 delimited by end-of-file (wanted `k')\n");
+			break;
+		}
+		if (ft_strcmp(s, delimiter) != 0)
 		{
 			write(fd_hd, s, ft_strlen(s));
 			write(fd_hd, "\n", 1);
@@ -126,6 +128,5 @@ bool	heredoc(char **list)
 			break ;
 		}
 	}
-	*list = file;
-	return (true);
+	return (g_gsignum == 0);
 }

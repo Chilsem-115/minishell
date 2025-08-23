@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:40 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 15:04:14 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/23 17:15:53 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXECUTE_H
 
 # include "messh.h"
+# include "expansion.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <linux/limits.h>

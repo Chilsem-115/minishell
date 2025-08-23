@@ -30,7 +30,7 @@ int	grab_variable(const char *s, int pos, char **out_name)
 	if (!s || s[pos] != '$' || !s[pos + 1])
 		return (0);
 	if (s[pos + 1] == '?')
-		return (2);
+		return (-2); //? change from 2 to -2
 	if (!is_name_start(s[pos + 1]))
 		return (0);
 	start = pos + 1;
@@ -40,5 +40,5 @@ int	grab_variable(const char *s, int pos, char **out_name)
 	*out_name = ft_substr(s, start, (size_t)(i - start));
 	if (!*out_name)
 		return (-1);
-	return (i - pos);
+	return (i - pos); //?
 }

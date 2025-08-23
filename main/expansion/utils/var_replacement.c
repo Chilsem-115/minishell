@@ -4,12 +4,14 @@
 
 static int	precheck_consumed(int consumed)
 {
+	if (consumed == -2)
+		return (-2);
 	if (consumed < 0)
 		return (-1);
 	if (consumed == 0)
 		return (0);
-	if (consumed == 2)
-		return (2);
+	// if (consumed == 2)
+	// 	return (2);
 	return (1);
 }
 
@@ -63,7 +65,7 @@ int	replace_one_at(char **expanded, int pos, t_context *ctx)
 	rc = precheck_consumed(consumed);
 	if (rc == -1 || rc == 0)
 		return (rc);
-	if (rc == 2)
+	if (rc == -2)
 		return (apply_qmark(expanded, pos, consumed, get_exit_status(0, 1)));
 	replacement = resolve_replacement(ctx, name);
 	rc = apply_replacement(expanded, pos, consumed, replacement);

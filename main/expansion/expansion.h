@@ -16,7 +16,7 @@ typedef enum e_emode
 
 /* parser */
 t_env	*env_find_node(t_env *head, const char *key);
-int		next_dollar(const char *s, int start, t_emode *out_mode);
+int		next_dollar(const char *s, int start, t_emode *out_mode); //!
 int		grab_variable(const char *s, int pos, char **out_name);
 
 /* utility functions */
