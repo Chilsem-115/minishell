@@ -51,7 +51,6 @@ SRC_TOKENIZER = \
 
 SRC_EXPANSION = \
 	main/expansion/expansion.c \
-	main/expansion/refactor.c \
 	main/expansion/parser/env_lookup.c \
 	main/expansion/parser/grab_variable.c \
 	main/expansion/parser/locate_var.c \
