@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:40 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 22:48:32 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/24 04:28:35 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
+#include <sys/stat.h>
 # include <stdio.h>
 # include <errno.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
+int is_dir(const char *path);
 char	**split_once(const char *str, char sep);
 void	ft_envadd_back(t_env **lst, t_env *new);
 char	*check_exec(char *s, t_context *ctx);

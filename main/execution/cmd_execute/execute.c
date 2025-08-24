@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 23:23:10 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/24 04:27:25 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ static bool	check(t_context *ctx)
 	if (exec_check(ctx->var->argv[0]) == 1)
 	{
 		execve(ctx->var->argv[0], ctx->var->argv, my_env(ctx));
+		if(is_dir(ctx->var->argv[0]) != 0)
+		{
+			ft_dprintf(2, "bash: %s: Is a directory\n", ctx->var->argv[0]);
+			exit(127);
+		}
 		ft_dprintf(2, "%s: No such file or directory\n", ctx->var->argv[0]);
 		exit(127);
 	}

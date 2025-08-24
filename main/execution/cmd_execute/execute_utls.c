@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:12:56 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 22:31:38 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/24 04:25:43 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,23 @@ char	**split_once(const char *str, char sep)
 	return (res);
 }
 
+int is_dir(const char *path)
+{
+    struct stat statbuf;
+
+    if (stat(path, &statbuf) != 0)
+        return 0;
+    return S_ISDIR(statbuf.st_mode);
+}
+
 char	*check_exec(char *s, t_context *ctx)
 {
 	int		i;
 	char	**str;
-	char	*path;
+	char	(*path), (*fpath);
 
 	i = 0;
+	fpath = NULL;
 	str = ft_split(my_getenv("PATH", ctx), ':');
 	if (!str || !*str)
 		return (s);
@@ -50,16 +60,18 @@ char	*check_exec(char *s, t_context *ctx)
 	{
 		path = ft_strjoin(str[i], "/");
 		path = ft_strjoin(path, s);
-		if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
+		if (is_dir(path) != 0)
 		{
-			perror("bash");
-			exit(126);
+			i++;
+			continue;
 		}
+		if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
+			fpath = path;
 		else if (access(path, X_OK) == 0)
 			return (path);
 		i++;
 	}
-	return (NULL);
+	return (fpath);
 }
 
 int	exec_check(char *s)
