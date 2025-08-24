@@ -32,6 +32,7 @@ void	strip_sentinels_post_expansion(t_list *tokens);
 char	*remove_syntactic_sentinels(const char *s);
 
 /* the main function */
+t_list	*refactor(const char *text);
 void	expand_variables(t_context *ctx);
 
 #endif

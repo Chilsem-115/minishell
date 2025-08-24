@@ -21,7 +21,6 @@ int	operator_handler(t_tokenizer_state *ctx, char *line)
 	return (0);
 }
 
-/* advances i to the end of the current WORD (handles quotes); returns new index */
 static size_t	advance_word(char *line, size_t i)
 {
 	size_t	cons;
@@ -39,29 +38,51 @@ static size_t	advance_word(char *line, size_t i)
 	return (i);
 }
 
-/* slices [start,end); only mark syntactic quotes if ctx->mark_quotes == 1 */
-static int	create_marked_word(t_tokenizer_state *ctx, char *line, size_t start, size_t end)
+static char	*unquote_copy(const char *src, size_t len)
 {
-	size_t	len;
-	char	*word;
-	char	*marked;
+	size_t	i;
+	size_t	j;
+	int		in_sq;
+	int		in_dq;
+	char	*out;
 
-	len = end - start;
-	word = ft_strndup(&line[start], len);
-	if (!word)
-		return (0);
-		//tokenizer_error(ERR_MEMORY);
-	if (ctx->mark_quotes)
+	out = (char *)malloc(len + 1);
+	if (!out)
+		return (NULL);
+	i = 0;
+	j = 0;
+	in_sq = 0;
+	in_dq = 0;
+	while (i < len)
 	{
-		marked = mark_syntactic_quotes(word);
-		free(word);
-		if (!marked)
-			return (0);
-			//tokenizer_error(ERR_MEMORY);
-		create_token(ctx, marked, TOK_WORD);
+		if (!in_dq && src[i] == '\'')
+			in_sq = !in_sq;
+		else if (!in_sq && src[i] == '"')
+			in_dq = !in_dq;
+		else if (!in_sq && src[i] == '\\' && (i + 1) < len)
+			out[j++] = src[++i];
+		else
+			out[j++] = src[i];
+		i++;
 	}
-	else
-		create_token(ctx, word, TOK_WORD);
+	out[j] = '\0';
+	return (out);
+}
+
+static int	create_word(t_tokenizer_state *ctx, char *line,
+						size_t start, size_t end)
+{
+	char	*raw;
+	char	*text;
+
+	raw = ft_strndup(&line[start], end - start);
+	if (!raw)
+		return (0);
+	text = unquote_copy(raw, end - start);
+	free(raw);
+	if (!text)
+		return (0);
+	create_token(ctx, text, TOK_WORD);
 	return (1);
 }
 
@@ -76,7 +97,8 @@ int	word_handler(t_tokenizer_state *ctx, char *line)
 		return (0);
 	start = i;
 	end = advance_word(line, i);
-	create_marked_word(ctx, line, start, end);
+	if (!create_word(ctx, line, start, end))
+		return (0);
 	ctx->pos = end;
 	return (1);
 }

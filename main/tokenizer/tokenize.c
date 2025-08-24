@@ -18,17 +18,14 @@ static void	ctx_init(t_tokenizer_state *ctx)
 {
 	ctx->pos = 0;
 	ctx->tokens = NULL;
-	//ctx->error = ERR_NONE;
-	ctx->mark_quotes = 1;
 }
 
 /* the main implemenation for tokenizing */
-static t_list	*tokenize_impl(char *line, int mark_quotes)
+static t_list	*tokenize_impl(char *line)
 {
 	t_tokenizer_state	ctx;
 
 	ctx_init(&ctx);
-	ctx.mark_quotes = mark_quotes;
 	while (line[ctx.pos])
 	{
 		while (ft_isspace(line[ctx.pos]))
@@ -37,14 +34,11 @@ static t_list	*tokenize_impl(char *line, int mark_quotes)
 			break ;
 		if (operator_handler(&ctx, line))
 			continue ;
-		if (mark_quotes == 1)
-		{
-			if (quote_handler(&ctx, line))
+		/*
+		if (quote_handler(&ctx, line))
 				continue ;
-		}
+				*/
 		word_handler(&ctx, line);
-		/*if (ctx.error != ERR_NONE)
-			break ;*/
 	}
 	return (ctx.tokens);
 }
@@ -60,7 +54,7 @@ t_list	*tokenize(char *line)
 		err_unclosed_quote();
 		return (NULL);
 	}
-	tokens = tokenize_impl(line, 1);
+	tokens = tokenize_impl(line);
 	if (!tokens)
 		return (NULL);
 	if (!validate_redirs(tokens))
@@ -76,10 +70,4 @@ t_list	*tokenize(char *line)
 		return (NULL);
 	}
 	return (tokens);
-}
-
-/* second pass from expansion: do NOT mark quotes */
-t_list	*tokenize_nomark(char *line)
-{
-	return (tokenize_impl(line, 0));
 }

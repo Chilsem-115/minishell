@@ -60,7 +60,6 @@ typedef struct s_tokenizer_state
 	size_t		pos;
 	t_list		*tokens;
 	//t_tok_err	error;
-	int			mark_quotes;
 }	t_tokenizer_state;
 
 
@@ -69,7 +68,6 @@ typedef struct s_tokenizer_state
 /* ======================= */
 
 t_list	*tokenize(char *line);
-t_list	*tokenize_nomark(char *line);
 
 /* ======================= */
 /*      TOKEN HANDLERS     */
