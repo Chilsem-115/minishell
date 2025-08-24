@@ -9,7 +9,7 @@ int	is_quote_char(char c)
 }
 
 /* s[pos] is a quote/sentinel; skip to its matching closer or same sentinel */
-size_t	skip_quoted_any(t_tokenizer_state *ctx, const char *s, size_t pos)
+size_t	skip_quoted_any(const char *s, size_t pos)
 {
 	size_t	i;
 	char	open;
@@ -24,8 +24,6 @@ size_t	skip_quoted_any(t_tokenizer_state *ctx, const char *s, size_t pos)
 		close = '"';
 	while (s[i] && s[i] != close && s[i] != open)
 		i++;
-	if (!s[i])
-		ctx->error = ERR_ESCAPE_SEQ;
 	if (s[i])
 		i++;
 	return (i - pos);

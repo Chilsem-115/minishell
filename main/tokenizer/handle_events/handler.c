@@ -22,7 +22,7 @@ int	operator_handler(t_tokenizer_state *ctx, char *line)
 }
 
 /* advances i to the end of the current WORD (handles quotes); returns new index */
-static size_t	advance_word(t_tokenizer_state *ctx, char *line, size_t i)
+static size_t	advance_word(char *line, size_t i)
 {
 	size_t	cons;
 
@@ -30,7 +30,7 @@ static size_t	advance_word(t_tokenizer_state *ctx, char *line, size_t i)
 	{
 		if (is_quote_char(line[i]))
 		{
-			cons = skip_quoted(ctx, line, i);
+			cons = skip_quoted(line, i);
 			i += cons;
 		}
 		else
@@ -75,7 +75,7 @@ int	word_handler(t_tokenizer_state *ctx, char *line)
 	if (!line[i] || isspace((unsigned char)line[i]) || is_op_char(line[i]))
 		return (0);
 	start = i;
-	end = advance_word(ctx, line, i);
+	end = advance_word(line, i);
 	create_marked_word(ctx, line, start, end);
 	ctx->pos = end;
 	return (1);

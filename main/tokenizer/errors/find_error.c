@@ -75,6 +75,6 @@ const char	*find_pipe_error_token(t_list *tokens)
 	}
 	tok = (t_token *)node->content;
 	if (tok && tok->type == TOK_PIPE)
-		return ("newline");
+		return ("|");
 	return (NULL);
 }

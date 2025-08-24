@@ -101,7 +101,6 @@ void	init_state(size_t *i, size_t *j, int *sq, int *dq);
 char	handle_char(char c, int *sq, int *dq);
 char	get_sentinel(char c);
 int		is_quote_char(char c);
-size_t	skip_quoted_any(t_tokenizer_state *ctx, const char *s, size_t pos);
 
 /* Mark only syntactic quotes in a freshly formed WORD */
 char	*mark_syntactic_quotes(const char *s);
@@ -115,7 +114,5 @@ int		validate_pipes(t_list *tokens);
 void	err_unexpected_token(const char *tok);
 const char	*find_redir_error_token(t_list *lst);
 const char	*find_pipe_error_token(t_list *tokens);
-
-
 
 #endif
