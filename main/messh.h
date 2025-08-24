@@ -32,15 +32,15 @@
 
 typedef struct s_used_var
 {
-    int				max;
-	int				p;
-	int				stat;
-	char			*path;
-	char			**argv;
-	int				stat1;
-	int				stat2;
-	int				*fd;
-	int			input_fd;
+    int		max;
+	int		p;
+	int		stat;
+	char	*path;
+	char	**argv;
+	int		stat1;
+	int		stat2;
+	int		*fd;
+	int		input_fd;
 }	t_used_var;
 
 typedef struct s_env

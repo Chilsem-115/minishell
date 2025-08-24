@@ -18,7 +18,7 @@ static void	ctx_init(t_tokenizer_state *ctx)
 {
 	ctx->pos = 0;
 	ctx->tokens = NULL;
-	ctx->error = ERR_NONE;
+	//ctx->error = ERR_NONE;
 	ctx->mark_quotes = 1;
 }
 
@@ -35,11 +35,16 @@ static t_list	*tokenize_impl(char *line, int mark_quotes)
 			ctx.pos++;
 		if (!line[ctx.pos])
 			break ;
-		if (operator_handler(&ctx, line) || quote_handler(&ctx, line))
+		if (operator_handler(&ctx, line))
 			continue ;
+		if (mark_quotes == 1)
+		{
+			if (quote_handler(&ctx, line))
+				continue ;
+		}
 		word_handler(&ctx, line);
-		if (ctx.error != ERR_NONE)
-			break ;
+		/*if (ctx.error != ERR_NONE)
+			break ;*/
 	}
 	return (ctx.tokens);
 }
@@ -47,7 +52,30 @@ static t_list	*tokenize_impl(char *line, int mark_quotes)
 /* first pass from the shell: mark quotes -> sentinels */
 t_list	*tokenize(char *line)
 {
-	return (tokenize_impl(line, 1));
+	t_list		*tokens;
+	const char	*bad;
+
+	if (!validate_quotes_line(line))
+	{
+		err_unclosed_quote();
+		return (NULL);
+	}
+	tokens = tokenize_impl(line, 1);
+	if (!tokens)
+		return (NULL);
+	if (!validate_redirs(tokens))
+	{
+		bad = find_redir_error_token(tokens);
+		err_unexpected_token(bad);
+		return (NULL);
+	}
+	if (!validate_pipes(tokens))
+	{
+		bad = find_pipe_error_token(tokens);
+		err_unexpected_token(bad);
+		return (NULL);
+	}
+	return (tokens);
 }
 
 /* second pass from expansion: do NOT mark quotes */

@@ -9,9 +9,9 @@ CFLAGS  = -g -Wall -Wextra -Werror \
           -Ilibft \
           -Imain \
           -Imain/tokenizer \
+          -Imain/tokenizer/errors \
           -Imain/tokenizer/handle_events \
           -Imain/tokenizer/handle_events/quotes \
-          -Imain/tokenizer/handle_events/errors \
           -Imain/expansion \
           -Imain/expansion/parser \
           -Imain/expansion/utils \
@@ -38,6 +38,9 @@ SRC_MAIN = \
 
 SRC_TOKENIZER = \
     main/tokenizer/tokenize.c \
+    main/tokenizer/errors/error.c \
+    main/tokenizer/errors/validate.c \
+	main/tokenizer/errors/find_error.c \
     main/tokenizer/handle_events/redirect.c \
     main/tokenizer/handle_events/control.c \
     main/tokenizer/handle_events/handler.c \
@@ -45,7 +48,6 @@ SRC_TOKENIZER = \
     main/tokenizer/handle_events/quotes/quote.c \
     main/tokenizer/handle_events/quotes/quote_utils.c \
     main/tokenizer/handle_events/quotes/quote_scan.c \
-    main/tokenizer/handle_events/errors/err_handler.c
 
 SRC_EXPANSION = \
 	main/expansion/expansion.c \

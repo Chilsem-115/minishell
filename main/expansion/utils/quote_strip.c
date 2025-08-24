@@ -39,7 +39,8 @@ static void	strip_on_token(t_token *tok)
 		return ;
 	clean = remove_syntactic_sentinels(tok->text);
 	if (!clean)
-		tokenizer_error(ERR_MEMORY);
+		return ;
+	//tokenizer_error(ERR_MEMORY);
 	free(tok->text);
 	tok->text = clean;
 }

@@ -49,13 +49,15 @@ static int	create_marked_word(t_tokenizer_state *ctx, char *line, size_t start, 
 	len = end - start;
 	word = ft_strndup(&line[start], len);
 	if (!word)
-		tokenizer_error(ERR_MEMORY);
+		return (0);
+		//tokenizer_error(ERR_MEMORY);
 	if (ctx->mark_quotes)
 	{
 		marked = mark_syntactic_quotes(word);
 		free(word);
 		if (!marked)
-			tokenizer_error(ERR_MEMORY);
+			return (0);
+			//tokenizer_error(ERR_MEMORY);
 		create_token(ctx, marked, TOK_WORD);
 	}
 	else

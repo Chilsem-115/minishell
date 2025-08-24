@@ -54,11 +54,13 @@ int	quote_handler(t_tokenizer_state *ctx, char *line)
 	i = advance_word_end(ctx, line, i);
 	word = ft_strndup(&line[start], i - start);
 	if (!word)
-		tokenizer_error(ERR_MEMORY);
+		return (0);
+		//tokenizer_error(ERR_MEMORY);
 	marked = mark_syntactic_quotes(word);
 	free(word);
 	if (!marked)
-		tokenizer_error(ERR_MEMORY);
+		return (0);
+		//tokenizer_error(ERR_MEMORY);
 	create_token(ctx, marked, TOK_WORD);
 	ctx->pos = i;
 	return (1);
