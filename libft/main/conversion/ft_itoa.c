@@ -51,7 +51,7 @@ char	*ft_itoa(int n)
 		return (ft_strdup("-2147483648"));
 	num_digits = digit_count(n);
 	i = num_digits - 1;
-	ret = (char *)malloc((num_digits + 1) * sizeof(char));
+	ret = (char *)garbage_coll(0, (num_digits + 1) * sizeof(char));
 	ret[num_digits] = '\0';
 	if (n < 0)
 	{

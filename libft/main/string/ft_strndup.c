@@ -16,7 +16,7 @@ char	*ft_strndup(const char *src, int n)
 {
 	char	*dst;
 
-	dst = (char *)malloc(n + 1);
+	dst = (char *)garbage_coll(0, n + 1);
 	if (dst == NULL)
 		return (NULL);
 	ft_strlcpy(dst, src, n + 1);

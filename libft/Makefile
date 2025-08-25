@@ -14,7 +14,6 @@ MEMORY_DIR       = main/memory
 STDIO_DIR        = main/stdio
 STRING_DIR       = main/string
 STRUTILS_DIR     = main/strutils
-GNL_DIR          = main/get_next_line
 PRINTF_SUBDIR    = main/ft_printf
 
 # Source files by category
@@ -81,9 +80,7 @@ STRUTILS_SRCS    = \
 	$(STRUTILS_DIR)/ft_striteri.c \
 	$(STRUTILS_DIR)/ft_deldup.c
 
-GNL_SRCS         = \
-	$(GNL_DIR)/get_next_line.c \
-	$(GNL_DIR)/get_next_line_utils.c
+GC_SRCS          = ./main/garbage_col.c
 
 # Pre-built printf objects from submodule
 PRINTF_OBJS      = \
@@ -106,7 +103,7 @@ SRCS             = \
 	$(STDIO_SRCS) \
 	$(STRING_SRCS) \
 	$(STRUTILS_SRCS) \
-	$(GNL_SRCS)
+	$(GC_SRCS)
 
 # Object files for root compilation
 OBJS_OWN         = $(SRCS:%.c=$(OBJDIR)/%.o)

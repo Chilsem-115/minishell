@@ -70,13 +70,13 @@ static void	status_init(t_context *ctx, char **env)
 	ctx->tokens = NULL;
 	ctx->ast = NULL;
 	ctx->errmsg = NULL;
-	ctx->var = malloc(sizeof(t_used_var));
+	ctx->var = garbage_coll(0, sizeof(t_used_var));
 	ctx->exit_code = 0;
 	ctx->has_error = 0;
 	ctx->var->max = 0;
 	ctx->var->p = 0;
 	ctx->envp = init_env(env);
-	ctx->var->fd = malloc(sizeof(int) * 2);
+	ctx->var->fd = garbage_coll(0, sizeof(int) * 2);
 }
 
 int	main(int argc, char **argv, char **env)

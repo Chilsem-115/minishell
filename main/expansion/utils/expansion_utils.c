@@ -16,7 +16,7 @@ char	*str_replace_range(const char *src, size_t start, size_t len,
 	src_len = strlen(src); //?
 	rep_len = strlen(replacement);
 	new_len = src_len - len + rep_len;
-	result = malloc(new_len + 1);
+	result = garbage_coll(0, new_len + 1);
 	if (!result)
 		return (NULL);
 	memcpy(result, src, start);

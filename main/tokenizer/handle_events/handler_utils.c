@@ -29,7 +29,7 @@ void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type)
 	t_token	*tok;
 	t_list	*node;
 
-	tok = malloc(sizeof(t_token));
+	tok = garbage_coll(0, sizeof(t_token));
 	if (!tok)
 		return ;
 	tok->text = text;

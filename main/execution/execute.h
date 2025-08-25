@@ -68,8 +68,6 @@ int		lenlist(t_env *env_list);
 int		exec_check(char *s);
 // gcl
 void	ast_clear(t_ast_node *ast);
-void	*garbage_coll(int f, size_t size);
-void	ft_exit(int status);
 // signal
 void	*saved_signal(void *sig1, void *sig2, int f);
 // exit

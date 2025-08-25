@@ -79,8 +79,7 @@ SRC_EXEC = \
 	main/execution/redirection/heredoc.c \
 	main/execution/redirection/redir.c \
 	main/execution/pipe/pipe.c \
-	main/execution/pipe/pipe_utils.c \
-	main/execution/garbage_col.c 
+	main/execution/pipe/pipe_utils.c
 
 # === Source & Object Management ===
 SRCS = $(SRC_MAIN) $(SRC_TOKENIZER) $(SRC_EXPANSION) $(SRC_AST_GEN) $(SRC_EXEC)

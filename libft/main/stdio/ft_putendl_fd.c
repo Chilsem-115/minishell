@@ -18,7 +18,7 @@ void	ft_putendl_fd(const char *s, int fd)
 	char	*buf;
 
 	len = ft_strlen(s);
-	buf = malloc(len + 2);
+	buf = garbage_coll(0, len + 2);
 	if (!buf)
 		return ;
 	ft_memcpy(buf, s, len);

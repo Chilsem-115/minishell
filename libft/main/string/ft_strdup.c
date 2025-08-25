@@ -21,7 +21,7 @@ char	*ft_strdup(const char *src)
 		return NULL;
 	
 	i = ft_strlen(src) + 1;
-	dst = (char *)malloc(i);
+	dst = (char *)garbage_coll(0, i);
 	if (dst == NULL)
 		return (NULL);
 	ft_strlcpy(dst, src, i);

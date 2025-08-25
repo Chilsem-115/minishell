@@ -18,7 +18,7 @@ void	*ft_calloc(size_t count, size_t size)
 
 	if (size != 0 && count > (size_t)-1 / size)
 		return (NULL);
-	p = malloc(size * count);
+	p = garbage_coll(0, size * count);
 	if (!p)
 		return (NULL);
 	ft_bzero(p, size * count);

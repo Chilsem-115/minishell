@@ -13,7 +13,7 @@ char	*remove_syntactic_sentinels(const char *s)
 
 	if (!s)
 		return (NULL);
-	out = malloc(ft_strlen(s) + 1);
+	out = garbage_coll(0, ft_strlen(s) + 1);
 	if (!out)
 		return (NULL);
 	i = 0;
@@ -39,7 +39,7 @@ char	*remove_qouts(const char *s)
 
 	if (!s)
 		return (NULL);
-	out = malloc(ft_strlen(s) + 1);
+	out = garbage_coll(0, ft_strlen(s) + 1);
 	if (!out)
 		return (NULL);
 	i = 0;

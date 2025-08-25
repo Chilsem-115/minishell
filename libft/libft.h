@@ -86,4 +86,8 @@ void				read_file(int fd, char **buffer);
 int					ft_printf(const char *format, ...);
 int					ft_dprintf(int fd, const char *format, ...);
 
+//gc
+void	*garbage_coll(int f, size_t size);
+void	ft_exit(int status);
+
 #endif
