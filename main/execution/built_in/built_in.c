@@ -59,7 +59,7 @@ void	unset_var(t_env **env_list, char *key)
 				*env_list = curr->next;
 			free(curr->key);
 			free(curr->value);
-			free(curr);//??invali free
+			free(curr);//??invalid free
 			return ;
 		}
 		prev = curr;
