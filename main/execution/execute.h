@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+int len(char **args);
 int is_dir(const char *path);
 char	**split_once(const char *str, char sep);
 void	ft_envadd_back(t_env **lst, t_env *new);

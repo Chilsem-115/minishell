@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:44:02 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/23 15:04:20 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 06:24:41 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,10 @@ void				main_loop(t_context *ctx);
 void				handler(int sig);
 void				print_token_list(t_list *tokens);
 void				print_ast(t_ast_node *node);
+
+/* freeing allocation */
+void	free_token(void *ptr);
+void	free_env(t_context *ctx);
+void	ast_clear(t_ast_node *ast);
 
 #endif

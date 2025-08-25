@@ -13,7 +13,7 @@ char	*remove_syntactic_sentinels(const char *s)
 
 	if (!s)
 		return (NULL);
-	out = garbage_coll(0, ft_strlen(s) + 1);
+	out = malloc(ft_strlen(s) + 1);
 	if (!out)
 		return (NULL);
 	i = 0;
@@ -67,7 +67,6 @@ static void	strip_on_token(t_token *tok)
 	clean = remove_syntactic_sentinels(tok->text);
 	if (!clean)
 		return ;
-	//tokenizer_error(ERR_MEMORY);
 	free(tok->text);
 	tok->text = clean;
 }

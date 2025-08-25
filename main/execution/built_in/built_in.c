@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:32:35 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 22:54:25 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 06:43:00 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	cd_cmd(t_context *ctx, char **argv)
 {
 	char	cwd[PATH_MAX];
 
-	if(argv[2])
+	if(len(argv) >= 3)
 	{
 		ft_dprintf(2, "bash: cd: too many arguments\n");
 		return (1);

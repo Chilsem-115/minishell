@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:19:34 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/25 04:24:48 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/25 06:39:19 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*ft_readline(void)
 		{
 			free(s);
 			ft_dprintf(2, "exit\n");
+			free(prompt);
 			exit(get_exit_status(0, 1));
 		}
 		if (g_gsignum == 2)
@@ -92,16 +93,16 @@ static int	is_valid_line(char *line)
 
 static void	handle_line(t_context *ctx)
 {
-	//t_list	*list;
+	t_list	*list;
 
 	if (!is_valid_line(ctx->line))
 		return ;
 	ctx->tokens = tokenize(ctx->line);
 	expand_variables(ctx);
 	ctx->ast = generate_ast(ctx->tokens);
-	  print_token_list(ctx->tokens);
-	  print_ast(ctx->ast);
-	  /*
+//	print_token_list(ctx->tokens);
+//	print_ast(ctx->ast);
+	ft_lstclear(&ctx->tokens, free_token);
 	list = *get_heredocs();
 	while (list)
 	{
@@ -113,8 +114,6 @@ static void	handle_line(t_context *ctx)
 		list = list->next;
 	}
 	command_exec(ctx);
-	*/
-	ft_lstclear(&ctx->tokens, free);
 	ast_clear(ctx->ast);
 	*get_heredocs() = NULL;
 	ctx->ast = NULL;
@@ -137,7 +136,6 @@ void	main_loop(t_context *ctx)
 			exit(get_exit_status(0, 1));
 		if (*ctx->line) // check later why
 			handle_line(ctx);
-		garbage_coll(1, 0);
 		free(ctx->line);
 	}
 }

@@ -34,7 +34,8 @@ LIBFT    = $(LIBFT_DIR)/libft.a
 SRC_MAIN = \
 	main/messh.c \
 	main/print_func.c \
-	main/core.c
+	main/core.c \
+	main/memory.c
 
 SRC_TOKENIZER = \
     main/tokenizer/tokenize.c \

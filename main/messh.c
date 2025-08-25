@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/23 15:07:02 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 06:51:22 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,36 +117,40 @@ int	do_nothing(void)
 // 	exit(0);
 // }
 
+static void	clear_all(t_context *ctx)
+{
+	(void)ctx;
+}
+
 static void	status_init(t_context *ctx, char **env)
 {
 	ctx->line = NULL;
 	ctx->tokens = NULL;
 	ctx->ast = NULL;
 	ctx->errmsg = NULL;
-	ctx->var = garbage_coll(0, sizeof(t_used_var));;
+	ctx->var = malloc(sizeof(t_used_var));
+//	ctx->var = garbage_coll(0, sizeof(t_used_var));;
 	ctx->exit_code = 0;
 	ctx->has_error = 0;
 	ctx->var->max = 0;
 	ctx->var->p = 0;
 	ctx->envp = init_env(env);
-	ctx->var->fd = garbage_coll(0, sizeof(int) * 2);
+//	ctx->var->fd = garbage_coll(0, sizeof(int) * 2);
+	ctx->var->fd = malloc(sizeof(int) * 2);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	t_context	*ctx;
+	t_context	ctx;
 
 	(void)argc;
 	(void)argv;
 	rl_outstream = stderr;
 	rl_event_hook = do_nothing;
 	saved_signal(signal(SIGINT, handler), signal(SIGQUIT, SIG_IGN), 0);
-	ctx = malloc(sizeof(t_context));
-	if (!ctx)
-		return (1);
-	status_init(ctx, env);
+	status_init(&ctx, env);
 	print_banner();
-	main_loop(ctx);
-	// clean_exit(ctx);
+	main_loop(&ctx);
+	clear_all(&ctx);
 	return (0);
 }
