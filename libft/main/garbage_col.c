@@ -23,13 +23,15 @@ void	*ft_malloc(t_list **garbage, size_t size)
 		ft_lstclear(garbage, free);
 		exit(1);
 	}
-	newnode = ft_lstnew(p);
+	newnode = malloc(sizeof(t_list));
 	if (!newnode)
 	{
 		free(p);
 		ft_lstclear(garbage, free);
 		exit(1);
 	}
+	newnode->next = NULL;
+	newnode->content = p;
 	ft_lstadd_back(garbage, newnode);
 	return (p);
 }
