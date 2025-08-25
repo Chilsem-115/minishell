@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:57:28 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 14:57:35 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:49:51 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	left_cmd(t_context *ctx, int *pipefd)
 	exec_ast_node(ctx, ctx->ast->data.ctrl.left);
 	close(0);
 	close(1);
-	exit(1);
+	ft_exit(1);
 }
 
 void	right(t_context *ctx, int *pipefd)
@@ -39,7 +39,7 @@ void	right(t_context *ctx, int *pipefd)
 	exec_ast_node(ctx, ctx->ast->data.ctrl.right);
 	close(0);
 	close(1);
-	exit(1);
+	ft_exit(1);
 }
 
 void	setup_signals(void (**oldhdl_int)(int), void (**oldhdl_quit)(int))

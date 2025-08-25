@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:40 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/24 04:28:35 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:50:17 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int		exec_check(char *s);
 // gcl
 void	ast_clear(t_ast_node *ast);
 void	*garbage_coll(int f, size_t size);
+void	ft_exit(int status);
 // signal
 void	*saved_signal(void *sig1, void *sig2, int f);
 // exit

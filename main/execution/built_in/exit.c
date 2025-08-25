@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:38:43 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 15:44:14 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:49:37 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	exit_command(t_context *ctx, char **args)
 			close(ctx->var->fd[0]);
 			close(ctx->var->fd[1]);
 			printf("bash: exit: %s: numeric argument required\n", args[1]);
-			exit(2);
+			ft_exit(2);
 		}
 	}
 	if (len(args) >= 3)
@@ -106,7 +106,7 @@ void	exit_command(t_context *ctx, char **args)
 	{
 		close(ctx->var->fd[0]);
 		close(ctx->var->fd[1]);
-		exit(status);
+		ft_exit(status);
 	}
 }
 

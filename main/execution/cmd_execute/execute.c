@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/24 04:27:25 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:49:45 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ static bool	check(t_context *ctx)
 		if(is_dir(ctx->var->argv[0]) != 0)
 		{
 			ft_dprintf(2, "bash: %s: Is a directory\n", ctx->var->argv[0]);
-			exit(127);
+			ft_exit(127);
 		}
 		ft_dprintf(2, "%s: No such file or directory\n", ctx->var->argv[0]);
-		exit(127);
+		ft_exit(127);
 	}
 	ctx->var->path = check_exec(ctx->var->argv[0], ctx);
 	if (!ctx->var->path)
 	{
 		ft_dprintf(2, "%s: command not found\n", ctx->var->argv[0]);
-		exit(127);
+		ft_exit(127);
 	}
 	return (true);
 }
@@ -66,7 +66,7 @@ static int	help_func(t_context *ctx)
 		}
 		execve(ctx->var->path, ctx->var->argv, my_env(ctx));
 		perror("**execve");
-		exit(126);
+		ft_exit(126);
 	}
 	return (pid);
 }
@@ -82,10 +82,10 @@ void	command(t_context *ctx)
 	if (pid < 0)
 	{
 		if(pid == -1337)
-			exit(127);
+			ft_exit(127);
 		if(pid != -42)
 			perror("fork");
-		exit(1);
+		ft_exit(1);
 	}
 	waitpid(pid, &ctx->var->stat, 0);
 	if (WIFSIGNALED(ctx->var->stat))

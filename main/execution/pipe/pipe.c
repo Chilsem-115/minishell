@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:33:23 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 14:53:11 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:49:56 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	pipline(t_context *ctx)
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
-		exit(1);
+		ft_exit(1);
 	}
 	left_pid = launch_left(ctx, pipefd, oldhdl_int,
 			oldhdl_quit);
@@ -107,15 +107,15 @@ void	pipe_command(t_context *ctx)
 	{
 		execve(argv[0], argv, my_env(ctx));
 		ft_dprintf(2, "%s: No such file or directory\n", argv[0]);
-		exit(127);
+		ft_exit(127);
 	}
 	path = check_exec(argv[0], ctx);
 	if (!path)
 	{
 		ft_dprintf(2, "%s: command not found\n", argv[0]);
-		exit(127);
+		ft_exit(127);
 	}
 	execve(path, argv, my_env(ctx));
 	perror("execve");
-	exit(126);
+	ft_exit(126);
 }

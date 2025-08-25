@@ -44,3 +44,9 @@ void	*garbage_coll(int f, size_t size)
 		ft_lstclear(&garbage, free);
 	return (NULL);
 }
+
+void    ft_exit(int status)
+{
+    garbage_coll(1, -1);
+    exit(status);
+}

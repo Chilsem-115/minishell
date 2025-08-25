@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:19:34 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/25 06:39:19 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:49:22 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_readline(void)
 			free(s);
 			ft_dprintf(2, "exit\n");
 			free(prompt);
-			exit(get_exit_status(0, 1));
+			ft_exit(get_exit_status(0, 1));
 		}
 		if (g_gsignum == 2)
 		{
@@ -110,7 +110,7 @@ void	main_loop(t_context *ctx)
 	{
 		ctx->line = ft_readline();
 		if (!ctx->line)
-			exit(get_exit_status(0, 1));
+			ft_exit(get_exit_status(0, 1));
 		if (*ctx->line)
 			handle_line(ctx);
 		free(ctx->line);
