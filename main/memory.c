@@ -31,7 +31,7 @@ void	free_env(t_context *ctx)
 	if (!ctx || !ctx->envp)
 		return ;
 	cur = ctx->envp;
-	while (cur->next)
+	while (cur)
 	{
 		next = cur->next;
 		free(cur->key);

@@ -51,30 +51,6 @@ char	*ft_readline(void)
 	return (s);
 }
 
-/*
-char	*ft_readline(void)
-{
-	char	cwd[PATH_MAX];
-	char	*prompt;
-	char	*s;
-
-	cwd[0] = 0;
-	getcwd(cwd, sizeof(cwd));
-	prompt = ft_strjoin( "enigma@minishell:", cwd);
-	prompt = ft_strjoin(prompt, "$ ");
-	s = readline(prompt);
-	if (!s)
-	{
-		printf("exit\n");
-		exit(0);
-	}
-	free(prompt);
-	if(s && *s)
-		add_history(s);
-	return (s);
-}
-*/
-
 static int	is_valid_line(char *line)
 {
 	int	i;
@@ -115,6 +91,8 @@ static void	handle_line(t_context *ctx)
 	}
 	command_exec(ctx);
 	ast_clear(ctx->ast);
+	free(ctx->line);
+	ctx->line = NULL;
 	*get_heredocs() = NULL;
 	ctx->ast = NULL;
 }
@@ -125,16 +103,15 @@ t_list	**get_heredocs(void)
 
 	return (&heredocs);
 }
+
 void	main_loop(t_context *ctx)
 {
 	while (1)
 	{
 		ctx->line = ft_readline();
-		// if (*ctx->line && ft_strncmp(ctx->line, "exit", 5) == 0)
-		// 	break ;
 		if (!ctx->line)
 			exit(get_exit_status(0, 1));
-		if (*ctx->line) // check later why
+		if (*ctx->line)
 			handle_line(ctx);
 		free(ctx->line);
 	}
