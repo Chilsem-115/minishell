@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:49 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/23 23:34:00 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 03:42:25 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,19 +100,26 @@ static int	name_file(char	**file)
 	}
 	return (fd_hd);
 }
-
+static int qout_check(char *s)
+{
+	if(ft_strchr(s, '\'') != 0 || ft_strchr(s, '\"') != 0)
+		return (1);
+	return (0);
+}
 bool	heredoc(char **list, t_context *ctx)
 {
 	int		fd_hd;
+	int		r;
 	char	(*s),(*delimiter);
 
-//	should_expand = (*list);
-	delimiter = remove_syntactic_sentinels(*list);
+	r = qout_check(*list);
+	delimiter = remove_qouts(*list);
 	fd_hd = name_file(list);
 	while (g_gsignum == 0)
 	{
 		s = readline("> ");
-		s = expand_token_text(s, ctx);
+		if(r == 0)
+			s = expand_token_text(s, ctx);
 		if(!s)
 		{
 			ft_dprintf(2, "bash: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);

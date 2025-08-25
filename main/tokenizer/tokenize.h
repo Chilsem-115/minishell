@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@studnet.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:37:20 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/24 15:43:56 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/25 03:16:08 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_token
 {
 	char		*text;
 	t_tokentype	type;
+	int		expand;
 }	t_token;
 
 /* Tokenizer state */
@@ -60,6 +61,7 @@ typedef struct s_tokenizer_state
 	size_t		pos;
 	t_list		*tokens;
 	//t_tok_err	error;
+	int			mark_quotes;
 }	t_tokenizer_state;
 
 
@@ -68,6 +70,7 @@ typedef struct s_tokenizer_state
 /* ======================= */
 
 t_list	*tokenize(char *line);
+t_list	*tokenize_nomark(char *line);
 
 /* ======================= */
 /*      TOKEN HANDLERS     */
@@ -112,5 +115,7 @@ int		validate_pipes(t_list *tokens);
 void	err_unexpected_token(const char *tok);
 const char	*find_redir_error_token(t_list *lst);
 const char	*find_pipe_error_token(t_list *tokens);
+
+void	set_expand(t_list *lst);
 
 #endif

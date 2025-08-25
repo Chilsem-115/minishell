@@ -73,7 +73,7 @@ static int	number_check(char *s)
 	return (0);
 }
 
-int len(char **args)
+static int len(char **args)
 {
 	int i = 0;
 

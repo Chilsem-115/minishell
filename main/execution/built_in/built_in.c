@@ -17,7 +17,7 @@ static int	cd_cmd(t_context *ctx, char **argv)
 {
 	char	cwd[PATH_MAX];
 
-	if(len(argv) >= 3)
+	if(argv[2])
 	{
 		ft_dprintf(2, "bash: cd: too many arguments\n");
 		return (1);
@@ -59,7 +59,7 @@ void	unset_var(t_env **env_list, char *key)
 				*env_list = curr->next;
 			free(curr->key);
 			free(curr->value);
-			free(curr);//??invalid free
+			free(curr);
 			return ;
 		}
 		prev = curr;

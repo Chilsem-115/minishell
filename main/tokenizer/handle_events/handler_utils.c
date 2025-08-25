@@ -32,21 +32,20 @@ void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type)
 	tok = malloc(sizeof(t_token));
 	if (!tok)
 		return ;
-		//tokenizer_error(ERR_MEMORY);
 	tok->text = text;
 	tok->type = type;
+	tok->expand = 1;
 	node = ft_lstnew(tok);
 	if (!node)
 	{
 		free(tok->text);
 		free(tok);
 		return ;
-		//tokenizer_error(ERR_MEMORY);
 	}
 	ft_lstadd_back(&ctx->tokens, node);
 }
 
-size_t	skip_quoted(/*t_tokenizer_state *ctx,*/ const char *s, size_t pos)
+size_t	skip_quoted(const char *s, size_t pos)
 {
 	const char	q = s[pos];
 	size_t		i;
@@ -55,10 +54,7 @@ size_t	skip_quoted(/*t_tokenizer_state *ctx,*/ const char *s, size_t pos)
 	while (s[i] && s[i] != q)
 		i++;
 	if (!s[i])
-	{
-		//ctx->error = ERR_ESCAPE_SEQ;
 		return (i - pos);
-	}
 	return (i - pos + 1);
 }
 

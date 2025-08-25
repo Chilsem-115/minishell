@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:34:30 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/20 22:35:45 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/24 23:30:36 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,17 @@ static void	ctx_init(t_tokenizer_state *ctx)
 {
 	ctx->pos = 0;
 	ctx->tokens = NULL;
+	//ctx->error = ERR_NONE;
+	ctx->mark_quotes = 1;
 }
 
 /* the main implemenation for tokenizing */
-static t_list	*tokenize_impl(char *line)
+static t_list	*tokenize_impl(char *line, int mark_quotes)
 {
 	t_tokenizer_state	ctx;
 
 	ctx_init(&ctx);
+	ctx.mark_quotes = mark_quotes;
 	while (line[ctx.pos])
 	{
 		while (ft_isspace(line[ctx.pos]))
@@ -34,10 +37,11 @@ static t_list	*tokenize_impl(char *line)
 			break ;
 		if (operator_handler(&ctx, line))
 			continue ;
-		/*
-		if (quote_handler(&ctx, line))
+		if (mark_quotes == 1)
+		{
+			if (quote_handler(&ctx, line))
 				continue ;
-				*/
+		}
 		word_handler(&ctx, line);
 	}
 	return (ctx.tokens);
@@ -54,7 +58,7 @@ t_list	*tokenize(char *line)
 		err_unclosed_quote();
 		return (NULL);
 	}
-	tokens = tokenize_impl(line);
+	tokens = tokenize_impl(line, 1);
 	if (!tokens)
 		return (NULL);
 	if (!validate_redirs(tokens))
@@ -69,5 +73,12 @@ t_list	*tokenize(char *line)
 		err_unexpected_token(bad);
 		return (NULL);
 	}
+	set_expand(tokens);
 	return (tokens);
+}
+
+/* second pass from expansion: do NOT mark quotes */
+t_list	*tokenize_nomark(char *line)
+{
+	return (tokenize_impl(line, 0));
 }

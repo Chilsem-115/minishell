@@ -30,9 +30,8 @@ int		replace_one_at(char **expanded, int pos, t_context *ctx);
 /* quote_strip */
 void	strip_sentinels_post_expansion(t_list *tokens);
 char	*remove_syntactic_sentinels(const char *s);
-
+char	*remove_qouts(const char *s);
 /* the main function */
-t_list	*refactor(const char *text);
 void	expand_variables(t_context *ctx);
 
 #endif

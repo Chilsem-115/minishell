@@ -33,6 +33,19 @@ static int	replace_one_at(char **expanded, int pos, t_context *ctx)
 }
 */
 
+static void	replace(char *text, char old, char new)
+{
+	int	i;
+
+	i = 0;
+	while (text[i])
+	{
+		if (text[i] == old)
+			text[i] = new;
+		i++;
+	}
+}
+
 char	*expand_token_text(char *text, t_context *ctx)
 {
 	char	*expanded;
@@ -72,7 +85,7 @@ static int	expand_and_splice(t_list **head, t_list *node, t_context *ctx)
 	text = expand_token_text(tok->text, ctx);
 	if (!text)
 		return (-1);
-	sub = tokenize(text);
+	sub = tokenize_nomark(text);
 	free(text);
 	lst_replace_node(head, node, sub);
 	return (0);
@@ -90,9 +103,17 @@ void	expand_variables(t_context *ctx)
 	while (curr)
 	{
 		next = curr->next;
-		status = expand_and_splice(&ctx->tokens, curr, ctx);
-		if (status < 0)
-			return ;
+		if (((t_token *)curr->content)->expand)
+		{
+			status = expand_and_splice(&ctx->tokens, curr, ctx);
+			if (status < 0)
+				return ;
+		}
+		else if (((t_token *)curr->content)->expand == 0)
+		{
+			replace(((t_token *)curr->content)->text, '\x01', '\'');
+			replace(((t_token *)curr->content)->text, '\x02', '\"');
+		}
 		curr = next;
 	}
 	strip_sentinels_post_expansion(ctx->tokens);

@@ -23,7 +23,8 @@ int	validate_quotes_line(const char *s)
 }
 
 int	validate_redirs(t_list *lst)
-{ t_token	*cur;
+{
+	t_token	*cur;
 	t_token	*next;
 
 	while (lst)
@@ -72,4 +73,22 @@ int	validate_pipes(t_list *tokens)
 	if (tok && tok->type == TOK_PIPE)
 		return (0);
 	return (1);
+}
+
+void	set_expand(t_list *lst)
+{
+	t_token	*cur;
+	t_token	*next;
+
+	while (lst)
+	{
+		cur = (t_token *)lst->content;
+		if (cur->type == TOK_HEREDOC && lst->next)
+		{
+			next = (t_token *)lst->next->content;
+			if (next)
+				next->expand = 0;
+		}
+		lst = lst->next;
+	}
 }

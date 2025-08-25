@@ -30,6 +30,32 @@ char	*remove_syntactic_sentinels(const char *s)
 	return (out);
 }
 
+char	*remove_qouts(const char *s)
+{
+	size_t	i;
+	size_t	j;
+	char	*out;
+
+	if (!s)
+		return (NULL);
+	out = malloc(ft_strlen(s) + 1);
+	if (!out)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] != '\'' && s[i] != '\"')
+		{
+			out[j] = s[i];
+			j++;
+		}
+		i++;
+	}
+	out[j] = '\0';
+	return (out);
+}
+
 /* strip on a single token (WORD only) */
 static void	strip_on_token(t_token *tok)
 {
