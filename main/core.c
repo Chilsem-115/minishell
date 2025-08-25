@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:19:34 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/24 23:46:22 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/25 04:24:48 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	is_valid_line(char *line)
 
 static void	handle_line(t_context *ctx)
 {
-	t_list	*list;
+	//t_list	*list;
 
 	if (!is_valid_line(ctx->line))
 		return ;
@@ -101,6 +101,7 @@ static void	handle_line(t_context *ctx)
 	ctx->ast = generate_ast(ctx->tokens);
 	  print_token_list(ctx->tokens);
 	  print_ast(ctx->ast);
+	  /*
 	list = *get_heredocs();
 	while (list)
 	{
@@ -112,6 +113,7 @@ static void	handle_line(t_context *ctx)
 		list = list->next;
 	}
 	command_exec(ctx);
+	*/
 	ft_lstclear(&ctx->tokens, free);
 	ast_clear(ctx->ast);
 	*get_heredocs() = NULL;
@@ -135,6 +137,7 @@ void	main_loop(t_context *ctx)
 			exit(get_exit_status(0, 1));
 		if (*ctx->line) // check later why
 			handle_line(ctx);
+		garbage_coll(1, 0);
 		free(ctx->line);
 	}
 }

@@ -1,5 +1,6 @@
 
 #include "tokenize.h"
+#include "execute.h"
 
 char	*mark_syntactic_quotes(const char *s)
 {
@@ -11,9 +12,12 @@ char	*mark_syntactic_quotes(const char *s)
 
 	if (!s)
 		return (NULL);
+	/*
 	out = malloc(ft_strlen(s) + 1);
 	if (!out)
 		return (NULL);
+		*/
+	out = garbage_coll(0, ft_strlen(s) + 1);
 	init_state(&i, &j, &sq, &dq);
 	while (s[i])
 	{

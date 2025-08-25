@@ -2,6 +2,7 @@
 #include "tokenize.h"
 #include "expansion.h"
 #include <stdlib.h>
+#include "execute.h"
 
 /* returns a new string with all SQ/DQ sentinels removed */
 char	*remove_syntactic_sentinels(const char *s)
@@ -12,7 +13,7 @@ char	*remove_syntactic_sentinels(const char *s)
 
 	if (!s)
 		return (NULL);
-	out = malloc(ft_strlen(s) + 1);
+	out = garbage_coll(0, ft_strlen(s) + 1);
 	if (!out)
 		return (NULL);
 	i = 0;
