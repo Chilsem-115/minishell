@@ -70,6 +70,7 @@ SRC_AST_GEN = \
 
 SRC_EXEC = \
 	main/execution/cmd_execute/execute.c \
+	main/execution/cmd_execute/check.c \
 	main/execution/cmd_execute/execute_utls.c \
 	main/execution/built_in/btn_utils.c \
 	main/execution/environment/env.c \
@@ -77,6 +78,7 @@ SRC_EXEC = \
 	main/execution/built_in/exit.c \
 	main/execution/built_in/built_in.c \
 	main/execution/redirection/heredoc.c \
+	main/execution/redirection/heredoc_file_name.c \
 	main/execution/redirection/redir.c \
 	main/execution/pipe/pipe.c \
 	main/execution/pipe/pipe_utils.c

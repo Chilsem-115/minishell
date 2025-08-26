@@ -47,7 +47,7 @@ static char	*dup_and_mark(const char *src, size_t len)
 	if (!word)
 		return (NULL);
 	marked = mark_syntactic_quotes(word);
-	free(word);
+	ft_free(word);
 	return (marked);
 }
 

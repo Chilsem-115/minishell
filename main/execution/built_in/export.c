@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:51:40 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/22 16:05:42 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/26 00:03:20 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	update_var(t_env **list, char *key, char *value, int k)
 	{
 		if (!ft_strncmp(curr->key, key, ft_strlen(key)))
 		{
-			free(curr->value);
+			ft_free(curr->value);
 			curr->value = value;
 			return (1);
 		}
@@ -105,4 +105,13 @@ void	print_export(t_context *ctx)
 		}
 		env = env->next;
 	}
+}
+
+long	get_exit_status(int st, int c)
+{
+	static long	status;
+
+	if (c == 0)
+		status = st;
+	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:12:56 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/24 04:25:43 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 22:44:15 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,49 +36,13 @@ char	**split_once(const char *str, char sep)
 	return (res);
 }
 
-int is_dir(const char *path)
+int	is_dir(const char *path)
 {
-    struct stat statbuf;
+	struct stat	statbuf;
 
-    if (stat(path, &statbuf) != 0)
-        return 0;
-    return S_ISDIR(statbuf.st_mode);
-}
-
-char	*check_exec(char *s, t_context *ctx)
-{
-	int		i;
-	char	**str;
-	char	(*path), (*fpath);
-
-	i = 0;
-	fpath = NULL;
-	str = ft_split(my_getenv("PATH", ctx), ':');
-	if (!str || !*str)
-		return (s);
-	while (str[i])
-	{
-		path = ft_strjoin(str[i], "/");
-		path = ft_strjoin(path, s);
-		if (is_dir(path) != 0)
-		{
-			i++;
-			continue;
-		}
-		if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
-			fpath = path;
-		else if (access(path, X_OK) == 0)
-			return (path);
-		i++;
-	}
-	return (fpath);
-}
-
-int	exec_check(char *s)
-{
-	if (s[0] && (s[0] == '/' || (s[0] == '.' && s[1] == '/')))
-		return (1);
-	return (0);
+	if (stat(path, &statbuf) != 0)
+		return (0);
+	return (S_ISDIR(statbuf.st_mode));
 }
 
 void	*saved_signal(void *sig1, void *sig2, int f)
@@ -96,7 +60,7 @@ void	*saved_signal(void *sig1, void *sig2, int f)
 	return (oldhdl_quit);
 }
 
-void close_fds(t_context *ctx)
+void	close_fds(t_context *ctx)
 {
 	dup2(ctx->var->fd[0], 0);
 	dup2(ctx->var->fd[1], 1);

@@ -13,8 +13,8 @@
 #include "execute.h"
 #include "messh.h"
 
-static pid_t	launch_left(t_context *ctx,
-		int pipefd[2], void (*oldhdl_int)(int), void (*oldhdl_quit)(int))
+static pid_t	launch_left(t_context *ctx, int pipefd[2],
+		void (*oldhdl_int)(int), void (*oldhdl_quit)(int))
 {
 	pid_t	pid;
 
@@ -85,8 +85,7 @@ void	pipline(t_context *ctx)
 		perror("pipe");
 		ft_exit(1);
 	}
-	left_pid = launch_left(ctx, pipefd, oldhdl_int,
-			oldhdl_quit);
+	left_pid = launch_left(ctx, pipefd, oldhdl_int, oldhdl_quit);
 	right_pid = launch_right(ctx, pipefd, oldhdl_int, oldhdl_quit);
 	close(pipefd[0]);
 	close(pipefd[1]);

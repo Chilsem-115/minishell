@@ -67,7 +67,7 @@ static void	strip_on_token(t_token *tok)
 	clean = remove_syntactic_sentinels(tok->text);
 	if (!clean)
 		return ;
-	free(tok->text);
+	ft_free(tok->text);
 	tok->text = clean;
 }
 

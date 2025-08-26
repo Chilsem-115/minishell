@@ -34,7 +34,7 @@ static int	apply_replacement(char **expanded, int pos, int consumed,
 			replacement);
 	if (!new_str)
 		return (-1);
-	free(*expanded);
+	ft_free(*expanded);
 	*expanded = new_str;
 	return (1);
 }
@@ -48,7 +48,7 @@ static int	apply_qmark(char **expanded, int pos, int consumed, int code)
 	if (!str)
 		return (-1);
 	rc = apply_replacement(expanded, pos, consumed, str);
-	free(str);
+	ft_free(str);
 	return (rc);
 }
 
@@ -69,6 +69,6 @@ int	replace_one_at(char **expanded, int pos, t_context *ctx)
 		return (apply_qmark(expanded, pos, consumed, get_exit_status(0, 1)));
 	replacement = resolve_replacement(ctx, name);
 	rc = apply_replacement(expanded, pos, consumed, replacement);
-	free(name);
+	ft_free(name);
 	return (rc);
 }

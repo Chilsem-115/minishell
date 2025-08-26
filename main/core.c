@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:19:34 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/25 19:49:22 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/26 03:41:46 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,28 @@ char	*ft_readline(void)
 	getcwd(cwd, sizeof(cwd));
 	tmp = ft_strjoin(C_OLIVE "enigma@minishell:", cwd);
 	prompt = ft_strjoin(tmp, C_RESET "$ ");
-	free(tmp);
+	ft_free(tmp);
 	while (1)
 	{
 		g_gsignum = 0;
 		s = readline(prompt);
 		if (!s)
 		{
-			free(s);
+			ft_free(s);
 			ft_dprintf(2, "exit\n");
-			free(prompt);
+			ft_free(prompt);
 			ft_exit(get_exit_status(0, 1));
 		}
 		if (g_gsignum == 2)
 		{
-			free(s);
+			ft_free(s);
 			continue ;
 		}
 		if (s && *s)
 			add_history(s);
 		break ;
 	}
-	free(prompt);
+	ft_free(prompt);
 	return (s);
 }
 
@@ -78,7 +78,7 @@ static void	handle_line(t_context *ctx)
 	ctx->ast = generate_ast(ctx->tokens);
 //	print_token_list(ctx->tokens);
 //	print_ast(ctx->ast);
-	ft_lstclear(&ctx->tokens, free_token);
+	// ft_lstclear(&ctx->tokens, free_token);
 	list = *get_heredocs();
 	while (list)
 	{
@@ -91,10 +91,8 @@ static void	handle_line(t_context *ctx)
 	}
 	command_exec(ctx);
 	ast_clear(ctx->ast);
-	free(ctx->line);
-	ctx->line = NULL;
+	ft_free(ctx->line);
 	*get_heredocs() = NULL;
-	ctx->ast = NULL;
 }
 
 t_list	**get_heredocs(void)
@@ -113,6 +111,5 @@ void	main_loop(t_context *ctx)
 			ft_exit(get_exit_status(0, 1));
 		if (*ctx->line)
 			handle_line(ctx);
-		free(ctx->line);
 	}
 }

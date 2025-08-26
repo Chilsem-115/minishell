@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:38:43 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/25 19:49:37 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/25 22:29:55 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,11 @@ static int	number_check(char *s)
 	return (0);
 }
 
-int len(char **args)
+int	len(char **args)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (args[i])
 		i++;
 	return (i);
@@ -108,13 +109,4 @@ void	exit_command(t_context *ctx, char **args)
 		close(ctx->var->fd[1]);
 		ft_exit(status);
 	}
-}
-
-long	get_exit_status(int st, int c)
-{
-	static long	status;
-
-	if (c == 0)
-		status = st;
-	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:32:35 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/25 06:43:00 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 01:38:45 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	cd_cmd(t_context *ctx, char **argv)
 {
 	char	cwd[PATH_MAX];
 
-	if(len(argv) >= 3)
+	if (len(argv) >= 3)
 	{
 		ft_dprintf(2, "bash: cd: too many arguments\n");
 		return (1);
@@ -26,11 +26,9 @@ static int	cd_cmd(t_context *ctx, char **argv)
 	getcwd(cwd, sizeof(cwd));
 	if (!argv[1])
 	{
-		if (my_getenv("HOME", ctx) == NULL || chdir(my_getenv("HOME", ctx)) == -1)
-		{
-			ft_dprintf(2, "enigma: cd: HOME not set\n");
-			return (1);
-		}
+		if (my_getenv("HOME", ctx) == NULL
+			|| chdir(my_getenv("HOME", ctx)) == -1)
+			return (ft_dprintf(2, "enigma: cd: HOME not set\n"), 1);
 	}
 	else if (chdir(argv[1]) == -1)
 	{
@@ -57,9 +55,9 @@ void	unset_var(t_env **env_list, char *key)
 				prev->next = curr->next;
 			else
 				*env_list = curr->next;
-			free(curr->key);
-			free(curr->value);
-			free(curr);
+			ft_free(curr->key);
+			ft_free(curr->value);
+			ft_free(curr);
 			return ;
 		}
 		prev = curr;

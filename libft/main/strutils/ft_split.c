@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 20:24:49 by itamsama          #+#    #+#             */
-/*   Updated: 2024/11/12 09:00:46 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 00:02:31 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static unsigned int	count_words(const char *s, char c)
 static void	free_words(char **words, int i)
 {
 	while (i--)
-		free(words[i]);
-	free(words);
+		ft_free(words[i]);
+	ft_free(words);
 }
 
 static char	*get_next_word(const char *s, int *start, char c)
@@ -63,8 +63,8 @@ char	**ft_split(const char *s, char c)
 	if (!s)
 		return (NULL);
 	words = (char **)garbage_coll(0, (count_words(s, c) + 1) * sizeof(char *));
-	if (!words)
-		return (NULL);
+	// if (!words)
+	// 	return (NULL);
 	i = 0;
 	start = 0;
 	while (i < count_words(s, c))

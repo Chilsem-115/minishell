@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 01:12:21 by itamsama          #+#    #+#             */
-/*   Updated: 2024/10/26 16:37:26 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 00:02:17 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ void	ft_putendl_fd(const char *s, int fd)
 	buf[len] = '\n';
 	buf[len + 1] = '\0';
 	write(fd, buf, len +1);
-	free(buf);
+	ft_free(buf);
 }

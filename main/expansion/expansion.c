@@ -24,10 +24,10 @@ static int	replace_one_at(char **expanded, int pos, t_context *ctx)
 		replacement = "";
 	new_str = str_replace_range(*expanded, (size_t)pos,
 			(size_t)consumed, replacement);
-	free(name);
+	ft_free(name);
 	if (!new_str)
 		return (-1);
-	free(*expanded);
+	ft_free(*expanded);
 	*expanded = new_str;
 	return (1);
 }
@@ -63,7 +63,7 @@ char	*expand_token_text(char *text, t_context *ctx)
 			break ;
 		if (replace_one_at(&expanded, pos, ctx) < 0)
 		{
-			free(expanded);
+			ft_free(expanded);
 			return (NULL);
 		}
 		pos++;
@@ -86,7 +86,7 @@ static int	expand_and_splice(t_list **head, t_list *node, t_context *ctx)
 	if (!text)
 		return (-1);
 	sub = tokenize_nomark(text);
-	free(text);
+	ft_free(text);
 	lst_replace_node(head, node, sub);
 	return (0);
 }

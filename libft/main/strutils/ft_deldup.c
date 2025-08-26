@@ -20,6 +20,6 @@ char	*deldup(char *str)
 		i++;
 	}
 	buf[j] = '\0';
-	free(str);
+	ft_free(str);
 	return (ft_strdup(buf));
 }

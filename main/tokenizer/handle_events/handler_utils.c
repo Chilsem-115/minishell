@@ -20,8 +20,8 @@ void	token_free(void *ptr)
 	if (!ptr)
 		return ;
 	tok = (t_token *)ptr;
-	free(tok->text);
-	free(tok);
+	ft_free(tok->text);
+	ft_free(tok);
 }
 
 void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type)
@@ -38,8 +38,8 @@ void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type)
 	node = ft_lstnew(tok);
 	if (!node)
 	{
-		free(tok->text);
-		free(tok);
+		ft_free(tok->text);
+		ft_free(tok);
 		return ;
 	}
 	ft_lstadd_back(&ctx->tokens, node);

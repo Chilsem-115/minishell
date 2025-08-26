@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:41:06 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/20 22:41:20 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 00:04:15 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	create_marked_word(t_tokenizer_state *ctx, char *line, size_t start, 
 	if (ctx->mark_quotes)
 	{
 		marked = mark_syntactic_quotes(word);
-		free(word);
+		ft_free(word);
 		if (!marked)
 			return (0);
 			//tokenizer_error(ERR_MEMORY);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.13337.ma>       +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:32:34 by itamsama          #+#    #+#             */
-/*   Updated: 2025/07/24 16:29:30 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 00:03:15 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*extract_flags(t_list **tokens)
 			break ;
 		tmp = flags;
 		flags = ft_strjoin(flags, &tok->text[1]);
-		free(tmp);
+		ft_free(tmp);
 		if (!flags)
 			return (NULL);
 		*tokens = (*tokens)->next;
@@ -85,8 +85,8 @@ char	**tokens_to_argv(t_list *tokens)
 
 	count = count_valid_tokens(tokens);
 	argv = ft_calloc(count + 1, sizeof(char *));
-	if (!argv)
-		return (NULL);
+	// if (!argv)
+	// 	return (NULL);
 	if (fill_argv(argv, tokens))
 		return (NULL);
 	return (argv);

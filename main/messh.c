@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/25 06:51:22 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 03:35:11 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,26 @@ int	do_nothing(void)
 	return (1);
 }
 
-static void	clear_all(t_context *ctx)
-{
-	free_env(ctx);
-	if (ctx->var)
-	{
-		free(ctx->var->fd);
-		free(ctx->var);
-		ctx->var = NULL;
-	}
-	if (ctx->line)
-	{
-		free(ctx->line);
-		ctx->line = NULL;
-	}
-	rl_clear_history();
-}
+// static void	clear_all(t_context *ctx)
+// {
+// 	free_env(ctx);
+// 	if (ctx->var)
+// 	{
+// 		ft_free(ctx->var->fd);
+// 		ft_free(ctx->var);
+// 		ctx->var = NULL;
+// 	}
+// 	if (ctx->line)
+// 	{
+// 		ft_free(ctx->line);
+// 		ctx->line = NULL;
+// 	}
+// 	rl_clear_history();
+// }
 
-static void	status_init(t_context *ctx, char **env)
+static void	status_init(t_context *ctx, char **env) //?
 {
+	(void)env;
 	ctx->line = NULL;
 	ctx->tokens = NULL;
 	ctx->ast = NULL;
@@ -91,6 +92,7 @@ int	main(int argc, char **argv, char **env)
 	status_init(&ctx, env);
 	print_banner();
 	main_loop(&ctx);
-	clear_all(&ctx);
+	//clear_all(&ctx);
+	ft_exit(0);
 	return (0);
 }

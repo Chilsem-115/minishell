@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:10:10 by itamsama          #+#    #+#             */
-/*   Updated: 2024/11/15 07:12:24 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/25 22:14:16 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	*ft_calloc(size_t count, size_t size)
 	if (size != 0 && count > (size_t)-1 / size)
 		return (NULL);
 	p = garbage_coll(0, size * count);
-	if (!p)
-		return (NULL);
+	// if (!p)
+	// 	return (NULL);
 	ft_bzero(p, size * count);
 	return (p);
 }

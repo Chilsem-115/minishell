@@ -53,7 +53,7 @@ static t_list	*lst_remove_node(t_list **head, t_list *prev, t_list *node,
 		*head = next;
 	if (del)
 		del(node->content);
-	free(node);
+	ft_free(node);
 	return (next);
 }
 

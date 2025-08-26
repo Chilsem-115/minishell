@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:20:55 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/25 19:49:45 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/26 01:28:59 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,6 @@
 #include "messh.h"
 #include <signal.h>
 #include <sys/types.h>
-
-static bool	check(t_context *ctx)
-{
-	if(!ctx->var->argv || !ctx->var->argv[0])
-		return (false);
-	if (exec_check(ctx->var->argv[0]) == 1)
-	{
-		execve(ctx->var->argv[0], ctx->var->argv, my_env(ctx));
-		if(is_dir(ctx->var->argv[0]) != 0)
-		{
-			ft_dprintf(2, "bash: %s: Is a directory\n", ctx->var->argv[0]);
-			ft_exit(127);
-		}
-		ft_dprintf(2, "%s: No such file or directory\n", ctx->var->argv[0]);
-		ft_exit(127);
-	}
-	ctx->var->path = check_exec(ctx->var->argv[0], ctx);
-	if (!ctx->var->path)
-	{
-		ft_dprintf(2, "%s: command not found\n", ctx->var->argv[0]);
-		ft_exit(127);
-	}
-	return (true);
-}
 
 static int	help_func(t_context *ctx)
 {
@@ -57,15 +33,12 @@ static int	help_func(t_context *ctx)
 		close(ctx->var->fd[1]);
 		signal(SIGINT, oldhdl_int);
 		signal(SIGQUIT, oldhdl_quit);
-		if(check(ctx) == false)
-			return(-42);
-		if(ft_strcmp(ctx->var->argv[0], "") == 0 || !ctx->var->argv[0])
-		{
-			ft_dprintf(2, "bash :command not found\n");
-			return (-1337);
-		}
+		if (check(ctx) == false)
+			return (-42);
+		if (ft_strcmp(ctx->var->argv[0], "") == 0 || !ctx->var->argv[0])
+			return (ft_dprintf(2, "bash :command not found\n"), -1337);
 		execve(ctx->var->path, ctx->var->argv, my_env(ctx));
-		perror("**execve");
+		perror("execve");
 		ft_exit(126);
 	}
 	return (pid);
@@ -81,16 +54,15 @@ void	command(t_context *ctx)
 	pid = help_func(ctx);
 	if (pid < 0)
 	{
-		if(pid == -1337)
+		if (pid == -1337)
 			ft_exit(127);
-		if(pid != -42)
-			perror("fork");
 		ft_exit(1);
 	}
 	waitpid(pid, &ctx->var->stat, 0);
 	if (WIFSIGNALED(ctx->var->stat))
 	{
-		if (WTERMSIG(ctx->var->stat) == SIGINT || WTERMSIG(ctx->var->stat) == SIGQUIT)
+		if (WTERMSIG(ctx->var->stat) == SIGINT
+			|| WTERMSIG(ctx->var->stat) == SIGQUIT)
 			write(1, "\n", 1);
 		get_exit_status(WTERMSIG(ctx->var->stat) + 128, 0);
 	}
@@ -103,13 +75,10 @@ void	command(t_context *ctx)
 void	exec_ast_node(t_context *ctx, t_ast_node *node)
 {
 	if (!node)
-	{
-		// ft_dprintf(2, "invalid '|' or redir ... \n");
 		return ;
-	}
 	if (node->type == AST_REDIR)
 	{
-		if(redirections(node) == 1)
+		if (redirections(node) == 1)
 		{
 			get_exit_status(1, 0);
 			return ;
@@ -137,7 +106,7 @@ void	command_exec(t_context *ctx)
 		return ;
 	if (ctx->ast->type == AST_REDIR)
 	{
-		if(redirections(ctx->ast) == 1)
+		if (redirections(ctx->ast) == 1)
 		{
 			get_exit_status(1, 0);
 			close_fds(ctx);

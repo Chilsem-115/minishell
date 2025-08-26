@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:32:08 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/22 22:16:12 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/25 22:15:01 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ t_ast_node	*make_ctrl(t_list **tokens)
 	if (op == CTRL_INVALID)
 		return (NULL);
 	node = ft_calloc(1, sizeof(*node));
-	if (!node)
-		return (NULL);
+	// if (!node)
+	// 	return (NULL);
 	node->type = AST_CONTROL;
 	node->data.ctrl.op = op;
 	node->data.ctrl.left = NULL;
@@ -74,8 +74,8 @@ t_ast_node	*make_redir(t_list **tokens)
 		return (NULL);
 	file_tok = (*tokens)->content;
 	node = ft_calloc(1, sizeof(*node));
-	if (!node)
-		return (NULL);
+	// if (!node)
+	// 	return (NULL);
 	node->type = AST_REDIR;
 	node->data.redir.redir_type = redir;
 	node->data.redir.file = ft_strdup(file_tok->text);

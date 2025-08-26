@@ -82,11 +82,11 @@ int	redirections(t_ast_node *ast)
 	{
 		if (ast->data.redir.redir_type == REDIR_IN
 			|| ast->data.redir.redir_type == REDIR_HEREDOC)
-			return(red_in(ast));
+			return (red_in(ast));
 		else if (ast->data.redir.redir_type == REDIR_OUT)
-			return(red_out(ast));
+			return (red_out(ast));
 		else if (ast->data.redir.redir_type == REDIR_APPEND)
-			return(red_append(ast));
+			return (red_append(ast));
 	}
 	return (0);
 }
