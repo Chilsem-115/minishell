@@ -70,7 +70,7 @@ void	print_ast(t_ast_node *node);
 /* freeing allocation */
 void	free_token(void *ptr);
 void	free_env(t_context *ctx);
-void	ast_clear(t_ast_node *ast);
+void	ast_clear(t_ast_node **root);
 void	ft_lstclear_gc(t_list **lst, void (*del)(void*));
 
 #endif

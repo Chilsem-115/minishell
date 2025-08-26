@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
-#include "expansion.h"
 #include "messh.h"
+#include "expansion.h"
+#include "execute.h"
 
 extern int	g_gsignum;
 
@@ -39,8 +39,12 @@ static void	handle_line(t_context *ctx)
 	if (!is_valid_line(ctx->line))
 		return ;
 	ctx->tokens = tokenize(ctx->line);
+	if (!ctx->tokens)
+		return ;
 	expand_variables(ctx);
 	ctx->ast = generate_ast(ctx->tokens);
+	if (!ctx->ast)
+		return ;
 	list = *get_heredocs();
 	while (list)
 	{
@@ -70,9 +74,8 @@ void	main_loop(t_context *ctx)
 		if (*ctx->line)
 			handle_line(ctx);
 		free(ctx->line);
-		//ft_free(ctx->line);
-		//ft_lstclear_gc(&ctx->tokens, free_token);
-		//if (ctx->ast)
-		//	ast_clear(ctx->ast);
+		ft_lstclear_gc(&ctx->tokens, free_token);
+		if (ctx->ast)
+			ast_clear(&ctx->ast);
 	}
 }

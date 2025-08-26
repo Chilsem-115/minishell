@@ -66,8 +66,6 @@ int		redirections(t_ast_node *ast);
 char	*generate_full_path(void);
 int		lenlist(t_env *env_list);
 int		exec_check(char *s);
-// gcl
-void	ast_clear(t_ast_node *ast);
 // signal
 void	*saved_signal(void *sig1, void *sig2, int f);
 // exit

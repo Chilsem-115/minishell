@@ -23,7 +23,6 @@ typedef enum e_ast_type
 	AST_COMMAND,
 	AST_REDIR,
 	AST_CONTROL,
-	AST_ROOT
 }						t_ast_type;
 
 /* control operations */
