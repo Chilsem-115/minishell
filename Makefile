@@ -5,7 +5,7 @@
 
 # === Compiler and Flags ===
 CC      = cc
-CFLAGS  = -g -Wall -Wextra -Werror \
+CFLAGS  = -Wall -Wextra -Werror \
           -Ilibft \
           -Imain \
           -Imain/tokenizer \
@@ -35,7 +35,7 @@ SRC_MAIN = \
 	main/messh.c \
 	main/core.c \
 	main/memory.c \
-	main/readline.c
+	main/ft_readline.c
 
 SRC_TOKENIZER = \
     main/tokenizer/tokenize.c \

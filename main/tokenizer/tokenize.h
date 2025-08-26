@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:37:20 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 04:49:50 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 08:39:31 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			dispatch_control_ops(t_tokenizer_state *ctx, char *line);
 int			dispatch_redirections(t_tokenizer_state *ctx, char *line);
 
 /* Word handling (return 1 if consumed, 0 otherwise) */
-int			word_handler(t_tokenizer_state *ctx, char *line);
+void		word_handler(t_tokenizer_state *ctx, char *line);
 int			quote_handler(t_tokenizer_state *ctx, char *line);
 
 /* ======================= */

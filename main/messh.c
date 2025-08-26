@@ -6,12 +6,12 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 05:03:14 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 07:50:29 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
 #include "messh.h"
+#include "execute.h"
 
 extern int	g_gsignum;
 
@@ -53,10 +53,8 @@ static void	status_init(t_context *ctx, char **env)
 	ctx->line = NULL;
 	ctx->tokens = NULL;
 	ctx->ast = NULL;
-	ctx->errmsg = NULL;
 	ctx->var = garbage_coll(0, sizeof(t_used_var));
 	ctx->exit_code = 0;
-	ctx->has_error = 0;
 	ctx->var->max = 0;
 	ctx->var->p = 0;
 	ctx->envp = init_env(env);

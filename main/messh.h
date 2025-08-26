@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:44:02 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 05:20:31 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 07:48:08 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ typedef struct s_context
 	char			*line;
 	t_list			*tokens;
 	t_ast_node		*ast;
-	t_redir_node	heredocs;
-	char			*errmsg;
-	unsigned int	has_error;
 	int				exit_code;
 	t_used_var		*var;
 	t_env			*envp;
@@ -66,7 +63,6 @@ typedef struct s_context
 void	main_loop(t_context *ctx);
 
 /* Preview functions */
-
 void	handler(int sig);
 void	print_token_list(t_list *tokens);
 void	print_ast(t_ast_node *node);

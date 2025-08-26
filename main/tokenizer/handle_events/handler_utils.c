@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 04:47:04 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 04:48:22 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 08:33:34 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@ int	is_quote_char(char c)
 	if (c == '\'' || c == '"' || c == SQ_SENTINEL || c == DQ_SENTINEL)
 		return (1);
 	return (0);
-}
-
-int	add_token(t_tokenizer_state *ctx, t_tokentype type, size_t size)
-{
-	ctx->pos += size;
-	create_token(ctx, NULL, type);
-	return (1);
 }
 
 void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type)
@@ -50,6 +43,13 @@ void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type)
 		return ;
 	}
 	ft_lstadd_back(&ctx->tokens, node);
+}
+
+int	add_token(t_tokenizer_state *ctx, t_tokentype type, size_t size)
+{
+	ctx->pos += size;
+	create_token(ctx, NULL, type);
+	return (1);
 }
 
 size_t	skip_quoted(const char *s, size_t pos)

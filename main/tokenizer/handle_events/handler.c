@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 04:45:52 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 04:46:47 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 08:39:15 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	create_marked_word(t_tokenizer_state *ctx, char *line,
 	return (1);
 }
 
-int	word_handler(t_tokenizer_state *ctx, char *line)
+void	word_handler(t_tokenizer_state *ctx, char *line)
 {
 	size_t	start;
 	size_t	end;
@@ -73,10 +73,10 @@ int	word_handler(t_tokenizer_state *ctx, char *line)
 
 	i = ctx->pos;
 	if (!line[i] || isspace((unsigned char)line[i]) || is_op_char(line[i]))
-		return (0);
+		return ;
 	start = i;
 	end = advance_word(line, i);
 	create_marked_word(ctx, line, start, end);
 	ctx->pos = end;
-	return (1);
+	return ;
 }
