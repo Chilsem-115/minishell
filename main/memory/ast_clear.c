@@ -28,7 +28,7 @@ static void	free_rec(t_ast_node *n)
 		free_rec(n->data.redir.child);
 		ft_free(n->data.redir.file);
 	}
-	else /* AST_COMMAND */
+	else
 		free_cmd_node(&n->data.cmd);
 	ft_free(n);
 }
