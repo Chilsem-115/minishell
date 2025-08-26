@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:19:34 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/26 08:04:15 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 10:13:26 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ void	main_loop(t_context *ctx)
 		ctx->line = ft_readline();
 		if (*ctx->line)
 			handle_line(ctx);
-		ft_free(ctx->line);
-		ft_lstclear_gc(&ctx->tokens, free_token);
-		ast_clear(ctx->ast);
+		free(ctx->line);
+		//ft_free(ctx->line);
+		//ft_lstclear_gc(&ctx->tokens, free_token);
+		//if (ctx->ast)
+		//	ast_clear(ctx->ast);
 	}
 }
