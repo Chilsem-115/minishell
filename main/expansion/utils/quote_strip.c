@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 04:37:49 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 04:38:04 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 22:43:42 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,23 @@ char	*remove_qouts(const char *s)
 {
 	size_t	i;
 	size_t	j;
+	char	q;
 	char	*out;
 
 	if (!s)
 		return (NULL);
 	out = garbage_coll(0, ft_strlen(s) + 1);
-	if (!out)
-		return (NULL);
 	i = 0;
 	j = 0;
+	q = 0;
 	while (s[i])
 	{
-		if (s[i] != '\'' && s[i] != '\"')
-		{
-			out[j] = s[i];
-			j++;
-		}
+		if (q == 0 && (s[i] == '\'' || s[i] == '\"'))
+			q = s[i];
+		else if (q != 0 && s[i] == q)
+			q = 0;
+		else
+			out[j++] = s[i];
 		i++;
 	}
 	out[j] = '\0';
