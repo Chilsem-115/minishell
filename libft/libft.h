@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:37:49 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 01:41:16 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/26 05:10:53 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <string.h>
 # include <unistd.h>
 
-#define ALLOC 0
-#define CLEAR 1
+# define ALLOC 0
+# define CLEAR 1
 
 typedef struct s_list
 {
@@ -90,8 +90,8 @@ int					ft_printf(const char *format, ...);
 int					ft_dprintf(int fd, const char *format, ...);
 
 //gc
-void	*garbage_coll(int f, size_t size);
-void	ft_exit(int status);
-void	ft_free(void *addr);
+void				*garbage_coll(int f, size_t size);
+void				ft_exit(int status);
+void				ft_free(void *addr);
 
 #endif

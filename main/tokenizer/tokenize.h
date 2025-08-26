@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:37:20 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 00:03:54 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/26 04:49:50 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_token
 {
 	char		*text;
 	t_tokentype	type;
-	int		expand;
+	int			expand;
 }	t_token;
 
 /* Tokenizer state */
@@ -60,62 +60,60 @@ typedef struct s_tokenizer_state
 {
 	size_t		pos;
 	t_list		*tokens;
-	//t_tok_err	error;
 	int			mark_quotes;
 }	t_tokenizer_state;
-
 
 /* ======================= */
 /*      CORE FUNCTIONS     */
 /* ======================= */
 
-t_list	*tokenize(char *line);
-t_list	*tokenize_nomark(char *line);
+t_list		*tokenize(char *line);
+t_list		*tokenize_nomark(char *line);
 
 /* ======================= */
 /*      TOKEN HANDLERS     */
 /* ======================= */
 
 /* Operator handling (return 1 if consumed, 0 otherwise) */
-int		operator_handler(t_tokenizer_state *ctx, char *line);
-int		dispatch_control_ops(t_tokenizer_state *ctx, char *line);
-int		dispatch_redirections(t_tokenizer_state *ctx, char *line);
+int			operator_handler(t_tokenizer_state *ctx, char *line);
+int			dispatch_control_ops(t_tokenizer_state *ctx, char *line);
+int			dispatch_redirections(t_tokenizer_state *ctx, char *line);
 
 /* Word handling (return 1 if consumed, 0 otherwise) */
-int		word_handler(t_tokenizer_state *ctx, char *line);
-int		quote_handler(t_tokenizer_state *ctx, char *line);
+int			word_handler(t_tokenizer_state *ctx, char *line);
+int			quote_handler(t_tokenizer_state *ctx, char *line);
 
 /* ======================= */
 /*     HANDLER UTILITIES   */
 /* ======================= */
 
-int		is_op_char(char c);
-int		add_token(t_tokenizer_state *ctx, t_tokentype type, size_t size);
-void	token_free(void *ptr);
-void	create_token(t_tokenizer_state *ctx, char *text, t_tokentype type);
-size_t	skip_quoted(/*t_tokenizer_state *ctx,*/ const char *s, size_t pos);
+int			is_op_char(char c);
+int			add_token(t_tokenizer_state *ctx, t_tokentype type, size_t size);
+void		token_free(void *ptr);
+void		create_token(t_tokenizer_state *ctx, char *text, t_tokentype type);
+size_t		skip_quoted(const char *s, size_t pos);
 
 /* quote handling utils */
-int		is_syntactic(int sq, int dq, char c);
-void	toggle_state(int *sq, int *dq, char c);
-void	init_state(size_t *i, size_t *j, int *sq, int *dq);
-char	handle_char(char c, int *sq, int *dq);
-char	get_sentinel(char c);
-int		is_quote_char(char c);
+int			is_syntactic(int sq, int dq, char c);
+void		toggle_state(int *sq, int *dq, char c);
+void		init_state(size_t *i, size_t *j, int *sq, int *dq);
+char		handle_char(char c, int *sq, int *dq);
+char		get_sentinel(char c);
+int			is_quote_char(char c);
 
 /* Mark only syntactic quotes in a freshly formed WORD */
-char	*mark_syntactic_quotes(const char *s);
+char		*mark_syntactic_quotes(const char *s);
 
 /* Error handling*/
-void	err_unclosed_quote(void);
-int		validate_quotes_line(const char *s);
-int		validate_redirs(t_list *lst);
-int		validate_pipes(t_list *tokens);
+void		err_unclosed_quote(void);
+int			validate_quotes_line(const char *s);
+int			validate_redirs(t_list *lst);
+int			validate_pipes(t_list *tokens);
 
-void	err_unexpected_token(const char *tok);
+void		err_unexpected_token(const char *tok);
 const char	*find_redir_error_token(t_list *lst);
 const char	*find_pipe_error_token(t_list *tokens);
 
-void	set_expand(t_list *lst);
+void		set_expand(t_list *lst);
 
 #endif

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_create.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 04:57:00 by itamsama          #+#    #+#             */
+/*   Updated: 2025/08/26 04:58:19 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ast.h"
 #include "execute.h"
@@ -27,8 +38,6 @@ static t_ast_node	*make_cmd_node(t_list **tokens)
 	if (!*tokens || !is_valid_cmd_token(((t_token *)(*tokens)->content)->type))
 		return (NULL);
 	cmd_node = ft_calloc(1, sizeof(*cmd_node));
-	// if (!cmd_node)
-	// 	return (NULL);
 	cmd_node->type = AST_COMMAND;
 	cmd_node->data.cmd.text = tokens_to_argv(*tokens);
 	while (*tokens && is_valid_cmd_token(((t_token *)(*tokens)->content)->type))
@@ -41,8 +50,6 @@ static t_ast_node	*make_empty_cmd(void)
 	t_ast_node	*n;
 
 	n = ft_calloc(1, sizeof(*n));
-	// if (!n)
-	// 	return (NULL);
 	n->type = AST_COMMAND;
 	return (n);
 }

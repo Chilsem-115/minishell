@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   locate_var.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 04:37:13 by itamsama          #+#    #+#             */
+/*   Updated: 2025/08/26 04:37:24 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "expansion.h"
 #include "tokenize.h"
@@ -9,6 +20,8 @@ static int	find_char(const char *s, char c, int start)
 	const char	*found;
 
 	if (!s || start < 0)
+		return (-1);
+	if ((int)ft_strlen(s) < start)
 		return (-1);
 	s += start;
 	found = strchr(s, c);

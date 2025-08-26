@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:53:53 by itamsama          #+#    #+#             */
-/*   Updated: 2024/10/26 16:25:02 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 05:07:44 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ char	*ft_strdup(const char *src)
 	size_t	i;
 
 	if (!src)
-		return NULL;
-	
+		return (NULL);
 	i = ft_strlen(src) + 1;
 	dst = (char *)garbage_coll(0, i);
 	if (dst == NULL)

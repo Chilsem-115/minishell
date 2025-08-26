@@ -33,9 +33,9 @@ LIBFT    = $(LIBFT_DIR)/libft.a
 # === Sources ===
 SRC_MAIN = \
 	main/messh.c \
-	main/print_func.c \
 	main/core.c \
-	main/memory.c
+	main/memory.c \
+	main/readline.c
 
 SRC_TOKENIZER = \
     main/tokenizer/tokenize.c \
@@ -48,7 +48,6 @@ SRC_TOKENIZER = \
     main/tokenizer/handle_events/handler_utils.c \
     main/tokenizer/handle_events/quotes/quote.c \
     main/tokenizer/handle_events/quotes/quote_utils.c \
-    main/tokenizer/handle_events/quotes/quote_scan.c \
 
 SRC_EXPANSION = \
 	main/expansion/expansion.c \
@@ -66,7 +65,6 @@ SRC_AST_GEN = \
 	main/ast_generator/ast/node_creation/cmd_create.c \
 	main/ast_generator/ast/utils/command_utils.c \
 	main/ast_generator/ast/utils/type_mapping.c \
-	main/ast_generator/error/error_handling.c
 
 SRC_EXEC = \
 	main/execution/cmd_execute/execute.c \

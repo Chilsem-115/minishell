@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 04:37:31 by itamsama          #+#    #+#             */
+/*   Updated: 2025/08/26 04:50:52 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
+#include "messh.h"
 #include "tokenize.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,8 +25,8 @@ char	*str_replace_range(const char *src, size_t start, size_t len,
 	size_t	rep_len;
 	char	*result;
 
-	src_len = strlen(src); //?
-	rep_len = strlen(replacement);
+	src_len = ft_strlen(src);
+	rep_len = ft_strlen(replacement);
 	new_len = src_len - len + rep_len;
 	result = garbage_coll(0, new_len + 1);
 	if (!result)
@@ -75,7 +87,9 @@ static void	lst_splice_chain(t_list **head, t_list *prev, t_list *sub,
 		tail->next = next;
 }
 
-/* replace a single node with a (possibly multi-node) chain; sub==NULL removes */
+/*
+ * replace a single node with
+ * a (possibly multi-node) chain; sub==NULL removes */
 void	lst_replace_node(t_list **head, t_list *node, t_list *sub)
 {
 	t_list	*prev;
@@ -86,6 +100,6 @@ void	lst_replace_node(t_list **head, t_list *node, t_list *sub)
 	prev = lst_find_prev(*head, node);
 	if (prev == NULL && *head != node)
 		return ;
-	next = lst_remove_node(head, prev, node, token_free);
+	next = lst_remove_node(head, prev, node, free_token);
 	lst_splice_chain(head, prev, sub, next);
 }

@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 21:19:34 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/26 03:41:46 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/26 05:17:10 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,6 @@
 #include "messh.h"
 
 extern int	g_gsignum;
-char	*ft_readline(void)
-{
-	char	cwd[PATH_MAX];
-	char	*tmp;
-	char	*prompt;
-	char	*s;
-
-	cwd[0] = 0;
-	getcwd(cwd, sizeof(cwd));
-	tmp = ft_strjoin(C_OLIVE "enigma@minishell:", cwd);
-	prompt = ft_strjoin(tmp, C_RESET "$ ");
-	ft_free(tmp);
-	while (1)
-	{
-		g_gsignum = 0;
-		s = readline(prompt);
-		if (!s)
-		{
-			ft_free(s);
-			ft_dprintf(2, "exit\n");
-			ft_free(prompt);
-			ft_exit(get_exit_status(0, 1));
-		}
-		if (g_gsignum == 2)
-		{
-			ft_free(s);
-			continue ;
-		}
-		if (s && *s)
-			add_history(s);
-		break ;
-	}
-	ft_free(prompt);
-	return (s);
-}
 
 static int	is_valid_line(char *line)
 {
@@ -76,9 +41,6 @@ static void	handle_line(t_context *ctx)
 	ctx->tokens = tokenize(ctx->line);
 	expand_variables(ctx);
 	ctx->ast = generate_ast(ctx->tokens);
-//	print_token_list(ctx->tokens);
-//	print_ast(ctx->ast);
-	// ft_lstclear(&ctx->tokens, free_token);
 	list = *get_heredocs();
 	while (list)
 	{
@@ -90,8 +52,6 @@ static void	handle_line(t_context *ctx)
 		list = list->next;
 	}
 	command_exec(ctx);
-	ast_clear(ctx->ast);
-	ft_free(ctx->line);
 	*get_heredocs() = NULL;
 }
 
@@ -111,5 +71,8 @@ void	main_loop(t_context *ctx)
 			ft_exit(get_exit_status(0, 1));
 		if (*ctx->line)
 			handle_line(ctx);
+		ft_free(ctx->line);
+		ft_lstclear_gc(&ctx->tokens, free_token);
+		ast_clear(ctx->ast);
 	}
 }

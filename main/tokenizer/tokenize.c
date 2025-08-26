@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:34:30 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/24 23:30:36 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/26 04:41:47 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	ctx_init(t_tokenizer_state *ctx)
 {
 	ctx->pos = 0;
 	ctx->tokens = NULL;
-	//ctx->error = ERR_NONE;
 	ctx->mark_quotes = 1;
 }
 

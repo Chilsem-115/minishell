@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ast_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/20 20:30:27 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/22 22:16:07 by itamsama         ###   ########.fr       */
+/*   Created: 2025/08/26 04:55:03 by itamsama          #+#    #+#             */
+/*   Updated: 2025/08/26 04:56:18 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_gen.h"
 #include "execute.h"
 
-static t_ast_node   *reduce_redirection(t_ast_node *cmd, t_list **tokens)
+static t_ast_node	*reduce_redirection(t_ast_node *cmd, t_list **tokens)
 {
-    t_ast_node  *redir;
+	t_ast_node	*redir;
 
-    if (is_redir(*tokens))
-    {
-        redir = make_redir(tokens);
-        if (!redir)
-            return (NULL);
-        if (redir->data.redir.redir_type == REDIR_HEREDOC)
-            ft_lstadd_back(get_heredocs(), ft_lstnew(&redir->data.redir.file));
-        set_redir_child(redir, cmd);
-        cmd = redir;
-    }
-    return (cmd);
+	if (is_redir(*tokens))
+	{
+		redir = make_redir(tokens);
+		if (!redir)
+			return (NULL);
+		if (redir->data.redir.redir_type == REDIR_HEREDOC)
+			ft_lstadd_back(get_heredocs(), ft_lstnew(&redir->data.redir.file));
+		set_redir_child(redir, cmd);
+		cmd = redir;
+	}
+	return (cmd);
 }
 
 static t_ast_node	*reduce_control(t_ast_node *left, t_list **tokens)
@@ -64,7 +64,7 @@ t_ast_node	*generate_ast(t_list *tokens)
 		else if (is_redir(tokens))
 			current = reduce_redirection(current, &tokens);
 		else
-			return (NULL);//handle_parser_error(tokens));
+			return (NULL);
 	}
 	return (current);
 }

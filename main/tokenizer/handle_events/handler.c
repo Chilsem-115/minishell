@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/20 22:41:06 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 00:04:15 by oessmiri         ###   ########.fr       */
+/*   Created: 2025/08/26 04:45:52 by itamsama          #+#    #+#             */
+/*   Updated: 2025/08/26 04:46:47 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	operator_handler(t_tokenizer_state *ctx, char *line)
 	return (0);
 }
 
-/* advances i to the end of the current WORD (handles quotes); returns new index */
+/* advances i to the end of
+ * the current WORD (handles quotes); returns new index */
 static size_t	advance_word(char *line, size_t i)
 {
 	size_t	cons;
@@ -40,7 +41,8 @@ static size_t	advance_word(char *line, size_t i)
 }
 
 /* slices [start,end); only mark syntactic quotes if ctx->mark_quotes == 1 */
-static int	create_marked_word(t_tokenizer_state *ctx, char *line, size_t start, size_t end)
+static int	create_marked_word(t_tokenizer_state *ctx, char *line,
+		size_t start, size_t end)
 {
 	size_t	len;
 	char	*word;
@@ -50,14 +52,12 @@ static int	create_marked_word(t_tokenizer_state *ctx, char *line, size_t start, 
 	word = ft_strndup(&line[start], len);
 	if (!word)
 		return (0);
-		//tokenizer_error(ERR_MEMORY);
 	if (ctx->mark_quotes)
 	{
 		marked = mark_syntactic_quotes(word);
 		ft_free(word);
 		if (!marked)
 			return (0);
-			//tokenizer_error(ERR_MEMORY);
 		create_token(ctx, marked, TOK_WORD);
 	}
 	else

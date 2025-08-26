@@ -1,37 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 04:35:08 by itamsama          #+#    #+#             */
+/*   Updated: 2025/08/26 04:35:27 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "expansion.h"
 #include "messh.h"
-
-/*
-static int	replace_one_at(char **expanded, int pos, t_context *ctx)
-{
-	char		*name;
-	t_env		*node;
-	char		*new_str;
-	int			consumed;
-	const char	*replacement;
-
-	name = NULL;
-	consumed = grab_variable(*expanded, pos, &name);
-	if (consumed <= 0)
-		return (-1);
-	if (consumed == 0)
-		return (0);
-	node = env_find_node(ctx->envp, name);
-	if (node && node->value)
-		replacement = node->value;
-	else
-		replacement = "";
-	new_str = str_replace_range(*expanded, (size_t)pos,
-			(size_t)consumed, replacement);
-	ft_free(name);
-	if (!new_str)
-		return (-1);
-	ft_free(*expanded);
-	*expanded = new_str;
-	return (1);
-}
-*/
 
 static void	replace(char *text, char old, char new)
 {

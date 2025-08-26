@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:44:02 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/25 19:50:58 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/26 05:20:31 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 typedef struct s_used_var
 {
-    int		max;
+	int		max;
 	int		p;
 	int		stat;
 	char	*path;
@@ -63,17 +63,18 @@ typedef struct s_context
 	t_env			*envp;
 }					t_context;
 
-void				main_loop(t_context *ctx);
+void	main_loop(t_context *ctx);
 
 /* Preview functions */
 
-void				handler(int sig);
-void				print_token_list(t_list *tokens);
-void				print_ast(t_ast_node *node);
+void	handler(int sig);
+void	print_token_list(t_list *tokens);
+void	print_ast(t_ast_node *node);
 
 /* freeing allocation */
 void	free_token(void *ptr);
 void	free_env(t_context *ctx);
 void	ast_clear(t_ast_node *ast);
+void	ft_lstclear_gc(t_list **lst, void (*del)(void*));
 
 #endif

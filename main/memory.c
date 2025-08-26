@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/25 05:02:18 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 00:03:05 by oessmiri         ###   ########.fr       */
+/*   Created: 2025/08/26 05:03:27 by itamsama          #+#    #+#             */
+/*   Updated: 2025/08/26 05:03:41 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "messh.h"
 
@@ -23,23 +22,30 @@ void	free_token(void *ptr)
 	ft_free(token);
 }
 
-void	free_env(t_context *ctx)
+static void	ft_lstdelone_gc(t_list *lst, void (*del)(void*))
 {
-	t_env	*cur;
-	t_env	*next;
-
-	if (!ctx || !ctx->envp)
+	if (!del)
 		return ;
-	cur = ctx->envp;
-	while (cur)
+	if (lst)
 	{
-		next = cur->next;
-		ft_free(cur->key);
-		ft_free(cur->value);
-		ft_free(cur);
-		cur = next;
+		(*del)(lst->content);
+		ft_free(lst);
 	}
-	ctx->envp = NULL;
+}
+
+void	ft_lstclear_gc(t_list **lst, void (*del)(void*))
+{
+	t_list	*tmp;
+
+	if (!lst || !*lst || !del)
+		return ;
+	while (lst && *lst)
+	{
+		tmp = (*lst)->next;
+		ft_lstdelone_gc(*lst, del);
+		(*lst) = tmp;
+	}
+	*lst = NULL;
 }
 
 static void	free_command(t_ast_node *ast)

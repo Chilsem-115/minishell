@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_replacement.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 04:38:08 by itamsama          #+#    #+#             */
+/*   Updated: 2025/08/26 04:38:37 by itamsama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "execute.h"
 #include "expansion.h"
@@ -10,8 +21,6 @@ static int	precheck_consumed(int consumed)
 		return (-1);
 	if (consumed == 0)
 		return (0);
-	// if (consumed == 2)
-	// 	return (2);
 	return (1);
 }
 
