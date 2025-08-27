@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 04:37:31 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 04:50:52 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/27 01:33:04 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ char	*str_replace_range(const char *src, size_t start, size_t len,
 	result = garbage_coll(0, new_len + 1);
 	if (!result)
 		return (NULL);
-	memcpy(result, src, start);
-	memcpy(result + start, replacement, rep_len);
-	memcpy(result + start + rep_len, src + start + len, src_len - start - len);
+	ft_memcpy(result, src, start);
+	ft_memcpy(result + start, replacement, rep_len);
+	ft_memcpy(result + start + rep_len, src + start + len, src_len - start - len);
 	result[new_len] = '\0';
 	return (result);
 }

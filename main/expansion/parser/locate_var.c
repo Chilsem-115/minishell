@@ -6,7 +6,7 @@
 /*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 04:37:13 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 04:37:24 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/27 01:34:34 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	find_char(const char *s, char c, int start)
 	if ((int)ft_strlen(s) < start)
 		return (-1);
 	s += start;
-	found = strchr(s, c);
+	found = ft_strchr(s, c);
 	if (!found)
 		return (-1);
 	return (start + (int)(found - s));

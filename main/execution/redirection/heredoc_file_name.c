@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 23:26:49 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/26 00:03:22 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/27 01:36:27 by itamsama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*generate_heredoc_filename(int i, int fd)
 	filename = garbage_coll(0, 8 + 1);
 	if (!filename)
 		return (NULL);
-	strcpy(filename, random_part);
+	ft_strcpy(filename, random_part);
 	return (filename);
 }
 
@@ -72,7 +72,7 @@ char	*generate_full_path(void)
 	name = generate_heredoc_filename(0, fd);
 	if (!name)
 		return (NULL);
-	full_path = garbage_coll(0, strlen("/tmp/") + strlen(name) + 1);
+	full_path = garbage_coll(0, ft_strlen("/tmp/") + strlen(name) + 1);
 	if (!full_path)
 	{
 		ft_free(name);
