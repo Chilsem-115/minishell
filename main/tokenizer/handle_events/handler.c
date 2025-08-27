@@ -72,7 +72,7 @@ void	word_handler(t_tokenizer_state *ctx, char *line)
 	size_t	i;
 
 	i = ctx->pos;
-	if (!line[i] || isspace((unsigned char)line[i]) || is_op_char(line[i]))
+	if (!line[i] || ft_isspace((unsigned char)line[i]) || is_op_char(line[i]))
 		return ;
 	start = i;
 	end = advance_word(line, i);
