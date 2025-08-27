@@ -27,7 +27,7 @@ static size_t	advance_word(char *line, size_t i)
 {
 	size_t	cons;
 
-	while (line[i] && !isspace((unsigned char)line[i]) && !is_op_char(line[i]))
+	while (line[i] && !ft_isspace((unsigned char)line[i]) && !is_op_char(line[i]))
 	{
 		if (is_quote_char(line[i]))
 		{
