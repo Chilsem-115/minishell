@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readline.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 05:19:04 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 05:19:41 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/27 01:07:59 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ static int	readline_checker(char *s, char *prompt)
 {
 	if (!s)
 	{
-		ft_free(s);
 		ft_dprintf(2, "exit\n");
 		ft_free(prompt);
 		ft_exit(get_exit_status(0, 1));
 	}
 	if (g_gsignum == 2)
 	{
-		ft_free(s);
+		free(s);
 		return (1);
 	}
 	return (0);

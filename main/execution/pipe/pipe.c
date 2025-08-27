@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:33:23 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/25 19:49:56 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/26 23:21:13 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	pipe_command(t_context *ctx)
 	char	*path;
 	char	**argv;
 
+	if (!ctx->ast->data.cmd.text || !ctx->ast->data.cmd.text[0])
+		return ;
 	argv = ctx->ast->data.cmd.text;
 	if (handle_builtin(ctx))
 		return ;

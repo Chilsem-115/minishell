@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 22:46:16 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 07:50:29 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/27 01:07:23 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	rl_outstream = stderr;
 	rl_event_hook = do_nothing;
 	saved_signal(signal(SIGINT, handler), signal(SIGQUIT, SIG_IGN), 0);
 	status_init(&ctx, env);

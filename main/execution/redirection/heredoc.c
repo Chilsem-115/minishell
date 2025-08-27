@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 16:02:49 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/26 00:03:23 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/27 01:26:13 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ static int	input_heredoc(char *s, int fd_hd, char *delimiter)
 		return (1);
 	}
 	if (ft_strcmp(s, delimiter) != 0)
-	{
-		write(fd_hd, s, ft_strlen(s));
-		write(fd_hd, "\n", 1);
-	}
+		return (0);
 	else if (!g_gsignum)
 	{
 		close(fd_hd);
@@ -65,6 +62,7 @@ bool	heredoc(char **list, t_context *ctx)
 	int		fd_hd;
 	int		r;
 	char	*s;
+	char	*str;
 	char	*delimiter;
 
 	r = qout_check(*list);
@@ -72,11 +70,18 @@ bool	heredoc(char **list, t_context *ctx)
 	fd_hd = name_file(list);
 	while (g_gsignum == 0)
 	{
-		s = readline("> ");
+		str = readline("> ");
+		s = str;
+		if (input_heredoc(s, fd_hd, delimiter) == 1)
+		{
+			free(str);
+			break ;
+		}
 		if (r == 0)
 			s = expand_token_text(s, ctx);
-		if (input_heredoc(s, fd_hd, delimiter) == 1)
-			break ;
+		write(fd_hd, s, ft_strlen(s));
+		write(fd_hd, "\n", 1);
+		free(str);
 	}
 	return (g_gsignum == 0);
 }
