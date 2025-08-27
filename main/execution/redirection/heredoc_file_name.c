@@ -72,7 +72,7 @@ char	*generate_full_path(void)
 	name = generate_heredoc_filename(0, fd);
 	if (!name)
 		return (NULL);
-	full_path = garbage_coll(0, ft_strlen("/tmp/") + strlen(name) + 1);
+	full_path = garbage_coll(0, ft_strlen("/tmp/") + ft_strlen(name) + 1);
 	if (!full_path)
 	{
 		ft_free(name);
