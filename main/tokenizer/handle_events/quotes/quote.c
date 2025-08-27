@@ -39,7 +39,7 @@ char	*mark_syntactic_quotes(const char *s)
 
 static size_t	advance_word_end(char *line, size_t i)
 {
-	while (line[i] && !isspace((unsigned char)line[i]) && !is_op_char(line[i]))
+	while (line[i] && !ft_isspace((unsigned char)line[i]) && !is_op_char(line[i]))
 	{
 		if (line[i] == '\'' || line[i] == '"')
 			i += skip_quoted(line, i);
