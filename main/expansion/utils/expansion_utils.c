@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 04:37:31 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/27 01:33:04 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/27 02:09:52 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ char	*str_replace_range(const char *src, size_t start, size_t len,
 		return (NULL);
 	ft_memcpy(result, src, start);
 	ft_memcpy(result + start, replacement, rep_len);
-	ft_memcpy(result + start + rep_len, src + start + len, src_len - start - len);
+	ft_memcpy(result + start + rep_len, src + start + len,
+		src_len - start - len);
 	result[new_len] = '\0';
 	return (result);
 }

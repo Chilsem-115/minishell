@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 04:45:52 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 08:39:15 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/27 02:10:37 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static size_t	advance_word(char *line, size_t i)
 {
 	size_t	cons;
 
-	while (line[i] && !ft_isspace((unsigned char)line[i]) && !is_op_char(line[i]))
+	while (line[i] && !ft_isspace((unsigned char)line[i])
+		&& !is_op_char(line[i]))
 	{
 		if (is_quote_char(line[i]))
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 04:47:41 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 08:47:43 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/27 02:10:54 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char	*mark_syntactic_quotes(const char *s)
 
 static size_t	advance_word_end(char *line, size_t i)
 {
-	while (line[i] && !ft_isspace((unsigned char)line[i]) && !is_op_char(line[i]))
+	while (line[i] && !ft_isspace((unsigned char)line[i])
+		&& !is_op_char(line[i]))
 	{
 		if (line[i] == '\'' || line[i] == '"')
 			i += skip_quoted(line, i);
