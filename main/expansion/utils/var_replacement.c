@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_replacement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itamsama <itamsama@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 04:38:08 by itamsama          #+#    #+#             */
-/*   Updated: 2025/08/26 04:38:37 by itamsama         ###   ########.fr       */
+/*   Updated: 2025/08/27 03:35:38 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static int	apply_replacement(char **expanded, int pos, int consumed,
 {
 	char	*new_str;
 
+	if (consumed == -2)
+		consumed = 2;
 	new_str = str_replace_range(*expanded, (size_t)pos, (size_t)consumed,
 			replacement);
 	if (!new_str)

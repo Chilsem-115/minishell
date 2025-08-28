@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 22:33:23 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/26 23:21:13 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/27 22:23:36 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static pid_t	launch_left(t_context *ctx, int pipefd[2],
 	pid = fork();
 	if (pid == 0)
 	{
-		close(ctx->var->fd[0]);
+		// close(ctx->var->fd[0]);
 		close(ctx->var->fd[1]);
 		signal(SIGINT, oldhdl_int);
 		signal(SIGQUIT, oldhdl_quit);
@@ -42,7 +42,7 @@ static pid_t	launch_right(t_context *ctx, int pipefd[2],
 		signal(SIGQUIT, oldhdl_quit);
 		right(ctx, pipefd);
 		close(ctx->var->fd[0]);
-		close(ctx->var->fd[1]);
+		// close(ctx->var->fd[1]);
 	}
 	return (pid);
 }

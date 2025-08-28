@@ -6,7 +6,7 @@
 /*   By: oessmiri <oessmiri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 22:44:24 by oessmiri          #+#    #+#             */
-/*   Updated: 2025/08/26 03:39:43 by oessmiri         ###   ########.fr       */
+/*   Updated: 2025/08/27 22:14:26 by oessmiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*check_exec(char *s, t_context *ctx)
 
 int	exec_check(char *s)
 {
-	if (s[0] && (s[0] == '/' || (s[0] == '.' && s[1] == '/')))
+	if (s[0] && ft_strchr(s, '/') != 0)
 		return (1);
 	return (0);
 }
